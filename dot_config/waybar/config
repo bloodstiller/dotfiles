@@ -1,0 +1,140 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 32, // Waybar height
+    // "width": 120, // Waybar width
+    // Choose the order of the modules
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces",
+        "hyprland/submap",
+        "idle_inhibitor",
+        "custom/media"
+    ],
+
+    "modules-center": [
+    "disk",
+    ],
+
+    "modules-right": [
+        "network",
+        "memory",
+        "temperature",
+        "cpu",
+        "pulseaudio",
+        "custom/keyboard-layout",
+        "battery",
+        "clock",
+        "custom/PBPbattery",
+        "backlight#icon",
+        "backlight#value",
+        "tray",
+        //"custom/weather",
+        "custom/power",
+    ],
+    // Modules configuration
+     "hyprland/workspaces": {
+         "disable-scroll": false,
+         "active-only": false,
+         "disable-markup" : false,
+         "all-outputs": true,
+         "format": "  {icon}  ",
+         //"format":"{icon}",
+         "format-icons": {
+             "1": "",
+             "2": "",
+             "3": "",
+             "10": "",
+             "4": "",
+             "5": "",
+             "focused": "",
+             "default": ""
+         }
+     },
+
+    "hyprland/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "  ",
+            "deactivated": "  "
+        }
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 15
+    },
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M} ",
+        "on-click": "firefox https://calendar.proton.me/u/2/month",
+        "Format-alt": "{:%Y-%m-%d} "
+    },
+    "cpu": {
+        "interval": 5,
+        "format": " {usage}% used @ {avg_frequency}GHz", // Icon: microchip
+        "states": {
+            "warning": 70,
+            "critical": 90,
+        },
+        "on-click": "alacritty -e 'btop'",
+    },
+    "memory": {
+        "interval": 5,
+        "format": "Using {used}Gb of {total}Gb",
+        "on-click": "alacritty -e 'btop'",
+        "states": {
+            "warning": 80,
+            "critical": 95
+        }
+    },
+    "temperature": {
+         "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C ",
+        "format": "{temperatureC}°C  "
+    },
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-disconnected": "Disconnected ⚠ ",
+        "on-click": "alacritty -e 'nmtui'",
+        "interval" : 7
+    },
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon} ",
+        "format-bluetooth": "{volume}% {icon} ",
+        "format-muted": " ",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+        },
+
+        "disk": {
+            "path": "/",
+	        "format": "{free} free in ~{path}",
+            "on-click": "gnome-disks",
+	        "interval": 30,
+    }
+
+
+}

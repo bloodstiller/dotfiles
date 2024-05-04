@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 a3758dbe9f3b62f2ff56de7b58fa6adc4e8bff3d mdb-dev-io <gitlab@martindbarker.com> 1687536430 +0100	commit (initial): Doom initial commit
+a3758dbe9f3b62f2ff56de7b58fa6adc4e8bff3d 0000000000000000000000000000000000000000 mdb-dev-io <gitlab@martindbarker.com> 1687536478 +0100	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 a3758dbe9f3b62f2ff56de7b58fa6adc4e8bff3d mdb-dev-io <gitlab@martindbarker.com> 1687536478 +0100	Branch: renamed refs/heads/master to refs/heads/main
+a3758dbe9f3b62f2ff56de7b58fa6adc4e8bff3d 94c009af28025ffc9b0615c057c56965b6a55a9a mdb-dev-io <gitlab@martindbarker.com> 1689013502 +0100	commit: doom changes
