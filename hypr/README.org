@@ -1,0 +1,774 @@
+#+title: hyrpand Config
+#+AUTHOR: MDB Dev
+#+DESCRIPTION: Hyprland Config
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* TABLE OF CONTENTS :TOC:
+:PROPERTIES:
+:ID:       3401561b-9ab5-47ec-965b-367608407564
+:END:
+- [[#literate-config][Literate Config:]]
+- [[#autostart][Autostart:]]
+- [[#desktop][Desktop:]]
+  - [[#desktop---conf][Desktop - Conf:]]
+  - [[#desktop---envs][Desktop - Envs:]]
+  - [[#desktop---monitors][Desktop - Monitors:]]
+  - [[#desktop---variables][Desktop - Variables:]]
+- [[#keybindings][Keybindings:]]
+- [[#laptop][Laptop:]]
+  - [[#laptop---conf][Laptop - Conf:]]
+  - [[#laptop---envs][Laptop - Envs:]]
+  - [[#laptop---monitors][Laptop - Monitors:]]
+  - [[#laptop---variables][Laptop - Variables:]]
+  - [[#laptop-variables---configuration][Laptop Variables - Configuration:]]
+- [[#hypridle][Hypridle:]]
+- [[#hyprlock][Hyprlock:]]
+- [[#pyprlandtoml][Pyprland.toml:]]
+
+* Literate Config:
+:PROPERTIES:
+:ID:       6f08e094-c0f0-4871-9faa-2e49c6f6d359
+:END:
+- This is my personal hyprland config it is structured as a literate configuration.
+- Inspired by the methodology presented at [[https://leanpub.com/lit-config/read][Literate Configuration]].
+- This approach blends detailed documentation directly with the code, offering clear insights into the purpose and functionality of each configuration snippet, making it both user-friendly and easy to maintain.
+- You may be suprised that there are pyprland configs as well as hypridle etc in this however each block when saved is tangled into the respective ~.conf~ or ~.toml~ files.
+- Great video by DT Tube here on how to write literate configs:
+  - https://www.youtube.com/watch?v=eF4cJlBNtdQ&themeRefresh=1
+* Autostart:
+:PROPERTIES:
+:ID:       8beab7fb-e44a-4ecf-a1e7-bc7d89753d2c
+:header-args: :tangle ~/.config/hypr/Autostart.conf
+:END:
+#+NAME: Autostart
+#+begin_src conf
+# -----------------------------------------------------
+# Autostart
+# -----------------------------------------------------
+
+# Emacs
+exec-once = emacs
+
+# Virt-Manager
+exec-once = [workspace 2 silent] virt-manager
+
+# Browser
+exec-once = [workspace 2 silent] brave
+
+# PIA
+exec-once = [workspace 7 silent] /opt/piavpn/bin/pia-client
+
+# Dropbox
+exec-once = dropbox
+
+# Spotify
+exec-once = [workspace 6 silent] spotify
+
+# Bitwarden
+#exec-once = ~/Applications/Bitwarden*.AppImage
+
+# pyprland
+exec-once = /usr/bin/pypr
+
+# Start Polkit
+exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Using hypridle to start hyprlock
+exec-once = hypridle
+
+# networkmanager-applet
+exec-once = nm-applet
+
+# clipman-applet
+exec-once = xfce4-clipman
+
+# JamesDSP Sound EQ
+exec-once= [workspace 7 silent] jamesdsp
+
+# Waybar
+exec-once = waybar
+#+end_src
+* Desktop:
+:PROPERTIES:
+:ID:       1954ced8-1c50-439e-be68-ec602b45b475
+:END:
+** Desktop - Conf:
+:PROPERTIES:
+:ID:       1d9fb479-73a1-499e-b80c-d50cad1faab7
+:header-args: :tangle ~/.config/hypr/hyprland.conf
+:END:
+#+NAME: Desktop-Conf
+#+begin_src conf
+#  _   _                  _                 _
+# | | | |_   _ _ __  _ __| | __ _ _ __   __| |
+# | |_| | | | | '_ \| '__| |/ _` | '_ \ / _` |
+# |  _  | |_| | |_) | |  | | (_| | | | | (_| |
+# |_| |_|\__, | .__/|_|  |_|\__,_|_| |_|\__,_|
+#        |___/|_|
+#
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Monitor
+# -----------------------------------------------------
+source = ~/.config/hypr/Monitors.conf
+
+# -----------------------------------------------------
+# Autostart
+# -----------------------------------------------------
+source = ~/.config/hypr/Autostart.conf
+
+# -----------------------------------------------------
+# KeyBindings
+# -----------------------------------------------------
+source = ~/.config/hypr/Keybindings.conf
+
+# -----------------------------------------------------
+# Enviromental Variables
+# -----------------------------------------------------
+source = ~/.config/hypr/Envs.conf
+
+# -----------------------------------------------------
+# Variables
+# -----------------------------------------------------
+source = ~/.config/hypr/Variables.conf
+
+# -----------------------------------------------------
+# Environment for xdg-desktop-portal-hyprland
+# -----------------------------------------------------
+exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+#+end_src
+
+** Desktop - Envs:
+:PROPERTIES:
+:ID:       1a122040-5ff1-4053-84f1-c5f4ea9c92fb
+:header-args: :tangle ~/.config/hypr/Envs.conf
+:END:
+#+NAME: Desktop-Envs
+#+begin_src conf
+# Some default env vars.
+env = XCURSOR_SIZE,24
+env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
+#+end_src
+** Desktop - Monitors:
+:PROPERTIES:
+:ID:       bd1112e7-800e-4d14-a061-38513a947e7c
+:header-args: :tangle ~/.config/hypr/Monitors.conf
+:END:
+#+NAME: Desktop-Monitors
+#+begin_src conf
+# See https://wiki.hyprland.org/Configuring/Monitors/
+monitor=DP-2, 2560x1440@144, 0x810, 1, transform, 3
+monitor=DP-1, 2560x1440@144, 1440x1500, 1
+monitor=HDMI-A-1,2560x1440@119, 4000x810, 1, transform,3
+#+end_src
+** Desktop - Variables:
+:PROPERTIES:
+:ID:       c7b132c7-f13b-41f3-b259-68f3c945cafe
+:header-args: :tangle ~/.config/hypr/Variables.conf
+:END:
+*** Desktop Variables - Keyboard Layout:
+:PROPERTIES:
+:ID:       0386eec2-4fde-4982-a15c-0095e2b01109
+:END:
+#+NAME: DesktopVariables-KeyboardLayout
+#+begin_src conf
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    kb_rules =
+
+    follow_mouse = 1
+
+    touchpad {
+        natural_scroll = no
+    }
+
+    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+}
+#+end_src
+
+*** Desktop Variables - General:
+:PROPERTIES:
+:ID:       6d50fd65-60b4-4e7b-9fcd-36c19ecc9d52
+:END:
+#+NAME: DesktopVariables-General
+#+begin_src conf
+# For all categories, see https://wiki.hyprland.org/Configuring/Variables/
+
+general {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+
+    gaps_in = 5
+    gaps_out = 20
+    border_size = 2
+    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.inactive_border = rgba(595959aa)
+
+    layout = dwindle
+
+    # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
+    allow_tearing = false
+}
+
+#+end_src
+
+*** Desktop Variables - Decoration:
+:PROPERTIES:
+:ID:       37b11f36-9843-4fa5-b5b7-489985562be1
+:END:
+#+NAME: DesktopVariables-Decoration
+#+begin_src conf
+decoration {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+
+    rounding = 10
+
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+    }
+
+    shadow:enabled = yes
+    shadow:range = 4
+    shadow:render_power = 3
+    shadow:color = rgba(1a1a1aee)
+}
+
+#+end_src
+
+*** Desktop Variables - Animation:
+:PROPERTIES:
+:ID:       3b97702c-1b86-404b-9f98-4500c8a1ae3f
+:END:
+#+NAME: DesktopVariables-Animation
+#+begin_src conf
+animations {
+    enabled = yes
+
+    # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = borderangle, 1, 8, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+
+#+end_src
+
+*** Desktop Variables - Dwindle:
+:PROPERTIES:
+:ID:       b3a8243e-5cd2-45a4-aa17-2c25c142def9
+:END:
+#+NAME: DesktopVariables-Dwindle
+#+begin_src conf
+dwindle {
+    # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+    pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    preserve_split = yes # you probably want this
+}
+
+#+end_src
+
+*** Desktop Variables - Master:
+:PROPERTIES:
+:ID:       84892f21-e5c0-4a0e-b510-409b0062852d
+:END:
+#+NAME: DesktopVariables-Master
+#+begin_src conf
+master {
+    # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+    new_status = master
+}
+
+#+end_src
+
+*** Desktop Variables - Gestures:
+:PROPERTIES:
+:ID:       eba7dd72-15d2-4da9-80cb-3ec309338532
+:END:
+#+NAME: DesktopVariables-Gestures
+#+begin_src conf
+gestures {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+    workspace_swipe = off
+}
+
+#+end_src
+*** Desktop Variables - Misc:
+:PROPERTIES:
+:ID:       d3deff6f-30b9-421d-886e-34a636d4cbce
+:END:
+#+NAME: DesktopVariables-misc
+#+begin_src conf
+misc {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+    force_default_wallpaper = 0 # Set to 0 to disable the anime mascot wallpapers
+}
+
+#+end_src
+* Keybindings:
+:PROPERTIES:
+:ID:       73ecb327-9246-4939-9ae2-68ee7fd8bed8
+:header-args: :tangle ~/.config/hypr/Keybindings.conf
+:END:
+#+NAME: Keybindings
+#+begin_src conf
+# See https://wiki.hyprland.org/Configuring/Keywords/ for more
+$mainMod = SUPER
+
+# Basic binds
+bind = $mainMod, T, exec, alacritty
+bind = $mainMod, Q, killactive,
+bind = $mainMod, F, fullscreen
+bind = $mainMod SHIFT, F, exec, thunar ~/Downloads
+bind = $mainMod, V, togglefloating,
+bind = $mainMod, D, exec, wofi --show drun
+#bind = $mainMod, P, pseudo, # dwindle
+bind = $mainMod, S, togglesplit, # dwindle
+bind = $mainMod, W, exec, brave
+bind = $mainMod, E, exec, emacs
+bind = $mainMod SHIFT, E, exec, /home/martin/.config/waybar/scripts/power-menu.sh
+bind = $mainMod, Y, exec, /home/martin/.config/scripts/kaliLaunch.sh
+bind = $mainMod SHIFT, W, exec, /home/martin/.config/scripts/windowsLaunch.sh
+bind = CTRL, PRINT, exec, /home/martin/.config/scripts/wayland_screenshot.sh
+bind = $mainMod, G, togglegroup,
+## Restart Waybar
+bind = $mainMod CTRL, C, exec, killall -SIGUSR2 waybar
+
+# Lock Mods & Exit Mods
+bind = $mainMod SHIFT CTRL, L, exec, hyprlock
+bind = $mainMod SHIFT CTRL, E, exit
+
+
+#Pypr Scratchpads
+bind = $mainMod, B, exec, pypr toggle btops
+$scratchpadsize = size 80% 85%
+$scratchpad = class:^(scratchpad)$
+windowrulev2 = float,$scratchpad
+windowrulev2 = $scratchpadsize, $scratchpad
+windowrulev2 = workspace special silent $scratchpad
+
+
+# Kitty from the top
+bind = SUPER SHIFT, T, exec, pypr toggle term
+
+# Emacs from the top
+#bind = SUPER SHIFT, R, exec, pypr toggle emacsFromTop
+#
+# Floating Emacs
+# Keys for above
+bind = $mainMod, P, togglespecialworkspace, emacs
+# This keybind sends an existing window to the special:emacs workspsace
+bind = $mainMod SHIFT, P, movetoworkspace, special:emacs
+
+# Actual Scratcpad !!!
+bind = $mainMod SHIFT, N, togglespecialworkspace, stash # toggles "stash" special workspace visibility
+bind = $mainMod, N, exec, pypr toggle_special stash # moves window to/from the "stash" workspace
+
+# Resize Windows
+bind = CONTROLALT, H, resizeactive, 100 0
+bind = CONTROLALT, L, resizeactive, -100 0
+bind = CONTROLALT, K, resizeactive, 0 -100
+bind = CONTROLALT, J, resizeactive, 0 100
+bind = $mainMod, G, togglegroup
+
+
+#########################################################################################################
+##################################### RESIZE SUBMAP #####################################################
+# Submaps, see https://wiki.hyprland.org/Configuring/Binds/#submaps
+# will switch to a submap called resize
+bind = $mainMod, R, submap, resize
+# will start a submap called "resize"
+submap = resize
+# sets repeatable binds for resizing the active window
+binde = , l, resizeactive, 50 0
+binde = , h, resizeactive, -50 0
+binde = , k, resizeactive, 0 -50
+binde = , j, resizeactive, 0 50
+# use reset to go back to the global submap
+bind = , escape, submap, reset
+# will reset the submap, meaning end the current one and return to the global one
+submap = reset
+
+##################################### END OF RESIZE SUBMAP ##############################################
+#########################################################################################################
+
+
+# Audio Control
+bind = , XF86AudioNext, exec, playerctl next
+bind = , XF86AudioPrev, exec, playerctl previous
+bind = , XF86AudioPlay, exec, playerctl play-pause
+bind = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
+bind = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+# Screen brightness
+bind = , XF86MonBrightnessUp, exec, brightnessctl s +5%
+bind = , XF86MonBrightnessDown, exec, brightnessctl s 5%-
+
+# Move focus with mainMod + arrow keys
+bind = $mainMod, H, movefocus, l
+bind = $mainMod, L, movefocus, r
+bind = $mainMod, K, movefocus, u
+bind = $mainMod, J, movefocus, d
+
+# Move Windows
+bind = SUPER SHIFT, H, movewindow, l
+bind = SUPER SHIFT, L, movewindow, r
+bind = SUPER SHIFT, K, movewindow, u
+bind = SUPER SHIFT, J, movewindow, d
+
+# Switch workspaces with mainMod + [0-9]
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+# Move active window to a workspace with mainMod + SHIFT + [0-9]
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+# Move between workspaces using the mouse
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+
+# Move/resize windows with mainMod + LMB/RMB and dragging
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+#+end_src
+* Laptop:
+:PROPERTIES:
+:ID:       560dd4a9-9ff8-4368-85c6-935a6132be09
+:END:
+** Laptop - Conf:
+:PROPERTIES:
+:ID:       1b78769d-ede8-4971-b993-6f8f8c626ded
+:header-args: :tangle ~/.config/hypr/laptopHyprland.conf
+:END:
+#+NAME: Laptop-Conf
+#+begin_src conf
+#  _   _                  _                 _
+# | | | |_   _ _ __  _ __| | __ _ _ __   __| |
+# | |_| | | | | '_ \| '__| |/ _` | '_ \ / _` |
+# |  _  | |_| | |_) | |  | | (_| | | | | (_| |
+# |_| |_|\__, | .__/|_|  |_|\__,_|_| |_|\__,_|
+#        |___/|_|
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Monitor
+# -----------------------------------------------------
+source = ~/.config/hypr/laptopMonitor.conf
+
+# -----------------------------------------------------
+# Autostart
+# -----------------------------------------------------
+source = ~/.config/hypr/Autostart.conf
+
+# -----------------------------------------------------
+# KeyBindings
+# -----------------------------------------------------
+source = ~/.config/hypr/Keybindings.conf
+
+# -----------------------------------------------------
+# Enviromental Variables
+# -----------------------------------------------------
+source = ~/.config/hypr/laptopEnvs.conf
+
+# -----------------------------------------------------
+# Variables
+# -----------------------------------------------------
+source = ~/.config/hypr/laptopVariables.conf
+
+# -----------------------------------------------------
+# Environment for xdg-desktop-portal-hyprland
+# -----------------------------------------------------
+exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+#+end_src
+** Laptop - Envs:
+:PROPERTIES:
+:ID:       0cd7e797-8052-430f-8963-97ad59b4315a
+:header-args: :tangle ~/.config/hypr/laptopEnvs.conf
+:END:
+#+NAME: Laptop-Conf
+#+begin_src conf :noweb yes
+## Referencing the Dekstop Envs file to bring those values in.
+<<Desktop-Envs>>
+## Nvidia Laptop
+env = LIBVA_DRIVER_NAME,nvidia
+env = XDG_SESSION_TYPE,wayland
+env = GBM_BACKEND,nvidia-drm
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = WLR_NO_HARDWARE_CURSORS,1
+env = NVD_BACKEND,direct
+#+end_src
+** Laptop - Monitors:
+:PROPERTIES:
+:ID:       d6091ed6-98e4-4b95-911f-97ddea806fea
+:header-args: :tangle ~/.config/hypr/laptopMonitor.conf
+:END:
+#+NAME: Laptop-Monitors
+#+begin_src conf
+# See https://wiki.hyprland.org/Configuring/Monitors/
+monitor=eDP-1, 1920x1080@144, 0x0, 1
+#+end_src
+** Laptop - Variables:
+:PROPERTIES:
+:ID:       ea24725d-c93c-46fe-a40c-41da6e81596a
+:END:
+*** Laptop Variables - Keyboard Layout:
+:PROPERTIES:
+:ID:       fbd480de-25a2-4120-89f5-7a816ba6608f
+:END:
+#+NAME: LaptopVariables-KeyboardLayout
+#+begin_src conf
+input {
+    kb_layout = gb
+    kb_variant =
+    kb_model =
+    kb_options = caps:escape
+    kb_rules =
+
+    follow_mouse = 1
+
+    touchpad {
+        natural_scroll = no
+    }
+
+    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+}
+#+end_src
+
+*** Laptop Variables - Gestures:
+:PROPERTIES:
+:ID:       fe2df8df-a20d-43e6-b619-91b429664f30
+:END:
+- Enable easily swiping between workspaces using 3 fingers.
+
+#+NAME: LaptopVariables-Gestures
+#+begin_src conf
+gestures {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+    workspace_swipe = true
+    workspace_swipe_fingers = 3
+}
+
+#+end_src
+
+** Laptop Variables - Configuration:
+:PROPERTIES:
+:ID:       5eecc6b3-c306-4d1d-b112-d372ee520559
+:header-args: :tangle ~/.config/hypr/laptopVariables.conf
+:END:
+#+begin_src conf :noweb yes
+
+<<LaptopVariables-KeyboardLayout>>
+<<DesktopVariables-General>>
+<<DesktopVariables-Decoration>>
+<<DesktopVariables-Animation>>
+<<DesktopVariables-Dwindle>>
+<<DesktopVariables-Master>>
+<<LaptopVariables-Gestures>>
+<<DesktopVariables-misc>>
+#+end_src
+
+* Hypridle:
+:PROPERTIES:
+:ID:       147ee6e3-a5b6-4587-b66d-08d14f9dc9c5
+:header-args: :tangle ~/.config/hypr/hypridle.conf
+:END:
+#+begin_src conf
+#  _                      _     _ _
+# | |__  _   _ _ __  _ __(_) __| | | ___
+# | '_ \| | | | '_ \| '__| |/ _` | |/ _ \
+# | | | | |_| | |_) | |  | | (_| | |  __/
+# |_| |_|\__, | .__/|_|  |_|\__,_|_|\___|
+#        |___/|_|
+#
+# -----------------------------------------------------
+
+# general {
+#     ignore_dbus_inhibit = false
+# }
+
+general {
+    lock_cmd = pidof hyprlock || hyprlock       # avoid starting multiple hyprlock instances.
+    before_sleep_cmd = loginctl lock-session    # lock before suspend.
+    after_sleep_cmd = hyprctl dispatch dpms on  # to avoid having to press a key twice to turn on the display.
+}
+
+# Screenlock
+listener {
+    # HYPRLOCK TIMEOUT
+    timeout = 600
+    # HYPRLOCK ONTIMEOUT
+    on-timeout = loginctl lock-session
+}
+
+# dpms
+listener {
+    # DPMS TIMEOUT
+    timeout = 660
+    # DPMS ONTIMEOUT
+    on-timeout = hyprctl dispatch dpms off
+    # DPMS ONRESUME
+    on-resume = hyprctl dispatch dpms on
+}
+
+# Suspend
+#listener {
+#    # SUSPEND TIMEOUT
+#    timeout = 1800
+    #SUSPEND ONTIMEOUT
+#    on-timeout = systemctl suspend
+#}
+
+#+end_src
+* Hyprlock:
+:PROPERTIES:
+:ID:       67eb1200-014d-46f3-8f9a-dba504eb029f
+:header-args: :tangle ~/.config/hypr/hyprlock.conf
+:END:
+#+begin_src conf
+#  _                      _            _
+# | |__  _   _ _ __  _ __| | ___   ___| | __
+# | '_ \| | | | '_ \| '__| |/ _ \ / __| |/ /
+# | | | | |_| | |_) | |  | | (_) | (__|   <
+# |_| |_|\__, | .__/|_|  |_|\___/ \___|_|\_\
+#        |___/|_|
+#
+
+background {
+    monitor =
+    color = rgba(25, 20, 20, 1.0)
+
+    # all these options are taken from hyprland, see https://wiki.hyprland.org/Configuring/Variables/#blur for explanations
+    blur_passes = 1 # 0 disables blurring
+    blur_size = 7
+    noise = 0.0117
+    contrast = 0.8916
+    brightness = 0.8172
+    vibrancy = 0.1696
+    vibrancy_darkness = 0.0
+}
+
+input-field {
+    monitor =
+    size = 200, 50
+    outline_thickness = 3
+    dots_size = 0.33 # Scale of input-field height, 0.2 - 0.8
+    dots_spacing = 0.15 # Scale of dots' absolute size, 0.0 - 1.0
+    dots_center = true
+    dots_rounding = -1 # -1 default circle, -2 follow input-field rounding
+    outer_color = rgb(151515)
+    inner_color = rgb(200, 200, 200)
+    font_color = rgb(10, 10, 10)
+    fade_on_empty = false
+    fade_timeout = 1000 # Milliseconds before fade_on_empty is triggered.
+    placeholder_text = <i>Input Password...</i> # Text rendered in the input box when it's empty.
+    hide_input = false
+    rounding = -1 # -1 means complete rounding (circle/oval)
+    check_color = rgb(204, 136, 34)
+    fail_color = rgb(204, 34, 34) # if authentication failed, changes outer_color and fail message color
+    fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i> # can be set to empty
+    fail_transition = 300 # transition time in ms between normal outer_color and fail_color
+    capslock_color = -1
+    numlock_color = -1
+    bothlock_color = -1 # when both locks are active. -1 means don't change outer color (same for above)
+    invert_numlock = false # change color if numlock is off
+    swap_font_color = false # see below
+    position = 0, -20
+    halign = center
+    valign = center
+}
+
+label {
+    monitor =
+    text = cmd[update:1000] echo "$TIME"
+    color = rgba(200, 200, 200, 1.0)
+    font_size = 55
+    font_family = Fira Semibold
+    position = -100, -200
+    halign = right
+    valign = bottom
+    shadow_passes = 5
+    shadow_size = 10
+}
+
+label {
+    monitor =
+    text = $USER
+    color = rgba(200, 200, 200, 1.0)
+    font_size = 20
+    font_family = Fira Semibold
+    position = -100, 160
+    halign = right
+    valign = bottom
+    shadow_passes = 5
+    shadow_size = 10
+}
+
+#+end_src
+* Pyprland.toml:
+:PROPERTIES:
+:ID:       96112dbe-7c4a-43a5-8982-97dede2bd38c
+:header-args: :tangle ~/.config/hypr/pyprland.toml
+:END:
+#+begin_src toml
+[pyprland]
+plugins = [
+    "scratchpads",
+    "toggle_special"
+]
+
+
+[scratchpads.btops]
+animation = "fromTop"
+command = "alacritty -e btop"
+class = "btop-from-top"
+lazy = false
+unfocus = "hide"
+size = "60% 40%"
+max_size = "1920px 100%"
+margin = 50
+
+[scratchpads.volume]
+animation = "fromRight"
+command = "pavucontrol"
+class = "pavucontrol"
+lazy = false
+size = "40% 90%"
+unfocus = "hide"
+
+[scratchpads.term]
+animation = "fromTop"
+command = "kitty --class kitty-dropterm"
+class = "kitty-dropterm"
+size = "75% 60%"
+max_size = "1920px 100%"
+margin = 50
+lazy = false
+unfocus = "hide"
+
+#+end_src

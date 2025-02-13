@@ -1,0 +1,877 @@
+#+TITLE: ZSH Config
+#+AUTHOR: MDB Dev
+#+DESCRIPTION: ZSH Config
+#+PROPERTY: header-args :tangle /home/martin/.config/zsh/.zshrc
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* TOC: :TOC:
+:PROPERTIES:
+:ID:       964779b7-7d1f-43df-8b36-e79b1a4fc6ef
+:END:
+- [[#literate-config][Literate Config:]]
+- [[#path-to-oh-my-zsh--custom][Path To oh-my-zsh & custom]]
+- [[#set-theme][Set Theme:]]
+- [[#load-plugins][Load Plugins:]]
+- [[#default-settings][Default Settings:]]
+- [[#allow-escape-characters][Allow Escape Characters:]]
+- [[#hide-eol-sign-][hide EOL sign ('%')]]
+- [[#configure-key-keybindings][configure key keybindings]]
+- [[#enable-completion-features][Enable completion features:]]
+- [[#history-configuration][History configuration:]]
+  - [[#set-history-path][Set History Path:]]
+  - [[#set-history-size][Set History Size:]]
+  - [[#history-defaults][History Defaults:]]
+- [[#configure-time-format][configure `time` format]]
+- [[#set-a-fancy-prompt-non-color-unless-we-know-we-want-color][Set a fancy prompt (non-color, unless we know we "want" color):]]
+- [[#enable-color-support-of-ls-less-and-man][Enable color support of ~ls~, ~less~ and ~man~:]]
+- [[#enable-auto-suggestions-based-on-the-history][Enable auto-suggestions based on the history:]]
+- [[#aliases][Aliases:]]
+  - [[#alias---use-exa-instead-of-ls][Alias - Use exa instead of ls:]]
+  - [[#alias---use-bat-instead-of-cat][Alias - Use bat instead of cat:]]
+  - [[#alias---doom-binary][Alias - Doom binary:]]
+  - [[#alias---autorecon][Alias - Autorecon:]]
+  - [[#alias---start-default-network-for-network-manager][Alias - Start default network for network-manager:]]
+  - [[#alias---easy-url-encoding-and-decoding][Alias - Easy url encoding and decoding:]]
+  - [[#alias---capture-entire-tmux-pane-from-start-of-session][Alias - Capture entire tmux pane from start of session:]]
+  - [[#alias---dotrop][Alias - Dotrop:]]
+- [[#set-envs][Set ENVS:]]
+- [[#navigation][Navigation:]]
+  - [[#navigate---to-dotrdrop-folder-to-manage-dotfiles-easier][Navigate - to dotrdrop folder to manage dotfiles easier:]]
+  - [[#navigate---to-my-course-notes][Navigate - to my course notes:]]
+  - [[#navigate---to-blog-folder][Navigate - to blog folder:]]
+  - [[#navigate---to-htb-folder][Navigate - to HTB folder:]]
+- [[#launch-vms-and-rdp-sessions][Launch VM's and RDP Sessions:]]
+  - [[#desktop-vms][Desktop VM's:]]
+  - [[#laptop-vms][Laptop VM's:]]
+  - [[#physical-windows-11-desktop][Physical Windows 11 Desktop:]]
+- [[#scripts][Scripts:]]
+  - [[#script---start-work][Script - Start Work:]]
+  - [[#script---make-new-directories-in-for-new-htb-box-in-the-current-directory][Script - Make new directories in for new HTB box in the current directory:]]
+  - [[#script---create-hackingengagement-folder-structure][Script - Create hacking/engagement folder structure:]]
+  - [[#script---create-htbthm-box-folder--file][Script - Create HTB/THM Box Folder + File:]]
+  - [[#script---restart-waybar][Script - Restart Waybar:]]
+  - [[#script---use-vagrant-libvirt-via-docker][Script - Use vagrant-libvirt via docker:]]
+- [[#gpg][GPG:]]
+  - [[#pgp---key-alias][PGP - Key Alias:]]
+  - [[#pgp---rotate-key-alias][PGP - Rotate Key Alias:]]
+  - [[#pgp---function-to-encrypt-using-pgp][PGP - Function to encrypt using PGP:]]
+  - [[#pgp---function-to-decrypt-using-pgp][PGP - Function to decrypt using PGP:]]
+- [[#bv][BV:]]
+- [[#autostart-tmux-if-not-already-in-a-tmux-session-and-not-in-ssh-also-sources-to-ensure-compatiblity][Autostart tmux if not already in a tmux session and not in SSH also sources to ensure compatiblity:]]
+- [[#starship-prompt][Starship Prompt:]]
+
+* Literate Config:
+:PROPERTIES:
+:ID:       afd2b85b-4bfd-41f3-af92-22f220b34aeb
+:END:
+- This is my personal ZSH config it is structured as a literate configuration.
+- Inspired by the methodology presented at [[https://leanpub.com/lit-config/read][Literate Configuration]].
+- This approach blends detailed documentation directly with the code, offering clear insights into the purpose and functionality of each configuration snippet, making it both user-friendly and easy to maintain.
+- Great video by DT Tube here on how to write literate configs:
+  - https://www.youtube.com/watch?v=eF4cJlBNtdQ&themeRefresh=1
+* Path To oh-my-zsh & custom
+:PROPERTIES:
+:ID:       494d360e-8cd6-48db-ac6a-eb74db525c9b
+:END:
+- Path to your oh-my-zsh installation.
+#+begin_src bash
+export ZSH="$HOME/.oh-my-zsh"
+#+end_src
+
+- Use another custom folder than $ZSH/custom.
+#+begin_src bash
+ZSH_CUSTOM=/home/martin/.oh-my-zsh/custom
+#+end_src
+
+* Set Theme:
+:PROPERTIES:
+:ID:       5775d1bc-2986-4ce6-9e95-b2b11fc709c6
+:END:
+#+begin_src bash
+ZSH_THEME="jonathan"
+#+end_src
+
+* Load Plugins:
+:PROPERTIES:
+:ID:       8f9f7df3-9ead-4636-8663-dde8f9e47418
+:END:
+#+begin_src bash
+plugins=(git
+  tmux
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  fast-syntax-highlighting
+  zsh-autocomplete
+)
+
+source $ZSH/oh-my-zsh.sh
+#+end_src
+
+* Default Settings:
+:PROPERTIES:
+:ID:       bb4d195d-c1b4-44b5-80b0-3f836ce37f94
+:END:
+- These are default & I am not changing them.
+#+begin_src bash
+setopt autocd              # change directory just by typing its name
+#setopt correct            # auto correct mistakes
+setopt interactivecomments # allow comments in interactive mode
+setopt magicequalsubst     # enable filename expansion for arguments of the form ‘anything=expression’
+setopt nonomatch           # hide error message if there is no match for the pattern
+setopt notify              # report the status of background jobs immediately
+setopt numericglobsort     # sort filenames numerically when it makes sense
+setopt promptsubst         # enable command substitution in prompt
+#+end_src
+
+* Allow Escape Characters:
+:PROPERTIES:
+:ID:       41348cc9-ca4f-4319-a482-1f6373e7e53b
+:END:
+- Don't consider certain characters part of the word, e.g use escape chars when needed.
+#+begin_src bash
+WORDCHARS=${WORDCHARS//\/}
+#+end_src
+
+* hide EOL sign ('%')
+:PROPERTIES:
+:ID:       46a6d61b-aea9-4eb8-811c-11fd9c5ae8ad
+:END:
+- Stock, have not changed.
+#+begin_src bash
+PROMPT_EOL_MARK=""
+#+end_src
+
+* configure key keybindings
+:PROPERTIES:
+:ID:       32316da8-056e-483b-9487-df8dc8caef1c
+:END:
+- Again these are stock, have not changed.
+#+begin_src bash
+bindkey -e                                        # emacs key bindings
+bindkey ' ' magic-space                           # do history expansion on space
+bindkey '^U' backward-kill-line                   # ctrl + U
+bindkey '^[[3;5~' kill-word                       # ctrl + Supr
+bindkey '^[[3~' delete-char                       # delete
+bindkey '^[[1;5C' forward-word                    # ctrl + ->
+bindkey '^[[1;5D' backward-word                   # ctrl + <-
+bindkey '^[[5~' beginning-of-buffer-or-history    # page up
+bindkey '^[[6~' end-of-buffer-or-history          # page down
+bindkey '^[[H' beginning-of-line                  # home
+bindkey '^[[F' end-of-line                        # end
+bindkey '^[[Z' undo                               # shift + tab undo last action
+#+end_src
+
+* Enable completion features:
+:PROPERTIES:
+:ID:       49643801-f86e-42e3-afde-8f2c221b8f4e
+:END:
+- These are stock, I have not changed these.
+#+begin_src bash
+autoload -Uz compinit
+compinit -d ~/.cache/zcompdump
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+#+end_src
+
+* History configuration:
+:PROPERTIES:
+:ID:       29ba9f36-2b6d-4e50-b5a7-7f91890d72d7
+:END:
+** Set History Path:
+:PROPERTIES:
+:ID:       8d22249c-b7a3-43af-bb16-ba73036b930a
+:END:
+#+begin_src bash
+HISTFILE=/home/$USER/.zsh_history
+#+end_src
+
+** Set History Size:
+:PROPERTIES:
+:ID:       d74cd32e-42f4-4afe-a7f6-02924e830e82
+:END:
+- Sometimes I need to go through these files so have made them larger for ease.
+#+begin_src bash
+HISTSIZE=200000
+SAVEHIST=200000
+#+end_src
+
+** History Defaults:
+:PROPERTIES:
+:ID:       0066d715-5034-4bef-881d-3173b3b12fe4
+:END:
+- These are stock settings, remain unchagned.
+#+begin_src bash
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+#setopt share_history         # share command history data
+
+# force zsh to show the complete history
+alias history="history 0"
+#+end_src
+
+* configure `time` format
+:PROPERTIES:
+:ID:       72ffd98d-b20c-4960-8bbe-393891bcacf3
+:END:
+- Default, no changes.
+#+begin_src bash
+TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
+#+end_src
+
+* Set a fancy prompt (non-color, unless we know we "want" color):
+:PROPERTIES:
+:ID:       7cd977ae-df03-4422-893f-49aed3d7e8de
+:END:
+- Default, no changes.
+#+begin_src bash
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+#+end_src
+- Default No Changes:
+#+begin_src bash
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+toggle_oneline_prompt(){
+    if [ "$PROMPT_ALTERNATIVE" = oneline ]; then
+        PROMPT_ALTERNATIVE=twoline
+    else
+        PROMPT_ALTERNATIVE=oneline
+    fi
+    configure_prompt
+    zle reset-prompt
+}
+zle -N toggle_oneline_prompt
+bindkey ^P toggle_oneline_prompt
+
+
+precmd() {
+    # Print the previously configured title
+    print -Pnr -- "$TERM_TITLE"
+
+    # Print a new line before the prompt, but only if it is not the first line
+    if [ "$NEWLINE_BEFORE_PROMPT" = yes ]; then
+        if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
+            _NEW_LINE_BEFORE_PROMPT=1
+        else
+            print ""
+        fi
+    fi
+}
+#+end_src
+
+* Enable color support of ~ls~, ~less~ and ~man~:
+:PROPERTIES:
+:ID:       7645f594-1bb7-4f7b-8d73-9f7c2a2dc363
+:END:
+
+#+begin_src bash
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    export LS_COLORS="$LS_COLORS:ow=30;44:" # fix ls color for folders with 777 permissions
+
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias diff='diff --color=auto'
+    alias ip='ip --color=auto'
+
+    export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+    export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+    export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+    export LESS_TERMCAP_so=$'\E[01;33m'    # begin reverse video
+    export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+    export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+    export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+    # Take advantage of $LS_COLORS for completion as well
+    zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+    zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+fi
+#+end_src
+
+* Enable auto-suggestions based on the history:
+:PROPERTIES:
+:ID:       70ea47bc-2d46-484a-8ff3-244023de04cd
+:END:
+- Handy & easy way to get suggestions:
+  - Stock not changed.
+#+begin_src bash
+if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    # change suggestion color
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
+fi
+
+# enable command-not-found if installed
+if [ -f /etc/zsh_command_not_found ]; then
+    . /etc/zsh_command_not_found
+fi
+#+end_src
+
+* Aliases:
+:PROPERTIES:
+:ID:       5a8be724-5135-4dd3-9943-5508f9d11da1
+:END:
+** Alias - Use [[https://github.com/ogham/exa][exa]] instead of ls:
+:PROPERTIES:
+:ID:       ea03e666-dacd-4f77-a877-4b138248f1be
+:END:
+- More detailed and granular output using exa.
+#+begin_src bash
+alias ls='exa -T -L=1 -a -B -h -l -g --icons'
+alias lsl='exa -T -L=2 -a -B -h -l -g --icons'
+alias lss='exa -T -L=1 -B -h -l -g --icons'
+#+end_src
+
+** Alias - Use [[https://www.makeuseof.com/bat-an-alternative-to-cat-command/][bat]] instead of cat:
+:PROPERTIES:
+:ID:       854506ff-b87b-4850-96c8-0ca2c0f8f760
+:END:
+- Has nicer output and is easier to read.
+#+begin_src bash
+alias cat='bat'
+#+end_src
+
+** Alias - Doom binary:
+:PROPERTIES:
+:ID:       d8e020b6-3f4c-4c65-a47e-c2614b983ab9
+:END:
+- If I need to re-sync doom I want it to be easy.
+#+begin_src bash
+alias doom='~/.config/emacs/bin/doom'
+#+end_src
+** Alias - Autorecon:
+:PROPERTIES:
+:ID:       f1812aa5-ec49-45e0-9fef-6e9af03f5a3e
+:END:
+- Sometimes I like to use https://github.com/Tib3rius/AutoRecon
+#+begin_src bash
+alias autorecon='sudo env "PATH=$PATH" autorecon'
+#+end_src
+** Alias - Start default network for network-manager:
+:PROPERTIES:
+:ID:       3ddbef58-ff54-4061-b776-329ca109ae55
+:END:
+- Mostly unused as I have it autostart now, but just incase.
+#+begin_src bash
+alias virtnet='sudo virsh net-start default &'
+#+end_src
+
+** Alias - Easy url encoding and decoding:
+:PROPERTIES:
+:ID:       6bfdc79b-0933-4ac3-a229-ee8d0c10fe11
+:END:
+- Sometimes when I am pentesting I want an easy way ot urldecode & encode without using an online decoder etc, this allows me to quicly do it. Very useful curling etc
+*** Alias - URL Decode:
+:PROPERTIES:
+:ID:       7de8ecf6-8074-4390-83a8-cb3d19040079
+:END:
+#+begin_src bash
+alias urldecode='python3 -c "
+import sys, urllib.parse as ul
+if len(sys.argv) > 1 and sys.argv[1] != \"-\":  # Single string input
+    print(ul.unquote_plus(sys.argv[1]))
+else:  # Read from stdin (e.g., piped input or a file)
+    print(ul.unquote_plus(sys.stdin.read().strip()))
+"'
+#+end_src
+*** Alias - URL Encode:
+:PROPERTIES:
+:ID:       e47ece04-c461-4483-b6ca-2ef6abd64490
+:END:
+#+begin_src bash
+alias urlencode='python3 -c "
+import sys, urllib.parse as ul
+if len(sys.argv) > 1 and sys.argv[1] != \"-\":  # Single string input
+    print(ul.quote_plus(sys.argv[1]))
+else:  # Read from stdin (e.g., piped input or a file)
+    print(ul.quote_plus(sys.stdin.read().strip()))
+"'
+#+end_src
+
+** Alias - Capture entire tmux pane from start of session:
+:PROPERTIES:
+:ID:       1dfead40-09d7-4717-9621-50b884d70fc6
+:END:
+- This will save the entire tmux pane from the first commmand to where it is now and output to a desired folder.
+  - Use ~tmux-save-pane > <outputfile>~
+#+begin_src bash
+alias tmux-save-pane='tmux capture-pane -pS -'
+#+end_src
+** Alias - Dotrop:
+:PROPERTIES:
+:ID:       3849946d-fb6c-47aa-aa44-13a0741acbe5
+:END:
+- I use dotdrop for managing my dotfiles. This makes executing commands easier.
+*** Alias - Dotrop Update:
+:PROPERTIES:
+:ID:       095b0031-ef32-409b-bdc6-00dec693d4f7
+:END:
+  #+begin_src bash
+alias dtu='dotdrop update'
+  #+end_src
+*** Alias - Dotrop Install:
+:PROPERTIES:
+:ID:       6c75ab30-4f03-4e4c-a556-e9a11b481a76
+:END:
+#+begin_src bash
+alias dti='dotdrop install'
+#+end_src
+* Set ENVS:
+:PROPERTIES:
+:ID:       306eebfd-689f-4c25-bcdc-9098090ce0b2
+:END:
+#+begin_src bash
+BROWSER=/usr/bin/brave
+kali='192.168.56.174'
+#+end_src
+
+* Navigation:
+:PROPERTIES:
+:ID:       8228dc7a-bd6f-4a9d-bbb0-f8bf4b7d6995
+:END:
+** Navigate - to [[https://github.com/deadc0de6/dotdrop][dotrdrop]] folder to manage dotfiles easier:
+:PROPERTIES:
+:ID:       73f1d489-af45-4a5d-9505-450116a520a6
+:END:
+- I use dotdrop for managing my dotfiles. This makes executing commands easier.
+#+begin_src bash
+alias dt='/home/martin/.config/mydotfiles'
+#+end_src
+
+** Navigate - to my course notes:
+:PROPERTIES:
+:ID:       a33a507b-8c20-45fd-950e-a61d6b7e74a0
+:END:
+- I am studying the CPTs at the moment and this helps navigate to my course notes easier.
+#+begin_src bash
+alias cpts='~/Dropbox/40-49_Career/41-Courses/41.22-CPTS'
+#+end_src
+
+** Navigate - to blog folder:
+:PROPERTIES:
+:ID:       5b2970c0-0f4e-4c72-b3a9-a0b961dab825
+:END:
+- I am studying the CPTs at the moment and this helps navigate to my course notes easier.
+#+begin_src bash
+alias blog='~/Dropbox/40-49_Career/44-Blog/bloodstiller'
+#+end_src
+
+** Navigate - to HTB folder:
+:PROPERTIES:
+:ID:       347d0aac-9f38-41e1-ba1f-dda452655b21
+:END:
+- I do boxes on HTB and this is a shorcut to that dir
+#+begin_src bash
+alias bx='~/Dropbox/40-49_Career/46-Boxes/46.02-HTB'
+#+end_src
+
+* Launch VM's and RDP Sessions:
+:PROPERTIES:
+:ID:       6bfc3025-7666-4592-aea8-66ebc6ba9d0c
+:END:
+** Desktop VM's:
+:PROPERTIES:
+:ID:       5cdc7642-ad80-4361-8211-37ce5dac6ef2
+:END:
+- Format is
+  - kvm = kali vm
+  - s = start
+  - r = rdp
+  - ssh = ssh
+  - c = connect
+  - kvmsshc = Start Kali VM & Connect Via SSH.
+*** Start KALI VM:
+:PROPERTIES:
+:ID:       7ed9dae5-c4c0-45b2-a41e-1654507a505d
+:END:
+#+begin_src bash
+
+# Kali VM Aliases
+alias kvms='virsh --connect qemu:///system start Kali'
+#+end_src
+*** SSH To Kali:
+:PROPERTIES:
+:ID:       24f1b725-cef1-4c02-96f4-95da56a285f1
+:END:
+#+begin_src bash
+alias kvmssh='ssh kali@$kali'
+#+end_src
+*** Start Dynamic SSH Session To Kali For Proxychains:
+:PROPERTIES:
+:ID:       3d3749d8-c4ae-4b15-b203-f25e67096e7a
+:END:
+- Useful for proxychains etc, when I want to view routed traffic on my host for ease.
+#+begin_src bash
+alias kvmsshd='ssh -D 1080 kali@$kali'
+#+end_src
+*** Start KALI & SSH To it with dynamic port forwarding:
+:PROPERTIES:
+:ID:       7ed9dae5-c4c0-45b2-a41e-1654507a505d
+:END:
+#+begin_src bash
+alias kvmsshc='kvms && sleep 30 && kvmsshd'
+#+end_src
+*** RDP to Kali VM:
+:PROPERTIES:
+:ID:       42c07b02-c7be-44fd-8c17-81a4f42945be
+:END:
+- If I disconnect, re-connect.
+#+begin_src bash
+alias kvmrc='xfreerdp3 /v:192.168.122.66 /u:kali /size:100% /dynamic-resolution /gfx:progressive /d: /network:lan -z'
+#+end_src
+*** Start KALI VM & RDP to it:
+:PROPERTIES:
+:ID:       ebed5542-5196-43da-bcf2-15a4c02f1895
+:END:
+- Launch VM, wait 40 seconds for it to boot and rdp server to start then rdp in.
+#+begin_src bash
+alias kvmsrc='kvms && sleep 40 && kvmrc'
+#+end_src
+
+*** Start Windows 11 VM & RDP to it:
+:PROPERTIES:
+:ID:       6071e4ec-ea07-426b-8842-e8ec383b0cf2
+:END:
+- Launch VM, wait 40 seconds for it to boot and rdp server to start then rdp in.
+#+begin_src bash
+
+## Windows VM Aliases
+alias wvmsc='virsh --connect qemu:///system start Windows11 && sleep 40 &&
+xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'
+#+end_src
+
+*** RDP to Windows 11 VM:
+:PROPERTIES:
+:ID:       9e9f51cc-3ca9-4e22-b8bd-2f9bd9135806
+:END:
+- If I disconnect, re-connect.
+#+begin_src bash
+alias wvmc='xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'
+#+end_src
+
+** Laptop VM's:
+:PROPERTIES:
+:ID:       0d032068-6a92-422a-877a-7ab399b4ae14
+:END:
+
+*** Start Kali Laptop VM & RDP to it:
+:PROPERTIES:
+:ID:       5f5393e3-9fad-4c27-b524-f027802c678b
+:END:
+- Launch VM, wait 40 seconds for it to boot and rdp server to start then rdp in.
+#+begin_src bash
+alias kvmls='virsh --connect qemu:///system start Kali && sleep 40 &&
+xfreerdp /v:192.168.100.194 /u:kali /size:100% /dynamic-resolution /d:'
+#+end_src
+
+*** RDP to Kali Laptop VM:
+:PROPERTIES:
+:ID:       02360960-b6a2-466d-9c79-d6881952663c
+:END:
+- If I disconnect, re-connect.
+#+begin_src bash
+alias kvmlc='xfreerdp /v:192.168.100.194 /u:kali /size:100% /dynamic-resolution /d:'
+#+end_src
+
+*** Start Windows Laptop 11 VM & RDP to it:
+:PROPERTIES:
+:ID:       e284efcf-abeb-4a6f-a206-9097192cad48
+:END:
+- Launch VM, wait 40 seconds for it to boot and rdp server to start then rdp in.
+#+begin_src bash
+alias wvmls='virsh --connect qemu:///system start Windows11 && sleep 40 &&
+xfreerdp3 /v:192.168.100.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'
+#+end_src
+
+*** RDP to Windows 11 VM:
+:PROPERTIES:
+:ID:       f5d41722-a0d6-468b-a0f4-c61e81fdcbe6
+:END:
+- If I disconnect, re-connect.
+#+begin_src bash
+alias wvmlc='xfreerdp3 /v:192.168.100.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'
+#+end_src
+
+** Physical Windows 11 Desktop:
+:PROPERTIES:
+:ID:       d7bef0b7-be9b-45ce-857d-14c78e950e1f
+:END:
+- When we need more juice than a vm.
+
+*** Wake Up Physical Windows 11 Desktop:
+:PROPERTIES:
+:ID:       89e7e52c-cf8d-47ff-b988-9061b31844b3
+:END:
+- I have wake on lan configured so just send a packet
+#+begin_src bash
+
+# Windows Host Aliases
+alias wwu='wakeonlan -i 192.168.2.255 "2C:F0:5D:7A:71:0B"'
+#+end_src
+
+*** RDP to windows 11 machine:
+:PROPERTIES:
+:ID:       a7fad42f-f286-4200-9b23-99d5b9fec9ca
+:END:
+- RDP to the host:
+#+begin_src bash
+alias w11c='xfreerdp3 /v:192.168.2.115 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'
+#+end_src
+
+* Scripts:
+:PROPERTIES:
+:ID:       ad7908da-3383-407b-80f2-fda3965df593
+:END:
+** Script - Start Work:
+:PROPERTIES:
+:ID:       1eaa2b2d-7498-4141-a58f-436da4f9dc7b
+:END:
+- Execute 1 min before I start and be ready to go.
+#+begin_src bash
+alias sw='/home/martin/.config/scripts/start_work.sh 2>/dev/null'
+#+end_src
+
+** Script - Make new directories in for new HTB box in the current directory:
+:PROPERTIES:
+:ID:       d1607ce2-2ee4-4b35-b9d4-e693043f6f12
+:END:
+- This has now been replaced with [[Create hacking/engagement folder structure:]]
+#+begin_src bash
+#nbx () {
+    #mkdir loot scans exploit creds
+    #mkdir -p scans/nmap scans/bh
+    #mkdir -p creds/hashes creds/usernames creds/passwords
+#}
+#+end_src
+
+** Script - Create hacking/engagement folder structure:
+:PROPERTIES:
+:ID:       ace2519e-1609-4734-b6a7-a32823ea3e34
+:END:
+#+begin_src bash
+
+# Pentesting Scripts
+alias npt="/home/martin/.config/scripts/newpentest.sh"
+#+end_src
+
+** Script - Create HTB/THM Box Folder + File:
+:PROPERTIES:
+:ID:       43b6e611-f2a7-4a04-9cb6-3c471a7225f7
+:END:
+#+begin_src bash
+# Box Scrtips for THM
+alias nbx="/home/martin/.config/scripts/newbox.sh"
+#+end_src
+
+** Script - Restart Waybar:
+:PROPERTIES:
+:ID:       fea96ba7-150b-4a62-96af-a9b389a8b4ea
+:END:
+- Sometimes when I am making changes I want an easy way to restart waybar.
+#+begin_src bash
+alias wbr="/home/martin/.config/scripts/waybarRestart.sh"
+#+end_src
+** Script - Use vagrant-libvirt via docker:
+:PROPERTIES:
+:ID:       94b145ae-d1af-4bd0-89b9-c8e217ba6630
+:END:
+- There are commonly known issues with arch and the vagrant-libvirt plugin due to ruby version discrepancies, this is the easiest way to use the plugin.
+#+begin_src bash
+# Function to run Vagrant with QEMU/libvirt in Docker
+#vagrant-kvm() {
+  ## Check if .env file exists
+  #if [ ! -f .env ]; then
+    #echo "Error: .env file not found"
+    #return 1
+  #fi
+#
+  ## Load and export environment variables
+  #set -a
+  #source .env
+  #set +a
+#
+  ## Get the box directory path
+  #BOX_DIR=$(dirname "${HOST_KALI_VM_DIR}")
+#
+  #docker run -it --rm \
+    #-e LIBVIRT_DEFAULT_URI="qemu:///system" \
+    #-e HOST_KALI_VM_DIR \
+    #-e HOST_TMUX_CONFIG \
+    #-e HOST_TOOLS_DIR \
+    #-v /var/run/libvirt/:/var/run/libvirt/ \
+    #-v ~/.vagrant.d:/.vagrant.d \
+    #-v "${BOX_DIR}:${BOX_DIR}" \
+    #-v $(realpath "${PWD}"):${PWD} \
+    #-v "${HOST_TMUX_CONFIG}":"${HOST_TMUX_CONFIG}" \
+    #-v "${HOST_TOOLS_DIR}":"${HOST_TOOLS_DIR}" \
+    #-w "${PWD}" \
+    #--network host \
+    #vagrantlibvirt/vagrant-libvirt:latest \
+    #vagrant $@
+#}
+# Usage examples:
+# vagrant-kvm up        # Start the VM
+# vagrant-kvm halt     # Stop the VM
+# vagrant-kvm destroy  # Remove the VM
+# vagrant-kvm ssh      # Connect to the VM
+
+#+end_src
+* GPG:
+:PROPERTIES:
+:ID:       beba6571-996f-4d60-911d-955b51a0e477
+:END:
+- Most of this is unused now.
+  - It is originally from the https://github.com/drduh/YubiKey-Guide
+  - *NOTE* Need to re-implement:
+** PGP - Key Alias:
+:PROPERTIES:
+:ID:       00ffeb0f-ba44-4d60-9b97-2339e92e2b25
+:END:
+#+begin_src bash
+
+# GPG
+alias key='0x79ea004594bd7e09'
+#+end_src
+** PGP - Rotate Key Alias:
+:PROPERTIES:
+:ID:       5d5c9071-c74e-4f48-8710-03e0e03b6369
+:END:
+#+begin_src bash
+alias rkey='gpg-connect-agent "scd serialno" "learn --force" /bye'
+#+end_src
+
+** PGP - Function to encrypt using PGP:
+:PROPERTIES:
+:ID:       98d16135-eb37-4529-865a-bfdcc3345257
+:END:
+#+begin_src bash
+
+# Encrypt a file with GPG and save it with a timestamped name
+function secret () {
+                output=~/"${1}".$(date +%s).enc
+                gpg --encrypt --armor --output ${output} -r 0x79ea004594bd7e09 -r admin@mdbdev.io "${1}" && echo "${1} -> ${output}"
+}
+#+end_src
+
+** PGP - Function to decrypt using PGP:
+:PROPERTIES:
+:ID:       fa815663-b6b4-4d59-a5de-404a6adbceb6
+:END:
+#+begin_src bash
+
+# Decrypt a file and save it with its original name
+function reveal () {
+                output=$(echo "${1}" | rev | cut -c16- | rev)
+                gpg --decrypt --output ${output} "${1}" && echo "${1} -> ${output}"
+}
+
+#+end_src
+* BV:
+:PROPERTIES:
+:ID:       c9e9ed22-6a30-49ba-b8c2-c3b7de4d8222
+:END:
+
+#+begin_src bash
+
+# Scoop
+alias scoopreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@13.42.100.70'
+alias scoop='ssh -i ~/.ssh/bvawslondon ec2-user@13.42.100.70'
+alias scooprtp='ssh -i ~/.ssh/bvawslondon ec2-user@13.42.100.71'
+
+# Gobo
+alias goboreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@13.42.100.68'
+alias gobo='ssh -i ~/.ssh/bvawslondon ec2-user@13.42.100.68'
+alias gobortp='ssh -i ~/.ssh/bvawslondon ec2-user@13.42.100.69'
+
+# Wing
+alias wingreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@wingnut.babblevoice.com'
+alias wing='ssh -i ~/.ssh/bvawslondon ec2-user@wingnut.babblevoice.com'
+alias wingrtp='ssh -i ~/.ssh/bvawslondon ec2-user@13.42.100.71'
+
+# Mirk
+alias mirkreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@mirkmonster.babblevoice.com'
+alias mirk='ssh -i ~/.ssh/bvawslondon ec2-user@mirkmonster.babblevoice.com'
+
+# Sand
+alias sandreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@sandman.babblevoice.com'
+alias sand='ssh -i ~/.ssh/bvawslondon ec2-user@sandman.babblevoice.com'
+
+# boope
+alias boopreg='ssh -i ~/.ssh/bvawslondon -L8000:127.0.0.1:8000 ec2-user@booper.babblevoice.com'
+alias boop='ssh -i ~/.ssh/bvawslondon ec2-user@booper.babblevoice.com'
+
+# Realms check:
+# Check all domains on a server
+alias realms='curl 127.0.0.1:8000/reg/realms? | jq'
+alias realmsr='~/.config/scripts/realms.sh'
+alias realmsu='curl "127.0.0.1:8000/reg/realms?u=9023" | jq'
+
+#Git Alias:
+alias bvgit='ssh -i ~/.ssh/bv_ed25519 -o IdentitiesOnly=yes'
+
+# Start warm captures:
+alias warm='~/.config/work/HelpDesk/captureScripts/captureWarmTimer.sh'
+
+# Start hot captures:
+alias hot='~/.config/work/HelpDesk/captureScripts/captureHotTimer.sh'
+
+
+#+end_src
+
+#+RESULTS:
+
+* Autostart tmux if not already in a tmux session and not in SSH also sources to ensure compatiblity:
+:PROPERTIES:
+:ID:       48b21f7a-ab4b-400d-9de3-01f750b543ae
+:END:
+- I prefer to have persistent sessions running when I am logged in. This ensures TMUX is running.
+  - Have since retired this as it was messing with my ability to save track terminal output using tmux logging.
+  - I now use https://github.com/tmux-plugins/tmux-resurrect to achieve the same purpose.
+#+begin_src bash
+
+# Tmux auto-start (currently commented out)
+#if [[ -z "$TMUX" && -z "$SSH_CONNECTION" && -n "$DISPLAY" ]]; then
+#  exec tmux new-session -A -s default \; source-file ~/.tmux.conf
+#fi
+#+end_src
+* Starship Prompt:
+:PROPERTIES:
+:ID:       ede7c1d1-182b-49d3-95fb-c75fea2abc9f
+:END:
+- I like things to look good.
+  - *Note* This has to stay at the bottom of the config.
+#+begin_src bash
+
+# Initialize Starship prompt
+eval "$(starship init zsh)"
+#+end_src

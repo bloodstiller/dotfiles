@@ -1,1 +1,112 @@
-Read me to populate
+* NixOS Configuration Guide
+
+This repository contains my personal NixOS configuration files.
+
+** Directory Structure
+- [[file:nix/README.org][Main NixOS Configuration]] (~./nix~) :: Root configuration directory
+  - [[file:nix/configuration/README.org][System Configuration]] (~./nix/configuration~) :: Core NixOS system configuration
+  - [[file:nix/home-manager/README.org][Home Manager Configuration]] (~./nix/home-manager~) :: User environment configuration
+  - [[file:nix/packages/README.org][Custom Packages]] (~./nix/packages~) :: Custom Nix package definitions
+  - [[file:nix/secrets/secrets.nix][Secrets Management]] (~./nix/secrets~) :: Age-encrypted secrets configuration
+
+** Setup Instructions
+
+*** Adding Channels
+Before using these configurations, you need to add the necessary channels:
+
+#+begin_src bash
+# Add stable channels
+sudo nix-channel --add https://nixos.org/channels/nixos-23.11 nixos
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
+
+# Add unstable channels
+sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager-unstable
+
+# Update channels
+sudo nix-channel --update
+nix-channel --update
+#+end_src
+
+*** Syncing Configuration
+A sync script is provided to help manage configuration files:
+#+begin_src bash
+./nix/sync.sh
+#+end_src
+This script:
+- Syncs age-encrypted secrets
+- Updates hardware configuration
+- Updates system configuration
+
+** Key Components
+
+*** configuration.nix
+Located at =/etc/nixos/configuration.nix=, this file manages system-wide configuration:
+
+**** Key Features
+- XFCE and Hyprland desktop environments
+- Remote desktop support via XRDP
+- NFS mounts for media directories
+- Docker and virtualization support
+- System-wide fonts and packages
+- User account setup with SSH keys
+- Audio configuration with PipeWire
+- British locale and keyboard settings
+- AppImage support configuration
+
+**** Notable Services
+- OpenSSH daemon
+- Docker
+- XRDP
+- JamesDSP
+- XDG Portal
+
+*** home.nix
+Located at =~/.config/home-manager/home.nix=, this manages user-specific configuration:
+
+**** Key Features
+- Shell configuration (zsh with plugins)
+- Development tools and environments
+- Window manager (Hyprland) configuration
+- Theme and cursor settings
+- Application-specific configurations
+- Dotfile management
+- Service management (e.g., Dropbox)
+
+** Prerequisites
+- NixOS 23.11 or later
+- Home Manager
+- Git
+- Age for secrets management
+
+** Usage
+1. Clone this repository:
+   #+begin_src bash
+   git clone https://github.com/bloodstiller/nixos-config.git ~/.config/nixos
+   #+end_src
+
+2. Review and modify configurations as needed
+3. Apply system configuration:
+   #+begin_src bash
+   sudo nixos-rebuild switch
+   #+end_src
+
+4. Apply user configuration:
+   #+begin_src bash
+   home-manager switch
+   #+end_src
+
+** Notes
+- AppImage support must be enabled in configuration.nix
+- Custom packages (like Cursor) require periodic version updates
+- Secrets are managed using age encryption
+- Configuration uses literate programming with Org-mode
+- Dotfiles are managed through Home Manager
+
+** License
+This configuration is provided as-is under the MIT License. Feel free to use and modify for your own needs.
+
+** Additional Resources
+- [[https://nixos.org/manual/nixos/stable/][NixOS Manual]]
+- [[https://nix-community.github.io/home-manager/][Home Manager Manual]]
+- [[https://search.nixos.org/packages][NixOS Package Search]]

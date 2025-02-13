@@ -1,0 +1,34 @@
+[pyprland]
+plugins = [
+    "scratchpads",
+    "toggle_special"
+]
+
+
+[scratchpads.btops]
+animation = "fromTop"
+command = "alacritty -e btop"
+class = "btop-from-top"
+lazy = false
+unfocus = "hide"
+size = "60% 40%"
+max_size = "1920px 100%"
+margin = 50
+
+[scratchpads.volume]
+animation = "fromRight"
+command = "pavucontrol"
+class = "pavucontrol"
+lazy = false
+size = "40% 90%"
+unfocus = "hide"
+
+[scratchpads.term]
+animation = "fromTop"
+command = "kitty --class kitty-dropterm"
+class = "kitty-dropterm"
+size = "75% 60%"
+max_size = "1920px 100%"
+margin = 50
+lazy = false
+unfocus = "hide"

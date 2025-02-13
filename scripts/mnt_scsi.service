@@ -1,0 +1,9 @@
+[Unit]
+Description=Mount 3TB Iscsi Drive on boot
+
+[Service]
+ExecStart=/home/martin/Scripts/mnt_scsi.sh
+User=root
+
+[Install]
+WantedBy=multi-user.target

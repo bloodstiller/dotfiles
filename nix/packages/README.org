@@ -1,0 +1,100 @@
+#+title: Custom NixOS Packages
+#+author: Martin Barker
+
+* Custom Packages
+
+** Cursor Editor
+[[https://cursor.sh/][Cursor]] is an AI-first code editor built on top of VSCode.
+
+Original implementation from [[https://gist.github.com/lukalot/fcbf3216ad13b8303ab0947af0d5abd5][this gist by lukalot]].
+
+*** Package Details
+- Name: =cursor=
+- Current Version: =0.45.11=
+- Type: AppImage wrapper
+- Source: [[https://cursor.sh/][Cursor]]
+
+*** Prerequisites
+**** AppImage Support
+AppImage support must be enabled in your =configuration.nix=:
+
+#+begin_src nix
+# Enable AppImage support
+programs.appimage.enable = true;
+programs.appimage.binfmt = true;
+
+# Configure AppImage binary format
+boot.binfmt.registrations.appimage = {
+  wrapInterpreterInShell = false;
+  interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+  recognitionType = "magic";
+  offset = 0;
+  mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+  magicOrExtension = ''\x7fELF....AI\x02'';
+};
+#+end_src
+
+After adding this configuration, run =sudo nixos-rebuild switch= to apply the changes.
+
+*** Version Management
+The package requires periodic updates:
+
+**** Finding the Latest Version
+The latest version can be found by:
+1. Downloading the latest AppImage from [[https://cursor.com][cursor.com]]
+2. Checking the version in the AppImage filename or metadata
+
+**** Updating the Hash
+When updating the version, you'll need a new hash. The easiest method is:
+1. Update the version in =cursor.nix=
+2. Try to build the package
+3. The build will fail and provide the correct hash in the error message
+4. Update the hash in =cursor.nix= with the provided value
+
+Example error message:
+#+begin_example
+error: hash mismatch in fixed-output derivation:
+         specified: sha256-oldHash...
+            got:    sha256-newHash...
+#+end_example
+
+*** Implementation Notes
+The package is implemented as a Nix wrapper around the Cursor AppImage:
+
+#+begin_src nix :tangle no
+{pkgs, ...}: let
+  pname = "cursor";
+  version = "0.45.11";
+  # ... rest of implementation
+#+end_src
+
+*** Usage
+To use this package:
+
+1. In your =home.nix=:
+   #+begin_src nix
+   let
+     cursor = pkgs.callPackage ./packages/cursor.nix {};
+   in {
+     home.packages = [ cursor ];
+   }
+   #+end_src
+
+2. Or in your =configuration.nix=:
+   #+begin_src nix
+   environment.systemPackages = [
+     (pkgs.callPackage ./packages/cursor.nix {})
+   ];
+   #+end_src
+
+
+*** Update Process
+To update the package:
+1. Update the =version= field
+2. Update the =hash= field with the new SHA256 hash
+3. Test the build with =nix-build -E "with import <nixpkgs> {}; callPackage ./cursor.nix {}"=
+
+*** Notes
+- The package uses =appimageTools.wrapType2= for proper AppImage integration
+- Desktop entry and icons are automatically installed
+- Includes proper Wayland/X11 support through bwrap configuration

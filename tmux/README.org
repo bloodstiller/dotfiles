@@ -1,0 +1,276 @@
+#+TITLE: TMUX Config
+#+AUTHOR: MDB Dev
+#+DESCRIPTION: Personal TMUX Config
+#+PROPERTY: header-args :tangle /home/martin/.config/tmux/.tmux.conf
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* TABLE OF CONTENTS :TOC:
+:PROPERTIES:
+:ID:       2f1cd35e-e7ad-4aeb-a0cc-ea5d26475f92
+:END:
+- [[#literate-config][Literate Config:]]
+- [[#set-prefix][Set Prefix]]
+- [[#windows-control][Windows Control:]]
+  - [[#set-window-splits][Set Window Splits:]]
+  - [[#create-new-window][Create New Window:]]
+  - [[#navigate-windows][Navigate Windows:]]
+- [[#pane-control][Pane Control:]]
+  - [[#close-panes-easily][Close Panes Easily:]]
+  - [[#easily-switch-panes-using-vim-keybindings][Easily Switch Panes Using VIM keybindings:]]
+  - [[#resize-panes-easily-using-vim-keybindings][Resize Panes Easily Using VIM Keybindings]]
+- [[#easily-reload-config][Easily Reload Config:]]
+- [[#enable-vim-like-binds][Enable VIM like binds:]]
+- [[#quality-of-life-improvements][Quality of Life Improvements:]]
+  - [[#enable-true-colour-support][Enable True Colour Support:]]
+  - [[#enable-mouse-support][Enable Mouse Support:]]
+  - [[#set-status-bar-at-top][Set status bar at top]]
+  - [[#address-vim-mode-switching-delay-httpsuperusercoma25271765504][Address vim mode switching delay (http://superuser.com/a/252717/65504)]]
+  - [[#increase-scrollback-buffer-size-from-2000-to-50000-lines][Increase scrollback buffer size from 2000 to 50000 lines]]
+  - [[#increase-tmux-messages-display-duration-from-750ms-to-4s][Increase tmux messages display duration from 750ms to 4s]]
+  - [[#refresh-status-left-and-status-right-more-often-from-every-15s-to-5s][Refresh 'status-left' and 'status-right' more often, from every 15s to 5s]]
+  - [[#upgrade-term][Upgrade $TERM]]
+  - [[#focus-events-enabled-for-terminals-that-support-them][Focus events enabled for terminals that support them]]
+  - [[#set-aggresive-resize][Set Aggresive Resize:]]
+- [[#plugins][Plugins:]]
+  - [[#main-plugins-to-install][Main Plugins To install:]]
+  - [[#enable-dracula-colour-theme][Enable Dracula Colour Theme:]]
+  - [[#initialize-tmux-plugin-manager-keep-at-bottom][Initialize TMUX plugin manager (keep at bottom)]]
+
+* Literate Config:
+:PROPERTIES:
+:ID:       6f08e094-c0f0-4871-9faa-2e49c6f6d359
+:END:
+- This is my personal TMUX config it is structured as a literate configuration.
+- Inspired by the methodology presented at [[https://leanpub.com/lit-config/read][Literate Configuration]].
+- This approach blends detailed documentation directly with the code, offering clear insights into the purpose and functionality of each configuration snippet, making it both user-friendly and easy to maintain.
+- Great video by DT Tube here on how to write literate configs:
+  - https://www.youtube.com/watch?v=eF4cJlBNtdQ&themeRefresh=1
+* Set Prefix
+:PROPERTIES:
+:ID:       84e72dac-18d7-4f9a-b2d7-753fe5fa9c94
+:END:
+- Set prefix to be CTRL + Space
+#+begin_src conf
+set-option -g prefix C-Space
+unbind-key C-b
+bind-key C-Space send-prefix
+#+end_src
+
+* Windows Control:
+:PROPERTIES:
+:ID:       88789791-f77f-45be-949c-b86a13ed9abd
+:END:
+** Set Window Splits:
+:PROPERTIES:
+:ID:       1bb981c0-f2e3-455f-8b46-0eac9a848270
+:END:
+- Set easier window split keys rebinds the split key to META + q & META + w
+#+begin_src conf
+bind -n M-q split-window -v
+bind -n M-w split-window -h
+#+end_src
+
+** Create New Window:
+:PROPERTIES:
+:ID:       6bc85b50-3d32-4727-be14-487d93f22e52
+:END:
+#+begin_src conf
+bind -n C-n new-window
+#+end_src
+
+** Navigate Windows:
+:PROPERTIES:
+:ID:       e948903e-cffa-466e-8b0e-320875292a8d
+:END:
+#+begin_src conf
+bind -n C-p next-window
+bind -n C-o previous-window
+#+end_src
+
+* Pane Control:
+:PROPERTIES:
+:ID:       ff4bb3a5-30ae-40c7-b812-339a1441ec41
+:END:
+** Close Panes Easily:
+:PROPERTIES:
+:ID:       364310fb-a0b9-4b4b-9f0a-cd9fe619e61d
+:END:
+- This will close panes and then eventually close the window.
+  - I never have more than 3 panes open at a time so this is fine.
+#+begin_src conf
+bind -n C-x kill-pane
+#+end_src
+
+** Easily Switch Panes Using VIM keybindings:
+:PROPERTIES:
+:ID:       06dc2895-bc81-4ff2-adbf-b3700fd9e9d7
+:END:
+- Use CTRL-arrow keys to switch panes
+#+begin_src conf
+bind -n C-h select-pane -L
+bind -n C-l select-pane -R
+bind -n C-k select-pane -U
+bind -n C-j select-pane -D
+#+end_src
+
+** Resize Panes Easily Using VIM Keybindings
+:PROPERTIES:
+:ID:       27b3a020-5917-451f-b523-2fd4d35e8782
+:END:
+#+begin_src conf
+bind -n M-h resize-pane -L 2
+bind -n M-l resize-pane -R 2
+bind -n M-k resize-pane -U 2
+bind -n M-j resize-pane -D 2
+#+end_src
+
+* Easily Reload Config:
+:PROPERTIES:
+:ID:       ff722f56-2e11-4652-8f9a-7a5ac59df9a8
+:END:
+- Easy config reload so all I have to do is LEADER + r
+#+begin_src conf
+bind-key r source-file ~/.tmux.conf \; display-message "~/.tmux.conf reloaded."
+#+end_src
+
+* Enable VIM like binds:
+:PROPERTIES:
+:ID:       d5b167d4-1870-4190-a6bc-083521170120
+:END:
+- Unsure if this is even necessary with the rest of my conf
+#+begin_src conf
+setw -g mode-keys vi
+#+end_src
+* Quality of Life Improvements:
+:PROPERTIES:
+:ID:       85581813-11cb-46d3-9954-6f9b798e728a
+:END:
+** Enable True Colour Support:
+:PROPERTIES:
+:ID:       864d1da7-5d72-47d9-904a-dd581fd5d05a
+:END:
+Enable true color support in xterm-compatible terminals, enhancing their color display capabilities
+#+begin_src conf
+set-option -sa terminal-overrides ",xterm*:Tc"
+#+end_src
+
+** Enable Mouse Support:
+:PROPERTIES:
+:ID:       72e3d8ce-efa6-44b7-a928-52c2ab04e4e4
+:END:
+- Mouse mode.
+#+begin_src conf
+setw -g mouse on
+#+end_src
+** Set status bar at top
+:PROPERTIES:
+:ID:       439c8794-683d-4489-bcf1-de94ab78fc9e
+:END:
+- I use doom emacs alot and that has modeline, I need a way for these two elements to be seperate. The easiest way is put it the top.
+#+begin_src conf
+set -g status-position top
+#+end_src
+
+** Address vim mode switching delay (http://superuser.com/a/252717/65504)
+:PROPERTIES:
+:ID:       73ef1e43-9792-4ced-bcae-66e8b54ed3c8
+:END:
+#+begin_src conf
+set -s escape-time 0
+#+end_src
+
+** Increase scrollback buffer size from 2000 to 50000 lines
+:PROPERTIES:
+:ID:       f7d291f1-f91a-45c9-b259-8e060f5dcebc
+:END:
+- I have a lot of output when I am running scans etc, this is useful.
+#+begin_src conf
+set -g history-limit 100000
+#+end_src
+
+** Increase tmux messages display duration from 750ms to 4s
+:PROPERTIES:
+:ID:       1c82475d-147f-49b4-ba9d-821cf3d7f9c5
+:END:
+- Don't miss a message, what can I say I am slow.
+#+begin_src conf
+set -g display-time 4000
+#+end_src
+
+** Refresh 'status-left' and 'status-right' more often, from every 15s to 5s
+:PROPERTIES:
+:ID:       a4e26cbf-4236-4528-b204-165d2223f08e
+:END:
+- This is good if displaying a clock etc so it shows real time seconds.
+#+begin_src conf
+set -g status-interval 1
+#+end_src
+
+** Upgrade $TERM
+:PROPERTIES:
+:ID:       8871a4b7-a749-4568-9281-8f48f0c4c8e6
+:END:
+- All the colors
+#+begin_src conf
+set -g default-terminal "screen-256color"
+#+end_src
+
+** Focus events enabled for terminals that support them
+:PROPERTIES:
+:ID:       e2c3b570-49b9-48fe-948f-685a45c9c5f9
+:END:
+#+begin_src conf
+set -g focus-events on
+#+end_src
+
+** Set Aggresive Resize:
+:PROPERTIES:
+:ID:       84f0b881-48e5-46c1-8c8a-da86907de795
+:END:
+- Wseful when using "grouped sessions" and multi-monitor setup.
+#+begin_src conf
+setw -g aggressive-resize on
+#+end_src
+
+* Plugins:
+:PROPERTIES:
+:ID:       249f14c8-fcfa-4523-bbc5-88be9dff2ab9
+:END:
+** Main Plugins To install:
+:PROPERTIES:
+:ID:       7de8fb54-9400-4765-b0d4-0f8b2b5ec7a2
+:END:
+#+begin_src conf
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'christoomey/vim-tmux-navigator'
+set -g @plugin 'jimeh/tmuxifier'
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-logging'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @plugin 'tmux-plugins/tmux-sessionist'
+set -g @plugin 'tmux-plugins/tmux-open'
+
+#+end_src
+
+** Enable Dracula Colour Theme:
+:PROPERTIES:
+:ID:       d4ecbf43-f96e-4de6-8027-353ef72a701c
+:END:
+#+begin_src conf
+set -g @plugin 'dracula/tmux'
+set -g @dracula-show-flags true
+set -g @dracula-show-left-icon session
+set -g @dracula-show-powerline true
+#+end_src
+
+** Initialize TMUX plugin manager (keep at bottom)
+:PROPERTIES:
+:ID:       1a42de68-c876-46e9-b8eb-ec44b4522a41
+:END:
+- This has to stay at the bottom of the whole config
+#+begin_src conf
+run '~/.tmux/plugins/tpm/tpm'
+#+end_src

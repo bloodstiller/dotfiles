@@ -1,0 +1,162 @@
+{
+
+    // Waybar at top layer:
+    "layer": "top",
+
+    // Waybar position (top|bottom|left|right):
+    "position": "top",
+
+    // Waybar height:
+    "height": 32, // Waybar height
+
+    // Modules-Left:
+    "modules-left": [
+        "custom/launcher",
+        // hyperland Variables When Using That
+         "hyprland/workspaces",
+         "hyprland/submap",
+        // sway Variables When Using That
+        // "sway/workspaces",
+        // "sway/submap",
+        "idle_inhibitor"
+    ],
+
+    // Modules-Center:
+    "modules-center": [
+    "disk",
+    ],
+
+    // Modules-Right:
+    "modules-right": [
+        "network",
+        "memory",
+        "temperature",
+        "cpu",
+        "pulseaudio",
+        "battery",
+        "clock",
+        "tray"
+        //"custom/PBPbattery",
+        //"backlight#icon",
+        //"backlight#value",
+        //"custom/keyboard-layout",
+        //"custom/weather",
+        //"custom/power",
+    ],
+
+     // Configure-Workspaces:
+     // hyperland (when using it uncomment)
+     "hyprland/workspaces": {
+     // sway (when using it uncomment)
+     // "sway/workspaces": {
+     "disable-scroll": false,
+     "active-only": false,
+     "disable-markup" : false,
+     "all-outputs": true,
+     "format": "  {icon}  ",
+     "format-icons": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "10": "",
+          "4": "",
+          "5": "",
+          "focused": "",
+          "default": ""
+         }
+     },
+
+     // hyprland Module Configuration (uncomment the one I am using)
+      "hyprland/mode": {
+     // Sway Module Configuration (uncomment the one I am using)
+     // "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+     },
+
+     // Idle Inhibitor Module Configuration:
+     "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "  No Sleep",
+            "deactivated": "  "
+        }
+     },
+
+     // Tray Module Configuration:
+     "tray": {
+         "icon-size": 15,
+         "spacing": 15
+     },
+
+     // Clock Module Configuration:
+     "clock": {
+         "format": "{:%Y-%m-%d %H:%M} ",
+         "on-click": "brave https://calendar.proton.me/u/2/month",
+         "Format-alt": "{:%Y-%m-%d} "
+     },
+
+     // CPU Module-Configuration:
+     "cpu": {
+         "interval": 5,
+         "format": " {usage}% used @ {avg_frequency}GHz", // Icon: microchip
+         "on-click": "alacritty -e 'btop'",
+         "states": {
+             "warning": 70,
+             "critical": 90,
+         },
+     },
+
+     // CPU Temprature Module Configuration:
+     "temperature": {
+          "thermal-zone": 2,
+         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+         "critical-threshold": 80,
+         // "format-critical": "{temperatureC}°C ",
+         "format": "{temperatureC}°C  "
+     },
+
+     // RAM Module Configuration:
+     "memory": {
+         "interval": 5,
+         "format": "Using {used}Gb of {total}Gb",
+         "on-click": "alacritty -e 'btop'",
+         "states": {
+             "warning": 80,
+             "critical": 95
+         }
+     },
+
+    // Network Module Configuration:
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-disconnected": "Disconnected ⚠ ",
+        "on-click": "gnome-nettool",
+        "interval" : 7
+    },
+
+    // Audio Module Configuration:
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon} ",
+        "format-bluetooth": "{volume}% {icon} ",
+        "format-muted": " ",
+        "on-click": "jamesdsp",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "default": ["", ""]
+            }
+     },
+
+    // Disk Settings Module Configuration:
+        "disk": {
+            "path": "/",
+            "format": "{free} free in ~{path}",
+            "on-click": "gnome-disks",
+            "interval": 30,
+    }
+
+}

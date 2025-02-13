@@ -1,7 +1,0 @@
-# BEGIN_KITTY_THEME
-# Dracula
-#include current-theme.conf
-# END_KITTY_THEME
-font_family JetBrains Mono
-font_size 13.0
-window_padding_width 7

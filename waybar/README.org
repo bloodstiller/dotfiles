@@ -1,0 +1,387 @@
+#+TITLE: Waybar Config
+#+AUTHOR: MDB Dev
+#+DESCRIPTION: Personal waybar Config
+#+auto_tangle: t
+#+STARTUP: showeverything
+* TOC: :TOC:
+:PROPERTIES:
+:ID:       fc50f8cb-fb96-4c14-8cd2-c6e4f9059c25
+:END:
+- [[#literate-config][Literate Config:]]
+- [[#desktop-configuration][Desktop Configuration:]]
+  - [[#opening-bracket][Opening Bracket:]]
+  - [[#module-positions][Module Positions:]]
+  - [[#module-configurations][Module Configurations:]]
+  - [[#closing-bracket][Closing Bracket:]]
+- [[#laptop-configuration][Laptop Configuration:]]
+  - [[#laptop-battery-module-configuration][Laptop-Battery-Module-Configuration:]]
+
+* Literate Config:
+:PROPERTIES:
+:ID:       6f08e094-c0f0-4871-9faa-2e49c6f6d359
+:END:
+- This is my personal Waybar config it is structured as a literate configuration.
+- Inspired by the methodology presented at [[https://leanpub.com/lit-config/read][Literate Configuration]].
+- This approach blends detailed documentation directly with the code, offering clear insights into the purpose and functionality of each configuration snippet, making it both user-friendly and easy to maintain.
+- Great video by DT Tube here on how to write literate configs:
+  - https://www.youtube.com/watch?v=eF4cJlBNtdQ&themeRefresh=1
+* Desktop Configuration:
+:PROPERTIES:
+:ID:       0fc9e585-b145-4577-8d54-d126fb1d5278
+:END:
+:PROPERTIES:
+:ID:       e820e8f3-817f-4414-9b8a-e1b3c6275ec0
+#+PROPERTY: header-args :tangle /home/martin/.config/waybar/config
+:END:
+** Opening Bracket:
+:PROPERTIES:
+:ID:       7dcc60df-f55e-4b39-945d-8df9ee5ad27f
+:END:
+#+NAME: Opening-Bracket:
+- Seems strange I know. But I find it easier to edit this format if I completely remove the openieng and closing brackets. This way I can move blocks within easier.
+#+begin_src conf
+{
+#+end_src
+
+*** Basic Configuration:
+:PROPERTIES:
+:ID:       090a80c2-5850-424b-848e-9a13a29c4845
+:END:
+**** Set Waybar Layer:
+:PROPERTIES:
+:ID:       472876e6-9bb7-4ba3-b1d8-7819a3764e7a
+:END:
+#+NAME: Waybar-Layer
+#+begin_src conf
+    // Waybar at top layer:
+    "layer": "top",
+#+end_src
+**** Set Waybar Position:
+:PROPERTIES:
+:ID:       bef07a38-94b7-4142-aca2-70474ad74d1a
+:END:
+#+NAME: Waybar-Position
+#+begin_src conf
+    // Waybar position (top|bottom|left|right):
+    "position": "top",
+#+end_src
+**** Set Waybar height:
+:PROPERTIES:
+:ID:       51a6bc66-fb3a-465a-b83c-2a327a1a7760
+:END:
+#+NAME: Waybar-Height
+#+begin_src conf
+    // Waybar height:
+    "height": 32, // Waybar height
+#+end_src
+
+** Module Positions:
+:PROPERTIES:
+:ID:       56522153-02ce-48a4-8300-acb6146ca9ed
+:END:
+*** Modules - Left:
+:PROPERTIES:
+:ID:       9fa00ad9-7839-408a-a6d4-2cb97798a21c
+:END:
+#+NAME: Modules-Left
+#+begin_src conf
+    // Modules-Left:
+    "modules-left": [
+        "custom/launcher",
+        // hyperland Variables When Using That
+         "hyprland/workspaces",
+         "hyprland/submap",
+        // sway Variables When Using That
+        // "sway/workspaces",
+        // "sway/submap",
+        "idle_inhibitor"
+    ],
+#+end_src
+
+*** Modules - Center:
+:PROPERTIES:
+:ID:       4b3e634d-73e1-4485-b753-ef4c51107745
+:END:
+:PROPERTIES:
+:ID:       2b7cb82a-4aa6-49c9-93ba-39588e08626b
+#+NAME: Modules-Center
+#+begin_src conf
+    // Modules-Center:
+    "modules-center": [
+    "disk",
+    ],
+#+end_src
+*** Modules - Right:
+:PROPERTIES:
+:ID:       08edae0c-5deb-49fa-987a-ead12b660932
+:END:
+#+NAME: Modules-Right
+#+begin_src conf
+    // Modules-Right:
+    "modules-right": [
+        "network",
+        "memory",
+        "temperature",
+        "cpu",
+        "pulseaudio",
+        "battery",
+        "clock",
+        "tray"
+        //"custom/PBPbattery",
+        //"backlight#icon",
+        //"backlight#value",
+        //"custom/keyboard-layout",
+        //"custom/weather",
+        //"custom/power",
+    ],
+
+#+end_src
+** Module Configurations:
+:PROPERTIES:
+:ID:       574b7fb9-247f-4fb4-837c-5a83f98ab8d7
+:END:
+*** Workspace Configuration:
+:PROPERTIES:
+:ID:       c3291d70-6cf4-4d2b-8517-30ef7d83370a
+:END:
+#+NAME: Workspace-Configuration
+#+begin_src conf
+     // Configure-Workspaces:
+     // hyperland (when using it uncomment)
+     "hyprland/workspaces": {
+     // sway (when using it uncomment)
+     // "sway/workspaces": {
+     "disable-scroll": false,
+     "active-only": false,
+     "disable-markup" : false,
+     "all-outputs": true,
+     "format": "  {icon}  ",
+     "format-icons": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "10": "",
+          "4": "",
+          "5": "",
+          "focused": "",
+          "default": ""
+         }
+     },
+#+end_src
+*** Hyperland/Sway Module Configuration:
+:PROPERTIES:
+:ID:       e8f456ad-a4e9-400e-bcd6-f90695a5b234
+:END:
+#+NAME: Hyperland-Configuration
+#+begin_src conf
+     // hyprland Module Configuration (uncomment the one I am using)
+      "hyprland/mode": {
+     // Sway Module Configuration (uncomment the one I am using)
+     // "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+     },
+#+end_src
+*** Idle Inhibitor Module Configuration:
+:PROPERTIES:
+:ID:       932a4986-25bf-4fbb-9689-6d24fa1adf5c
+:END:
+#+NAME: Idle-Inhibitor-Module-Configuration
+#+begin_src conf
+     // Idle Inhibitor Module Configuration:
+     "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "  No Sleep",
+            "deactivated": "  "
+        }
+     },
+
+#+end_src
+*** Tray Module Configuration:
+:PROPERTIES:
+:ID:       147582c4-2d2a-4f07-90ad-1ae292a47034
+:END:
+#+NAME: Tray-Module-Configuration
+#+begin_src conf
+     // Tray Module Configuration:
+     "tray": {
+         "icon-size": 15,
+         "spacing": 15
+     },
+#+end_src
+*** Clock Module Configuration:
+:PROPERTIES:
+:ID:       5d95dc74-b1af-4a32-90cf-a6001f1c9d75
+:END:
+#+NAME: Clock-Module-Configuration
+#+begin_src conf
+     // Clock Module Configuration:
+     "clock": {
+         "format": "{:%Y-%m-%d %H:%M} ",
+         "on-click": "brave https://calendar.proton.me/u/2/month",
+         "Format-alt": "{:%Y-%m-%d} "
+     },
+#+end_src
+*** CPU Module Configuration:
+:PROPERTIES:
+:ID:       dfac6301-b06b-4cc1-80c4-9acfd1aa0981
+:END:
+#+NAME: CPU-Module-Configuration
+#+begin_src conf
+     // CPU Module-Configuration:
+     "cpu": {
+         "interval": 5,
+         "format": " {usage}% used @ {avg_frequency}GHz", // Icon: microchip
+         "on-click": "alacritty -e 'btop'",
+         "states": {
+             "warning": 70,
+             "critical": 90,
+         },
+     },
+#+end_src
+*** CPU Temprature Module Configuration:
+:PROPERTIES:
+:ID:       ba07b333-f130-4371-a732-9d6dc499e7d9
+:END:
+#+NAME: CPU-Temprature-Module-Configuration
+#+begin_src conf
+     // CPU Temprature Module Configuration:
+     "temperature": {
+          "thermal-zone": 2,
+         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+         "critical-threshold": 80,
+         // "format-critical": "{temperatureC}°C ",
+         "format": "{temperatureC}°C  "
+     },
+#+end_src
+*** RAM Module Configuration:
+:PROPERTIES:
+:ID:       1d04b29b-e2eb-4f27-be6b-23f0fc95a126
+:END:
+#+NAME: RAM-Module-Configuration
+#+begin_src conf
+     // RAM Module Configuration:
+     "memory": {
+         "interval": 5,
+         "format": "Using {used}Gb of {total}Gb",
+         "on-click": "alacritty -e 'btop'",
+         "states": {
+             "warning": 80,
+             "critical": 95
+         }
+     },
+#+end_src
+*** Network Module Configuration:
+:PROPERTIES:
+:ID:       3c0bb56f-caa5-471c-8c32-dd974cac0720
+:END:
+#+NAME: Network-Module-Configuration
+#+begin_src conf
+    // Network Module Configuration:
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-disconnected": "Disconnected ⚠ ",
+        "on-click": "gnome-nettool",
+        "interval" : 7
+    },
+#+end_src
+
+*** Audio Module Configuration:
+:PROPERTIES:
+:ID:       fbc04ee2-4160-41d9-a9da-53799602e1de
+:END:
+#+NAME: Audio-Module-Configuration
+#+begin_src conf
+    // Audio Module Configuration:
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon} ",
+        "format-bluetooth": "{volume}% {icon} ",
+        "format-muted": " ",
+        "on-click": "jamesdsp",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "default": ["", ""]
+            }
+     },
+#+end_src
+*** Disk Settings Module Configuration:
+:PROPERTIES:
+:ID:       3ccbf699-ab0c-416b-83ec-c831b4f1b1a3
+:END:
+#+NAME: Disk-Settings-Module-Configuration
+#+begin_src conf
+    // Disk Settings Module Configuration:
+        "disk": {
+            "path": "/",
+            "format": "{free} free in ~{path}",
+            "on-click": "gnome-disks",
+            "interval": 30,
+    }
+#+end_src
+** Closing Bracket:
+:PROPERTIES:
+:ID:       92ba0aeb-c65d-4164-99b3-af85e43b09ec
+:END:
+#+NAME: Closing-Bracket:
+#+begin_src conf
+}
+#+end_src
+* Laptop Configuration:
+:PROPERTIES:
+:ID:       f90eafbd-3099-4bbe-aeda-550f87c3bcf3
+:header-args: :tangle /home/martin/.config/waybar/laptopConfig
+:END:
+
+- My laptop configuration is nearly identical to my desktop configuration bar a battery display.
+  - Due to this being a literate config, I can reference all previous blocks whilst inserting the battery configuration I want. This enables me not to have nearly duplicate literate configs.
+** Laptop-Battery-Module-Configuration:
+:PROPERTIES:
+:ID:       ab131eb2-e032-40e7-a845-bb9c87c0e7f3
+:END:
+#+NAME: Laptop-Battery-Module-Configuration
+#+begin_src conf
+    // Battery Module Configuration:
+    "battery": {
+           "states": {
+                "warning": 30,
+                "critical": 15
+          },
+          "format": "{icon} {capacity}%",
+          "format-charging": " {capacity}%",
+          "format-plugged": " {capacity}%",
+          "format-alt": "{time} {icon}",
+          "format-full": " {capacity}%",
+          "format-icons": ["", "", ""]
+    },
+    "custom/PBPbattery": {
+        "exec": "~/.config/waybar/scripts/PBPbattery.sh",
+        "format": "{}",
+    },
+#+end_src
+
+#+begin_src conf :noweb yes
+<<Opening-Bracket>>
+<<Waybar-Layer>>
+<<Waybar-Position>>
+<<Waybar-Height>>
+<<Modules-Left>>
+<<Modules-Center>>
+<<Modules-Right>>
+<<Workspace-Configuration>>
+<<Hyprland-Module-Configuration>>
+<<Tray-Module-Configuration>>
+<<Clock-Module-Configuration>>
+<<CPU-Module-Configuration>>
+<<CPU-Temprature-Module-Configuration>>
+<<RAM-Module-Configuration>>
+<<Network-Module-Configuration>>
+<<Audio-Module-Configuration>>
+<<Laptop-Battery-Module-Configuration>>
+<<Disk-Settings-Module-Configuration>>
+<<Closing-Bracket>>
+#+end_src
