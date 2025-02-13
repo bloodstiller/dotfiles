@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   cursor = pkgs.callPackage ./packages/cursor.nix {};
@@ -26,17 +26,16 @@ in
       ansible
       vagrant
       
+      # Terminal
+      oh-my-zsh
+
       # System Tools
       btop
       tmux
       
       # Fonts
-      (nerd-fonts.override {
-        fonts = [
-          "JetBrainsMono"
-          "Iosevka"
-        ];
-      })
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
       
       # Applications
       dropbox
@@ -75,8 +74,21 @@ in
     # ZSH Configuration
     zsh = {
       enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
       enableCompletion = true;
       
+      # Add (this is done as otherwise nix will overwrite with the default aliases) 
+      shellAliases = {
+        ls = "eza -T -L=1 -a -B -h -l -g --icons";
+        lsl = "eza -T -L=2 -a -B -h -l -g --icons";
+        lss = "eza -T -L=1 -B -h -l -g --icons";
+        cat = "bat";
+        history = "history 0";
+        host-update = "sudo nixos-rebuild switch";
+        home-update = "home-manager switch";
+      };
+
       plugins = [
         {
           name = "zsh-autosuggestions";
@@ -100,20 +112,30 @@ in
 
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "history" "tmux" ];
+        plugins = [ 
+          "git" 
+          "history" 
+          "tmux" 
+          "history" 
+          "docker-compose"
+        ];
         theme = "robbyrussell";
       };
-
+      
+      # Add custom.zsh to zsh config to source my custom zshrc
       initExtra = ''
-        if [ -f "${config.home.homeDirectory}/.dotfiles/zsh/.zshrc" ]; then
-          echo "Loading custom zshrc..."
-          source "${config.home.homeDirectory}/.dotfiles/zsh/.zshrc"
+        if [ -f "${config.home.homeDirectory}/.config/zsh/custom.zsh" ]; then
+          source "${config.home.homeDirectory}/.config/zsh/custom.zsh"
         fi
       '';
     };
 
     # Terminal Emulators
-    alacritty.enable = true;
+    alacritty = {
+      enable = true;
+    };
+
+    # For hyprland
     kitty.enable = true;
 
     # Development Tools
@@ -234,7 +256,7 @@ in
     };
 
     # Shell Config
-    ".zshrc".source = ~/.dotfiles/zsh/.zshrc;
+    #".zshrc".source = ~/.dotfiles/zsh/.zshrc;
     ".config/starship.toml".source = ~/.dotfiles/starship/starship.toml;
 
     # Window Manager Config
@@ -270,6 +292,10 @@ in
       source = ~/.dotfiles/zsh;
       recursive = true;
     };
+
+    # Add custom.zsh to managed files
+    ".config/zsh/custom.zsh".source = ~/.dotfiles/zsh/custom.zsh;
+
   };
 
   # Service Configuration
