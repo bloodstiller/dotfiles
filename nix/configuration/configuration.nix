@@ -4,16 +4,21 @@
 
 { config, pkgs, ... }:
 
+
 let
   # Use unstable channel
   unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
 in
+
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix"
+      ./packages/PIA/pia.nix
     ];
+
+  # Enable experimental features/flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -96,19 +101,13 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -117,13 +116,12 @@ in
   users.defaultUserShell = pkgs.zsh;  
 
   # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.martin = {
+  users.users.martin ={
     isNormalUser = true;
     description = "martin";
     extraGroups = [ "networkmanager" "wheel" "docker" "ssl-cert" "libvirtd" "kvm" ];
     useDefaultShell = true;
     packages = with pkgs; [
-    (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
     ];
   };
   users.users.martin.openssh.authorizedKeys.keys = [
@@ -255,16 +253,15 @@ in
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
+
 
   # System-wide font configuration
   fonts = {
     fontDir.enable = true;
     enableDefaultPackages = true;
     packages = with pkgs; [
-      nerd-fonts.fira-code
-      nerd-fonts.jetbrains-mono
-      nerd-fonts.iosevka
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
     ];
   };
 

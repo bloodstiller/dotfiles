@@ -8,7 +8,6 @@ in
   home = {
     username = "martin";
     homeDirectory = "/home/martin";
-    stateVersion = "25.05";
     
     # Session Variables
     sessionVariables = {
@@ -241,7 +240,7 @@ in
       owner = "tmux-plugins";
       repo = "tpm";
       rev = "99469c4a9b1ccf77fade25842dc7bafbc8ce9946";
-      sha256 = "hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+      sha56 = "hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
     };
 
     # Config Files
