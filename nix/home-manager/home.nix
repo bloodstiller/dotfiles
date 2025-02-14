@@ -4,6 +4,9 @@ let
   cursor = pkgs.callPackage ./packages/cursor.nix {};
 in
 {
+  # Set Home Manager State Version
+  home.stateVersion = "24.11";
+
   # Basic Home Manager Configuration
   home = {
     username = "martin";
@@ -31,10 +34,12 @@ in
       # System Tools
       btop
       tmux
+      sops
+      age
+      agenix-cli
       
       # Fonts
-      nerd-fonts.jetbrains-mono
-      nerd-fonts.iosevka
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
       
       # Applications
       dropbox
@@ -62,6 +67,8 @@ in
       
       # Custom Packages
       cursor
+
+      # Imported from pyprland flake (does not expose a normal output just a flake input)
     ];
   };
 
@@ -163,10 +170,17 @@ in
 
       includes = [{
         condition = "gitdir:~/.config/work/";
-        contents = {
+        contents = let
+          credentials = builtins.readFile config.age.secrets.git-credentials.path;
+          # Parse the credentials file content
+          parsedCredentials = builtins.fromJSON (builtins.toJSON {
+            work_email = builtins.match "work_email=(.*)" credentials;
+            work_name = builtins.match "work_name=(.*)" credentials;
+          });
+        in {
           user = {
-            email = "mbarker@babblevoice.com";
-            name = "Martin Barker";
+            email = parsedCredentials.work_email;
+            name = parsedCredentials.work_name;
           };
         };
       }];
@@ -240,7 +254,7 @@ in
       owner = "tmux-plugins";
       repo = "tpm";
       rev = "99469c4a9b1ccf77fade25842dc7bafbc8ce9946";
-      sha56 = "hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+      sha256 = "hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
     };
 
     # Config Files
@@ -311,11 +325,25 @@ in
     };
   };
 
+  # Conditionally enable Dunst only when using Hyprland
+  services.dunst = {
+    enable = true;
+    # Only start Dunst if we're in a Hyprland session
+    waylandDisplay = "wayland-1";
+  };
+
   # Enable Services
-  services.dunst.enable = true;
   programs = {
     wofi.enable = true;
     waybar.enable = true;
     home-manager.enable = true;
   };
+
+  age.secrets.git-credentials = {
+    file = ../secrets/git-credentials.age;
+    owner = "martin";  # replace with your username
+    group = "users";
+    mode = "0400";
+  };
 }
+

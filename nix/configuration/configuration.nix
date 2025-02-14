@@ -61,6 +61,10 @@ in
   };
 
 
+  environment.variables = {
+    EDITOR = "vim";
+  };
+
   # Enable XRDP with XFCE
   services.xrdp = {
     enable = true;
@@ -311,9 +315,14 @@ boot.binfmt.registrations.appimage = {
   magicOrExtension = ''\x7fELF....AI\x02'';
 };
 
-  services.openvpn.servers = {
-    DedicatedIP  = { config = '' config /home/martin/.ovpenvpn/Dedicated.ovpn ''; };
-    #homeVPN    = { config = '' config /root/nixos/openvpn/homeVPN.conf ''; };
-    #serverVPN  = { config = '' config /root/nixos/openvpn/serverVPN.conf ''; };
+  age.secrets.pia-credentials = {
+    file = ./secrets/pia-credentials.age;
+  };
+
+  # Add this configuration block
+  services.pia = {
+    enable = true;
+    # Pass credentials from secrets
+    authUserPassFile = config.age.secrets.pia-credentials.path;
   };
 }

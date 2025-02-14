@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Add PIA
     pia = {
       url = "github:Fuwn/pia.nix";
@@ -24,14 +29,20 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, pia, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, ... }@inputs: {
     # Please replace nixos with your hostname
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        agenix.nixosModules.age  # Add agenix module here
-        pia.nixosModules."x86_64-linux".default  # Add PIA module
+        agenix.nixosModules.age
+        pia.nixosModules."x86_64-linux".default
+        sops-nix.nixosModules.sops
+
+        # Add agenix CLI using the system variable
+        {
+          environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
+        }
       ];
     };
   };
