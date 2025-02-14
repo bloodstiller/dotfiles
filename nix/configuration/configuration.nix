@@ -315,14 +315,14 @@ boot.binfmt.registrations.appimage = {
   magicOrExtension = ''\x7fELF....AI\x02'';
 };
 
-  age.secrets.pia-credentials = {
-    file = ./secrets/pia-credentials.age;
-  };
+  #age.secrets.pia-credentials = {
+    #file = ./secrets/pia-credentials.age;
+  #};
 
-  # Add this configuration block
-  services.pia = {
-    enable = true;
-    # Pass credentials from secrets
-    authUserPassFile = config.age.secrets.pia-credentials.path;
-  };
+  ## Add this configuration block
+  #services.pia = {
+    #enable = true;
+    ## Pass credentials from secrets
+    #authUserPassFile = config.age.secrets.pia-credentials.path;
+  #};
 }

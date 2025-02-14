@@ -3,7 +3,7 @@ let
   users = [ user1 ];
 
   server1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ64hmKzG5GEqcGotpLkqDmpKXY0puOxrTHNkU/IhJ2f root@nixos";
-  vm = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPDl967NTSJ1YZcYSrl6I8iucTK7Chi5lf40amwdX9 root@nixos "
+  vm = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPDl967NTSJ1YZcYSrl6I8iucTK7Chi5lf40amwdX9 root@nixos ";
   systems = [ server1 vm ];
 
 in

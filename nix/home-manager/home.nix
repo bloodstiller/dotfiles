@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
-  cursor = pkgs.callPackage ./packages/cursor.nix {};
+  cursor = pkgs.callPackage ./packages/cursor/cursor.nix {};
 in
 {
   # Set Home Manager State Version
@@ -339,11 +339,20 @@ in
     home-manager.enable = true;
   };
 
-  age.secrets.git-credentials = {
-    file = ../secrets/git-credentials.age;
-    owner = "martin";  # replace with your username
-    group = "users";
-    mode = "0400";
+  # Add sops-nix configuration
+  sops = {
+    defaultSopsFile = ../sops/secrets.yaml;
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
   };
+
+  # Update the age.secrets section
+  #age.secrets = {
+    #git-credentials = {
+      #file = ../secrets/git-credentials.age;
+      #owner = "martin";
+      #group = "users";
+      #mode = "0400";
+    #};
+  #};
 }
 

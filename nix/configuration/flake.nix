@@ -29,7 +29,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, agenix, pia, sops, ... }@inputs: {
     # Please replace nixos with your hostname
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -37,7 +37,7 @@
         ./configuration.nix
         agenix.nixosModules.age
         pia.nixosModules."x86_64-linux".default
-        sops-nix.nixosModules.sops
+        sops.nixosModules.sops
 
         # Add agenix CLI using the system variable
         {
