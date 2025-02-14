@@ -30,7 +30,6 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        ./packages/pia.nix
         agenix.nixosModules.age  # Add agenix module here
         pia.nixosModules."x86_64-linux".default  # Add PIA module
       ];

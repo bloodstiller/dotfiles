@@ -14,7 +14,6 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./packages/PIA/pia.nix
     ];
 
   # Enable experimental features/flakes
@@ -311,4 +310,10 @@ boot.binfmt.registrations.appimage = {
   mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
   magicOrExtension = ''\x7fELF....AI\x02'';
 };
+
+  services.openvpn.servers = {
+    DedicatedIP  = { config = '' config /home/martin/.ovpenvpn/Dedicated.ovpn ''; };
+    #homeVPN    = { config = '' config /root/nixos/openvpn/homeVPN.conf ''; };
+    #serverVPN  = { config = '' config /root/nixos/openvpn/serverVPN.conf ''; };
+  };
 }
