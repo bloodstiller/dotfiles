@@ -378,6 +378,7 @@ in
     waybar.enable = true;
   };
 
+
   ## Add sops-nix configuration
   sops = {
     age.keyFile = "/home/martin/.config/sops/age/keys.txt";
@@ -387,6 +388,9 @@ in
 
     secrets.work_email = {
       path = "${config.sops.defaultSymlinkPath}/work_email";
+    };
+    secrets.pia = {
+      path = "${config.sops.defaultSymlinkPath}/pia";
     };
   };
   

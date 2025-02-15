@@ -42,6 +42,9 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Enable TUN/TAP devices for VPN
+  boot.kernelModules = [ "tun" ];
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -315,14 +318,20 @@ boot.binfmt.registrations.appimage = {
   magicOrExtension = ''\x7fELF....AI\x02'';
 };
 
-  #age.secrets.pia-credentials = {
-    #file = ./secrets/pia-credentials.age;
-  #};
+# Enable DNS resolution (required for VPN)
+services.resolved.enable = true;
 
-  ## Add this configuration block
-  #services.pia = {
-    #enable = true;
-    ## Pass credentials from secrets
-    #authUserPassFile = config.age.secrets.pia-credentials.path;
-  #};
+# Sops configuration. This format is correct and works. It differs from the home-manager format.
+sops = {
+  defaultSopsFile = ./home-manager/secrets/secrets.yaml;
+  age.keyFile = "/home/martin/.config/sops/age/keys.txt";
+  secrets.pia = {};
+};
+
+## Add this configuration block
+services.pia = {
+  enable = true;
+  ## Pass credentials from secrets
+  authUserPassFile = config.sops.secrets.pia.path;
+};
 }
