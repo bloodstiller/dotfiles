@@ -165,6 +165,9 @@ in
     wget
     git
     nfs-utils
+    jq
+    wireguard-tools
+    curl
     rsync
     acl
     kitty
@@ -323,7 +326,7 @@ services.resolved.enable = true;
 
 # Sops configuration. This format is correct and works. It differs from the home-manager format.
 sops = {
-  defaultSopsFile = ./home-manager/secrets/secrets.yaml;
+  defaultSopsFile = ./home-manager/sops/secrets.yaml;
   age.keyFile = "/home/martin/.config/sops/age/keys.txt";
   secrets.pia = {};
 };
