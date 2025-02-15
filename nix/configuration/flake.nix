@@ -14,7 +14,7 @@
     # Add agenix as an input
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkg";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sops-nix = {
@@ -46,7 +46,10 @@
             extraSpecialArgs = {
               inherit inputs;
             };
-            users.martin = import ./home-manager/home.nix;
+            users.martin = import ./home.nix;
+            sharedModules = [
+              inputs.sops-nix.homeManagerModules.sops
+            ];
           };
         }
         {

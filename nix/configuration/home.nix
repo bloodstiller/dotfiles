@@ -71,16 +71,6 @@ in
       nmap # A utility for network discovery and security auditing
       ipcalc  # it is a calculator for the IPv4/v6 addresses
 
-      # misc
-      cowsay
-      file
-      which
-      tree
-      gnused
-      gnutar
-      gawk
-      zstd
-      gnupg 
 
       # Virtualization
       virt-manager
@@ -97,7 +87,16 @@ in
       iftop # network monitoring
       eza # A modern replacement for 'ls'
       fzf # A command-line fuzzy finder     
-     
+      cowsay
+      file
+      which
+      tree
+      gnused
+      gnutar
+      gawk
+      zstd
+      gnupg 
+      sops
      
       # system call monitoring
       strace # system call monitoring
@@ -174,6 +173,7 @@ in
         if [ -f "~/.config/zsh/custom.zsh" ]; then
           source "~/.config/zsh/custom.zsh"
         fi
+        export WORK_EMAIL=$(cat ${config.sops.secrets.work_email.path})
       '';
     };
 
@@ -379,11 +379,17 @@ in
   };
 
   ## Add sops-nix configuration
-  #sops = {
-    #defaultSopsFile = ../../ps/secrets.yaml;
-    #age.keyFile = "~/.config/sops/age/keys.txt";
-  #};
+  sops = {
+    age.keyFile = "/home/martin/.config/sops/age/keys.txt";
+    defaultSopsFile = ./home-manager/sops/secrets.yaml;
+    defaultSymlinkPath = "/run/user/1000/secrets";
+    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
 
+    secrets.work_email = {
+      path = "${config.sops.defaultSymlinkPath}/work_email";
+    };
+  };
+  
   # Update the age.secrets section
   #age.secrets = {
     #git-credentials = {
@@ -394,6 +400,6 @@ in
       #mode = "0400";
     #};
   #};
-
 }
+
 
