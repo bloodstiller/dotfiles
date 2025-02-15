@@ -1,11 +1,14 @@
 { config, pkgs, inputs, ... }:
 
 let
-  cursor = pkgs.callPackage ./packages/cursor/cursor.nix {};
+  cursor = pkgs.callPackage ./packages/cursor.nix {};
 in
 {
   # Set Home Manager State Version
   home.stateVersion = "24.11";
+
+  # Let home Manager install and manage itself.
+  programs.home-manager.enable = true;
 
   # Basic Home Manager Configuration
   home = {
@@ -31,13 +34,6 @@ in
       # Terminal
       oh-my-zsh
 
-      # System Tools
-      btop
-      tmux
-      sops
-      age
-      agenix-cli
-      
       # Fonts
       (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
       
@@ -58,10 +54,55 @@ in
         virtualenv
         poetry-core
       ]))
-      
+ 
+      # archives
+      zip
+      xz
+      unzip
+      p7zip
+
+      # networking tools
+      mtr # A network diagnostic tool
+      iperf3
+      dnsutils  # `dig` + `nslookup`
+      ldns # replacement of `dig`, it provide the command `drill`
+      aria2 # A lightweight multi-protocol & multi-source command-line download utility
+      socat # replacement of openbsd-netcat
+      nmap # A utility for network discovery and security auditing
+      ipcalc  # it is a calculator for the IPv4/v6 addresses
+
+      # misc
+      cowsay
+      file
+      which
+      tree
+      gnused
+      gnutar
+      gawk
+      zstd
+      gnupg 
+
       # Virtualization
       virt-manager
-      
+      # productivity
+
+      hugo # static site generator
+      glow # markdown previewer in terminal
+
+      # System Tools
+      tmux
+      age
+      btop  # replacement of htop/nmon
+      iotop # io monitoring
+      iftop # network monitoring
+      eza # A modern replacement for 'ls'
+      fzf # A command-line fuzzy finder     
+     
+     
+      # system call monitoring
+      strace # system call monitoring
+      ltrace # library call monitoring
+      lsof # list open files 
       # Audio
       jamesdsp
       
@@ -130,8 +171,8 @@ in
       
       # Add custom.zsh to zsh config to source my custom zshrc
       initExtra = ''
-        if [ -f "${config.home.homeDirectory}/.config/zsh/custom.zsh" ]; then
-          source "${config.home.homeDirectory}/.config/zsh/custom.zsh"
+        if [ -f "~/.config/zsh/custom.zsh" ]; then
+          source "~/.config/zsh/custom.zsh"
         fi
       '';
     };
@@ -168,22 +209,22 @@ in
         credential.helper = "store";
       };
 
-      includes = [{
-        condition = "gitdir:~/.config/work/";
-        contents = let
-          credentials = builtins.readFile config.age.secrets.git-credentials.path;
-          # Parse the credentials file content
-          parsedCredentials = builtins.fromJSON (builtins.toJSON {
-            work_email = builtins.match "work_email=(.*)" credentials;
-            work_name = builtins.match "work_name=(.*)" credentials;
-          });
-        in {
-          user = {
-            email = parsedCredentials.work_email;
-            name = parsedCredentials.work_name;
-          };
-        };
-      }];
+      #includes = [{
+        #condition = "gitdir:~/.config/work/";
+        #contents = let
+          #credentials = builtins.readFile config.age.secrets.git-credentials.path;
+          ## Parse the credentials file content
+          #parsedCredentials = builtins.fromJSON (builtins.toJSON {
+            #work_email = builtins.match "work_email=(.*)" credentials;
+            #work_name = builtins.match "work_name=(.*)" credentials;
+          #});
+        #in {
+          #user = {
+            #email = parsedCredentials.work_email;
+            #name = parsedCredentials.work_name;
+          #};
+        #};
+      #}];
     };
 
     # Tmux Configuration
@@ -194,7 +235,7 @@ in
       ];
       
       extraConfig = ''
-        source ${config.home.homeDirectory}/.dotfiles/tmux/.tmux.conf
+        source ../../ux/.tmux.conf
         
         set -g @plugin 'tmux-plugins/tpm'
         set -g @plugin 'tmux-plugins/tmux-sensible'
@@ -259,55 +300,54 @@ in
 
     # Config Files
     ".config/doom" = {
-      source = ~/.dotfiles/doom;
+      source = ../../doom;
       recursive = true;
     };
     
     ".config/alacritty" = {
-      source = ~/.dotfiles/alacritty;
+      source = ../../alacritty;
       recursive = true;
     };
 
     # Shell Config
-    #".zshrc".source = ~/.dotfiles/zsh/.zshrc;
-    ".config/starship.toml".source = ~/.dotfiles/starship/starship.toml;
+    ".config/starship.toml".source = ../../starship/starship.toml;
 
     # Window Manager Config
     ".config/hypr" = {
-      source = ~/.dotfiles/hypr;
+      source = ../../hypr;
       recursive = true;
     };
 
     # Application Config
     ".config/dunst" = {
-      source = ~/.dotfiles/dunst;
+      source = ../../dunst;
       recursive = true;
     };
     
     ".config/wofi" = {
-      source = ~/.dotfiles/wofi;
+      source = ../../wofi;
       recursive = true;
     };
     
     ".config/waybar" = {
-      source = ~/.dotfiles/waybar;
+      source = ../../waybar;
       recursive = true;
     };
 
     # Scripts
     ".config/scripts" = {
-      source = ~/.dotfiles/scripts;
+      source = ../../scripts;
       executable = true;
     };
 
     # ZSH Config Directory
     ".config/zsh" = {
-      source = ~/.dotfiles/zsh;
+      source = ../../zsh;
       recursive = true;
     };
 
     # Add custom.zsh to managed files
-    ".config/zsh/custom.zsh".source = ~/.dotfiles/zsh/custom.zsh;
+    ".config/zsh/custom.zsh".source = ../../zsh/custom.zsh;
 
   };
 
@@ -336,23 +376,24 @@ in
   programs = {
     wofi.enable = true;
     waybar.enable = true;
-    home-manager.enable = true;
   };
 
-  # Add sops-nix configuration
-  sops = {
-    defaultSopsFile = ../sops/secrets.yaml;
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-  };
+  ## Add sops-nix configuration
+  #sops = {
+    #defaultSopsFile = ../../ps/secrets.yaml;
+    #age.keyFile = "~/.config/sops/age/keys.txt";
+  #};
 
   # Update the age.secrets section
   #age.secrets = {
     #git-credentials = {
-      #file = ../secrets/git-credentials.age;
+
+      #file = ../../crets/git-credentials.age;
       #owner = "martin";
       #group = "users";
       #mode = "0400";
     #};
   #};
+
 }
 

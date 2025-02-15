@@ -1,5 +1,5 @@
 {
-  description = "A simple NixOS flake";
+  description = "Laptop configuration";
 
   inputs = {
     # NixOS official package source, using the nixos-24.11 branch here
@@ -8,16 +8,16 @@
     # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";  # Follows stable nixpkgs by default
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Add agenix as an input
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkg";
     };
 
-    sops = {
+    sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -29,17 +29,26 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, pia, sops, ... }@inputs: {
-    # Please replace nixos with your hostname
+  outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
         agenix.nixosModules.age
         pia.nixosModules."x86_64-linux".default
-        sops.nixosModules.sops
+        sops-nix.nixosModules.sops
 
-        # Add agenix CLI using the system variable
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = {
+              inherit inputs;
+            };
+            users.martin = import ./home-manager/home.nix;
+          };
+        }
         {
           environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
         }
