@@ -53,7 +53,10 @@
           };
         }
         {
-          environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
+          environment.systemPackages = [ 
+            agenix.packages.x86_64-linux.default
+            home-manager.packages.x86_64-linux.home-manager
+          ];
         }
       ];
     };

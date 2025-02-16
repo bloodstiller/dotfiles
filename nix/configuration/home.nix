@@ -133,6 +133,12 @@ in
         history = "history 0";
         host-update = "sudo nixos-rebuild switch";
         home-update = "home-manager switch";
+        
+        # PIA VPN connection aliases with common parameters
+        pia-base = "cd ~/Pia && sudo PIA_USER=$(cat /run/user/1000/secrets/pia_user) PIA_PASS=$(cat /run/user/1000/secrets/pia_pass) DISABLE_IPV6=yes PIA_PF=false PIA_DNS=true VPN_PROTOCOL=wireguard";
+        pia-ldn = "pia-base PREFERRED_REGION=uk ./get_region.sh";
+        pia-sth = "pia-base PREFERRED_REGION=uk_southampton ./get_region.sh";
+        pia-man = "pia-base PREFERRED_REGION=uk_manchester ./get_region.sh";
       };
 
       plugins = [
@@ -349,6 +355,14 @@ in
     # Add custom.zsh to managed files
     ".config/zsh/custom.zsh".source = ../../zsh/custom.zsh;
 
+    # Add PIA manual connections repo
+    "Pia".source = pkgs.fetchFromGitHub {
+      owner = "pia-foss";
+      repo = "manual-connections";
+      rev = "e956c57849a38f912e654e0357f5ae456dfd1742";  
+      sha256 = "otDaC45eeDbu0HCoseVOU1oxRlj6A9ChTWTSEUNtuaI=";
+    };
+
   };
 
   # Service Configuration
@@ -389,8 +403,15 @@ in
     secrets.work_email = {
       path = "${config.sops.defaultSymlinkPath}/work_email";
     };
-    secrets.pia = {
-      path = "${config.sops.defaultSymlinkPath}/pia";
+    secrets.pia_combined = {
+      path = "${config.sops.defaultSymlinkPath}/pia_combined";
+    };
+
+    secrets.pia_user = {
+      path = "${config.sops.defaultSymlinkPath}/pia_user";
+    };
+    secrets.pia_pass = {
+      path = "${config.sops.defaultSymlinkPath}/pia_pass";
     };
   };
   

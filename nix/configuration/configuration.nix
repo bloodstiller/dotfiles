@@ -328,13 +328,13 @@ services.resolved.enable = true;
 sops = {
   defaultSopsFile = ./home-manager/sops/secrets.yaml;
   age.keyFile = "/home/martin/.config/sops/age/keys.txt";
-  secrets.pia = {};
+  secrets.pia_combined = {};
 };
 
 ## Add this configuration block
 services.pia = {
   enable = true;
   ## Pass credentials from secrets
-  authUserPassFile = config.sops.secrets.pia.path;
+  authUserPassFile = config.sops.secrets.pia_combined.path;
 };
 }
