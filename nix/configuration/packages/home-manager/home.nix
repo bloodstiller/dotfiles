@@ -8,12 +8,17 @@ in
     (import ../programs/programs.nix {
       inherit pkgs cursor;
     })
+    ../alacritty/alacritty.nix
     ../sops/sops.nix
     ../tmux/tmux.nix
     ../waybar/waybar.nix
     ../wofi/wofi.nix
     ../zsh/zsh.nix
     ../starship/starship.nix
+    ../doom/doom.nix
+    ../dunst/dunst.nix
+    ../scripts/scripts.nix
+    ../Pia/pia.nix
   ];
 
   # Set Home Manager State Version
@@ -31,19 +36,8 @@ in
   };
   
   programs = {
-    # Terminal Emulators
-    alacritty = {
-      enable = true;
-    };
-
     # For hyprland
     kitty.enable = true;
-
-    # Development Tools
-    emacs = {
-      enable = true;
-      package = pkgs.emacs29;
-    };
 
     # CLI Tools
     eza.enable = true;
@@ -135,52 +129,18 @@ in
   # Dotfile Management
   home.file = {
 
-    # Config Files
-    ".config/doom" = {
-      source = ../../../../doom;
-      recursive = true;
-    };
     
-    ".config/alacritty" = {
-      source = ../../../../alacritty;
-      recursive = true;
-    };
-
-    # Shell Config
-    # ".config/starship.toml".source = ../../starship/starship.toml;
-
     # Window Manager Config
     ".config/hypr" = {
       source = ../../../../hypr;
       recursive = true;
     };
 
-    # Application Config
-    ".config/dunst" = {
-      source = ../../../../dunst;
-      recursive = true;
-    };
     
-    ".config/waybar" = {
-      source = ../../../../waybar;
-      recursive = true;
-    };
-
     # Scripts
     ".config/scripts" = {
-      source = ../../../../scripts;
+      source = ../../scripts;
       executable = true;
-    };
-
-    
-
-
-    # Add PIA manual connections repo
-    "Pia".source = pkgs.fetchFromGitHub {
-      owner = "pia-foss";
-      repo = "manual-connections";
-      rev = "e956c57849a38f912e654e0357f5ae456dfd1742";  
-      sha256 = "otDaC45eeDbu0HCoseVOU1oxRlj6A9ChTWTSEUNtuaI=";
     };
 
   };
@@ -199,12 +159,6 @@ in
     };
   };
 
-  # Conditionally enable Dunst only when using Hyprland
-  services.dunst = {
-    enable = true;
-    # Only start Dunst if we're in a Hyprland session
-    waylandDisplay = "wayland-1";
-  };
 
   # Enable Services
   programs = {

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-brave --new-window "https://www.tripwire.com/state-of-security/contributors/graham-cluley/" "https://nakedsecurity.sophos.com/" "https://threatpost.com/" "https://msrc-blog.microsoft.com/2020/09/21/new-and-improved-security-update-guide/" "https://www.microsoft.com/security/blog/" "https://security.googleblog.com/" "https://www.schneier.com/" "https://www.darkreading.com/" "https://www.eff.org/deeplinks" "https://www.zdnet.com/blog/security/" "https://krebsonsecurity.com/" "https://blog.talosintelligence.com/" "https://www.fireeye.com/blog/threat-research.html" "https://www.cisa.gov/uscert/ncas/current-activity" "https://www.cisecurity.org/advisory?topic=ms-isac" &
