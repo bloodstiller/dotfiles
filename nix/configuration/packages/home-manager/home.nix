@@ -5,20 +5,21 @@ let
 in
 {
   imports = [
-    (import ../programs/programs.nix {
+    (import ../packages/packages.nix {
       inherit pkgs cursor;
     })
     ../alacritty/alacritty.nix
+    ../doom/doom.nix
+    ../dunst/dunst.nix
+    ../hypr/hyprland.nix
+    ../Pia/pia.nix
+    ../scripts/scripts.nix
     ../sops/sops.nix
+    ../starship/starship.nix
     ../tmux/tmux.nix
     ../waybar/waybar.nix
     ../wofi/wofi.nix
     ../zsh/zsh.nix
-    ../starship/starship.nix
-    ../doom/doom.nix
-    ../dunst/dunst.nix
-    ../scripts/scripts.nix
-    ../Pia/pia.nix
   ];
 
   # Set Home Manager State Version
@@ -81,27 +82,6 @@ in
     };
   };
 
-  # Window Manager Configuration
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd = {
-      enable = true;
-      variables = ["--all"];
-    };
-    xwayland.enable = true;
-    
-    settings = {
-      monitor = ",preferred,auto,1";
-      general = {
-        gaps_in = 5;
-        gaps_out = 10;
-        border_size = 2;
-        no_cursor_warps = true;
-        no_focus_fallback = true;
-      };
-    };
-  };
-
   # Theme Configuration
   home.pointerCursor = {
     gtk.enable = true;
@@ -128,20 +108,6 @@ in
 
   # Dotfile Management
   home.file = {
-
-    
-    # Window Manager Config
-    ".config/hypr" = {
-      source = ../../../../hypr;
-      recursive = true;
-    };
-
-    
-    # Scripts
-    ".config/scripts" = {
-      source = ../../scripts;
-      executable = true;
-    };
 
   };
 
