@@ -1,112 +1,104 @@
-* NixOS Configuration Guide
+#+title: NixOS Configuration
+#+author: Martin Barker
+#+description: Personal NixOS System Configuration
 
-This repository contains my personal NixOS configuration files.
+* Overview
+This repository contains my personal NixOS system configuration using the Nix flakes feature.
 
-** Directory Structure
-- [[file:nix/README.org][Main NixOS Configuration]] (~./nix~) :: Root configuration directory
-  - [[file:nix/configuration/README.org][System Configuration]] (~./nix/configuration~) :: Core NixOS system configuration
-  - [[file:nix/home-manager/README.org][Home Manager Configuration]] (~./nix/home-manager~) :: User environment configuration
-  - [[file:nix/packages/README.org][Custom Packages]] (~./nix/packages~) :: Custom Nix package definitions
-  - [[file:nix/secrets/secrets.nix][Secrets Management]] (~./nix/secrets~) :: Age-encrypted secrets configuration
+* Structure
+The configuration is organized as follows:
 
-** Setup Instructions
+- flake.nix                    # Main flake configuration
+- configuration.nix            # Core system configuration
+- packages/                    # Custom packages and configurations
+  ├── alacritty/              # Terminal emulator config
+  │   └── config/             # Theme configurations
+  ├── cursor/                 # VSCode-based Cursor editor
+  ├── doom/                   # Doom Emacs configuration
+  │   └── config/            
+  │       ├── snippets/      # Custom snippets
+  │       └── ...            # Other config files
+  ├── dunst/                 # Notification daemon
+  ├── home-manager/          # User environment management
+  ├── hypr/                  # Hyprland window manager config
+  ├── Pia/                   # Private Internet Access VPN
+  ├── scripts/               # Custom shell scripts
+  ├── sops/                  # Secrets management
+  ├── starship/              # Shell prompt customization
+  ├── tmux/                  # Terminal multiplexer config
+  ├── waybar/                # Status bar for Wayland
+  └── wofi/                  # Application launcher
 
-*** Adding Channels
-Before using these configurations, you need to add the necessary channels:
+* Key Components
 
-#+begin_src bash
-# Add stable channels
-sudo nix-channel --add https://nixos.org/channels/nixos-23.11 nixos
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
+** Flake Configuration (flake.nix)
+- Uses nixos-unstable channel
+- Integrates home-manager for user environment management
+- Includes additional tools:
+  - sops-nix for encrypted secrets
+  - agenix for secrets management (will retire soon)
+  - hyprland for window management
+  - pyprland for Hyprland extensions
 
-# Add unstable channels
-sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager-unstable
-
-# Update channels
-sudo nix-channel --update
-nix-channel --update
-#+end_src
-
-*** Syncing Configuration
-A sync script is provided to help manage configuration files:
-#+begin_src bash
-./nix/sync.sh
-#+end_src
-This script:
-- Syncs age-encrypted secrets
-- Updates hardware configuration
-- Updates system configuration
-
-** Key Components
-
-*** configuration.nix
-Located at =/etc/nixos/configuration.nix=, this file manages system-wide configuration:
-
-**** Key Features
-- XFCE and Hyprland desktop environments
-- Remote desktop support via XRDP
-- NFS mounts for media directories
+** System Configuration (configuration.nix)
+Main system configuration includes:
+- Internationalization (en_GB.UTF-8)
+- Remote desktop support (XRDP)
+- SSH server configuration
+- NFS mounts for media
+- Font configuration (JetBrains Mono, Iosevka)
+- XDG Portal setup for Wayland
+- Automatic system optimization and garbage collection
 - Docker and virtualization support
-- System-wide fonts and packages
-- User account setup with SSH keys
+- AppImage support configuration
 - Audio configuration with PipeWire
 - British locale and keyboard settings
-- AppImage support configuration
 
-**** Notable Services
-- OpenSSH daemon
-- Docker
-- XRDP
-- JamesDSP
-- XDG Portal
+** Custom Packages
+Each package in the packages directory follows a literate programming approach using Org-mode:
+- Configuration is written in README.org files
+- Uses Org-mode's literate programming features
+- Configurations are automatically tangled to their respective locations
+- Includes documentation and explanations inline with the code
 
-*** home.nix
-Located at =~/.config/home-manager/home.nix=, this manages user-specific configuration:
-
-**** Key Features
+** Home Manager
+User environment configuration including:
+- Git configuration
+- Tmux setup
+- Service management (e.g., Dropbox)
+- Desktop environment tools (dunst, wofi, waybar)
 - Shell configuration (zsh with plugins)
 - Development tools and environments
-- Window manager (Hyprland) configuration
 - Theme and cursor settings
-- Application-specific configurations
-- Dotfile management
-- Service management (e.g., Dropbox)
 
-** Prerequisites
-- NixOS 23.11 or later
-- Home Manager
-- Git
-- Age for secrets management
+* Usage
 
-** Usage
 1. Clone this repository:
-   #+begin_src bash
+   #+begin_src shell
    git clone https://github.com/bloodstiller/nixos-config.git ~/.config/nixos
    #+end_src
 
 2. Review and modify configurations as needed
-3. Apply system configuration:
-   #+begin_src bash
-   sudo nixos-rebuild switch
+
+3. Build and activate:
+   #+begin_src shell
+   cd ~/.dotfiles/nix/configuration  # Navigate to the directory containing flake.nix
+   sudo nixos-rebuild switch --flake .  # Build and activate using flake
    #+end_src
 
-4. Apply user configuration:
-   #+begin_src bash
-   home-manager switch
-   #+end_src
-
-** Notes
-- AppImage support must be enabled in configuration.nix
-- Custom packages (like Cursor) require periodic version updates
+* Notes
+- System state version: 25.05
+- Uses Hyprland as the primary window manager
+- Includes extensive Doom Emacs configuration
+- Configured for both X11 and Wayland support
 - Secrets are managed using age encryption
 - Configuration uses literate programming with Org-mode
 - Dotfiles are managed through Home Manager
 
-** License
-This configuration is provided as-is under the MIT License. Feel free to use and modify for your own needs.
-
-** Additional Resources
+* Additional Resources
 - [[https://nixos.org/manual/nixos/stable/][NixOS Manual]]
 - [[https://nix-community.github.io/home-manager/][Home Manager Manual]]
 - [[https://search.nixos.org/packages][NixOS Package Search]]
+
+* License
+This configuration is provided as-is under the MIT License. Feel free to use and modify for your own needs.
