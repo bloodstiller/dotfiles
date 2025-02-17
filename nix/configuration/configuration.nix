@@ -71,7 +71,7 @@ in
   # Enable XRDP with XFCE
   services.xrdp = {
     enable = true;
-    defaultWindowManager = "startxfce4";
+    #defaultWindowManager = "hyprland";
     openFirewall = true;
   };
 
@@ -262,7 +262,7 @@ in
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
 
   # System-wide font configuration
@@ -270,7 +270,8 @@ in
     fontDir.enable = true;
     enableDefaultPackages = true;
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
     ];
   };
 
@@ -326,7 +327,7 @@ services.resolved.enable = true;
 
 # Sops configuration. This format is correct and works. It differs from the home-manager format.
 sops = {
-  defaultSopsFile = ./home-manager/sops/secrets.yaml;
+  defaultSopsFile = ./packages/sops/secrets.yaml;
   age.keyFile = "/home/martin/.config/sops/age/keys.txt";
   secrets.pia_combined = {};
 };

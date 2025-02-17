@@ -2,12 +2,12 @@
   description = "Laptop configuration";
 
   inputs = {
-    # NixOS official package source, using the nixos-24.11 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # Use nixos-unstable or nixpkgs-unstable instead of versioned channel
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Home Manager
+    # Use main branch instead of release-24.11
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

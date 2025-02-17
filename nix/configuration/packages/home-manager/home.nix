@@ -1,14 +1,16 @@
 { config, pkgs, inputs, ... }:
 
 let
-  cursor = pkgs.callPackage ./packages/cursor.nix {};
+  cursor = pkgs.callPackage ../cursor/cursor.nix {};
 in
 {
-  # Set Home Manager State Version
-  home.stateVersion = "24.11";
+  imports = [
+    ../zsh/zsh.nix  # Update the path to match your actual file structure
+    ../sops/sops.nix
+  ];
 
-  # Let home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  # Set Home Manager State Version
+  home.stateVersion = "25.05";
 
   # Basic Home Manager Configuration
   home = {
@@ -34,9 +36,6 @@ in
       # Terminal
       oh-my-zsh
 
-      # Fonts
-      (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
-      
       # Applications
       dropbox
       slack
@@ -112,77 +111,7 @@ in
     ];
   };
 
-  # Allow Unfree Packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Shell Configuration
   programs = {
-    # ZSH Configuration
-    zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      enableCompletion = true;
-      
-      # Add (this is done as otherwise nix will overwrite with the default aliases) 
-      shellAliases = {
-        ls = "eza -T -L=1 -a -B -h -l -g --icons";
-        lsl = "eza -T -L=2 -a -B -h -l -g --icons";
-        lss = "eza -T -L=1 -B -h -l -g --icons";
-        cat = "bat";
-        history = "history 0";
-        host-update = "sudo nixos-rebuild switch";
-        home-update = "home-manager switch";
-        
-        # PIA VPN connection aliases with common parameters
-        pia-base = "cd ~/Pia && sudo PIA_USER=$(cat /run/user/1000/secrets/pia_user) PIA_PASS=$(cat /run/user/1000/secrets/pia_pass) DISABLE_IPV6=yes PIA_PF=false PIA_DNS=true VPN_PROTOCOL=wireguard";
-        pia-ldn = "pia-base PREFERRED_REGION=uk ./get_region.sh";
-        pia-sth = "pia-base PREFERRED_REGION=uk_southampton ./get_region.sh";
-        pia-man = "pia-base PREFERRED_REGION=uk_manchester ./get_region.sh";
-      };
-
-      plugins = [
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-autosuggestions";
-            rev = "v0.7.0";
-            sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-          };
-        }
-        {
-          name = "zsh-syntax-highlighting";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-syntax-highlighting";
-            rev = "0.7.1";
-            sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-          };
-        }
-      ];
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [ 
-          "git" 
-          "history" 
-          "tmux" 
-          "history" 
-          "docker-compose"
-        ];
-        theme = "robbyrussell";
-      };
-      
-      # Add custom.zsh to zsh config to source my custom zshrc
-      initExtra = ''
-        if [ -f "~/.config/zsh/custom.zsh" ]; then
-          source "~/.config/zsh/custom.zsh"
-        fi
-        export WORK_EMAIL=$(cat ${config.sops.secrets.work_email.path})
-      '';
-    };
-
     # Terminal Emulators
     alacritty = {
       enable = true;
@@ -207,6 +136,12 @@ in
       enable = true;
       userName = "bloodstiller";
       userEmail = "bloodstiller@bloodstiller.com";
+      
+      signing = {
+        key = null;  # Set your signing key here if you use one
+        signByDefault = false;
+        format = "ssh";  # or "gpg" if you prefer GPG signing
+      };
       
       extraConfig = {
         init.defaultBranch = "main";
@@ -266,6 +201,8 @@ in
         gaps_in = 5;
         gaps_out = 10;
         border_size = 2;
+        no_cursor_warps = true;
+        no_focus_fallback = true;
       };
     };
   };
@@ -306,54 +243,48 @@ in
 
     # Config Files
     ".config/doom" = {
-      source = ../../doom;
+      source = ../../../../doom;
       recursive = true;
     };
     
     ".config/alacritty" = {
-      source = ../../alacritty;
+      source = ../../../../alacritty;
       recursive = true;
     };
 
     # Shell Config
-    ".config/starship.toml".source = ../../starship/starship.toml;
+    ".config/starship.toml".source = ../../../../starship/starship.toml;
 
     # Window Manager Config
     ".config/hypr" = {
-      source = ../../hypr;
+      source = ../../../../hypr;
       recursive = true;
     };
 
     # Application Config
     ".config/dunst" = {
-      source = ../../dunst;
+      source = ../../../../dunst;
       recursive = true;
     };
     
     ".config/wofi" = {
-      source = ../../wofi;
+      source = ../../../../wofi;
       recursive = true;
     };
     
     ".config/waybar" = {
-      source = ../../waybar;
+      source = ../../../../waybar;
       recursive = true;
     };
 
     # Scripts
     ".config/scripts" = {
-      source = ../../scripts;
+      source = ../../../../scripts;
       executable = true;
     };
 
-    # ZSH Config Directory
-    ".config/zsh" = {
-      source = ../../zsh;
-      recursive = true;
-    };
+    
 
-    # Add custom.zsh to managed files
-    ".config/zsh/custom.zsh".source = ../../zsh/custom.zsh;
 
     # Add PIA manual connections repo
     "Pia".source = pkgs.fetchFromGitHub {
@@ -391,40 +322,6 @@ in
     wofi.enable = true;
     waybar.enable = true;
   };
-
-
-  ## Add sops-nix configuration
-  sops = {
-    age.keyFile = "/home/martin/.config/sops/age/keys.txt";
-    defaultSopsFile = ./home-manager/sops/secrets.yaml;
-    defaultSymlinkPath = "/run/user/1000/secrets";
-    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
-
-    secrets.work_email = {
-      path = "${config.sops.defaultSymlinkPath}/work_email";
-    };
-    secrets.pia_combined = {
-      path = "${config.sops.defaultSymlinkPath}/pia_combined";
-    };
-
-    secrets.pia_user = {
-      path = "${config.sops.defaultSymlinkPath}/pia_user";
-    };
-    secrets.pia_pass = {
-      path = "${config.sops.defaultSymlinkPath}/pia_pass";
-    };
-  };
-  
-  # Update the age.secrets section
-  #age.secrets = {
-    #git-credentials = {
-
-      #file = ../../crets/git-credentials.age;
-      #owner = "martin";
-      #group = "users";
-      #mode = "0400";
-    #};
-  #};
 }
 
 
