@@ -5,8 +5,15 @@ let
 in
 {
   imports = [
-    ../zsh/zsh.nix  # Update the path to match your actual file structure
+    (import ../programs/programs.nix {
+      inherit pkgs cursor;
+    })
     ../sops/sops.nix
+    ../tmux/tmux.nix
+    ../waybar/waybar.nix
+    ../wofi/wofi.nix
+    ../zsh/zsh.nix
+    ../starship/starship.nix
   ];
 
   # Set Home Manager State Version
@@ -21,96 +28,8 @@ in
     sessionVariables = {
       EDITOR = "vim";
     };
-    
-    # System Packages
-    packages = with pkgs; [
-      # Development Tools
-      thefuck
-      ripgrep
-      fd
-      clang
-      cmake
-      ansible
-      vagrant
-      
-      # Terminal
-      oh-my-zsh
-
-      # Applications
-      dropbox
-      slack
-      discord
-      google-chrome
-      brave
-      spotify
-      bitwarden
-      _1password-cli
-      _1password-gui
-      
-      # Python Development
-      (python3.withPackages (ps: with ps; [
-        pip
-        virtualenv
-        poetry-core
-      ]))
- 
-      # archives
-      zip
-      xz
-      unzip
-      p7zip
-
-      # networking tools
-      mtr # A network diagnostic tool
-      iperf3
-      dnsutils  # `dig` + `nslookup`
-      ldns # replacement of `dig`, it provide the command `drill`
-      aria2 # A lightweight multi-protocol & multi-source command-line download utility
-      socat # replacement of openbsd-netcat
-      nmap # A utility for network discovery and security auditing
-      ipcalc  # it is a calculator for the IPv4/v6 addresses
-
-
-      # Virtualization
-      virt-manager
-      # productivity
-
-      hugo # static site generator
-      glow # markdown previewer in terminal
-
-      # System Tools
-      tmux
-      age
-      btop  # replacement of htop/nmon
-      iotop # io monitoring
-      iftop # network monitoring
-      eza # A modern replacement for 'ls'
-      fzf # A command-line fuzzy finder     
-      cowsay
-      file
-      which
-      tree
-      gnused
-      gnutar
-      gawk
-      zstd
-      gnupg 
-      sops
-     
-      # system call monitoring
-      strace # system call monitoring
-      ltrace # library call monitoring
-      lsof # list open files 
-      # Audio
-      jamesdsp
-      
-      # Custom Packages
-      cursor
-
-      # Imported from pyprland flake (does not expose a normal output just a flake input)
-    ];
   };
-
+  
   programs = {
     # Terminal Emulators
     alacritty = {
@@ -129,7 +48,6 @@ in
     # CLI Tools
     eza.enable = true;
     bat.enable = true;
-    starship.enable = true;
 
     # Git Configuration
     git = {
@@ -166,23 +84,6 @@ in
           #};
         #};
       #}];
-    };
-
-    # Tmux Configuration
-    tmux = {
-      enable = true;
-      plugins = with pkgs.tmuxPlugins; [
-        sensible
-      ];
-      
-      extraConfig = ''
-        source ../../tmux/.tmux.conf
-        
-        set -g @plugin 'tmux-plugins/tpm'
-        set -g @plugin 'tmux-plugins/tmux-sensible'
-        
-        run '~/.tmux/plugins/tpm/tpm'
-      '';
     };
   };
 
@@ -233,13 +134,6 @@ in
 
   # Dotfile Management
   home.file = {
-    # TPM Installation
-    ".tmux/plugins/tpm".source = pkgs.fetchFromGitHub {
-      owner = "tmux-plugins";
-      repo = "tpm";
-      rev = "99469c4a9b1ccf77fade25842dc7bafbc8ce9946";
-      sha256 = "hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
-    };
 
     # Config Files
     ".config/doom" = {
@@ -253,7 +147,7 @@ in
     };
 
     # Shell Config
-    ".config/starship.toml".source = ../../../../starship/starship.toml;
+    # ".config/starship.toml".source = ../../starship/starship.toml;
 
     # Window Manager Config
     ".config/hypr" = {
@@ -264,11 +158,6 @@ in
     # Application Config
     ".config/dunst" = {
       source = ../../../../dunst;
-      recursive = true;
-    };
-    
-    ".config/wofi" = {
-      source = ../../../../wofi;
       recursive = true;
     };
     

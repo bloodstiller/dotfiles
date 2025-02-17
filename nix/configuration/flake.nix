@@ -27,11 +27,24 @@
       url = "github:Fuwn/pia.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Add hyprland
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Add pyprland
+    pyprland = {
+      url = "github:hyprland-community/pyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, hyprland, pyprland, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
         agenix.nixosModules.age
@@ -46,7 +59,7 @@
             extraSpecialArgs = {
               inherit inputs;
             };
-            users.martin = import ./home.nix;
+            users.martin = import ./packages/home-manager/home.nix;
             sharedModules = [
               inputs.sops-nix.homeManagerModules.sops
             ];
@@ -56,6 +69,8 @@
           environment.systemPackages = [ 
             agenix.packages.x86_64-linux.default
             home-manager.packages.x86_64-linux.home-manager
+            hyprland.packages.x86_64-linux.default
+            pyprland.packages.x86_64-linux.default
           ];
         }
       ];

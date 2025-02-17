@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 
 let
@@ -142,15 +142,20 @@ in
   # Install firefox.
   programs.firefox.enable = true;
 
- # Enable Hyprland
+ # Enable Hyprland with proper flake inputs
   programs.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     xwayland.enable = true;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
 
 # Enable dbus and other required services
-  services.dbus.enable = true;
+  services.dbus = {
+    enable = true;
+    packages = [ pkgs.hyprland ];
+  };
 
   # Environment variables for Wayland/Electron
   environment.sessionVariables = {
@@ -275,14 +280,12 @@ in
     ];
   };
 
-  # XDG Portal configuration - simplified for Hyprland and XFCE
- 
- # XDG Portal configuration
+  # XDG Portal configuration
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
+    extraPortals = [
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
     ];
     config = {
       common = {
@@ -338,4 +341,27 @@ services.pia = {
   ## Pass credentials from secrets
   authUserPassFile = config.sops.secrets.pia_combined.path;
 };
+
+  nix = {
+    settings = {
+      # Previous download-buffer-size setting remains here
+      download-buffer-size = 157286400; # 150MB (150 * 1024 * 1024)
+      
+      # Enable automatic optimization (deduplication) of the nix store
+      auto-optimise-store = true;
+    };
+
+    # Garbage collection settings
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+
+    # Add a periodic optimization service
+    optimise = {
+      automatic = true;
+      dates = ["weekly"];
+    };
+  };
 }
