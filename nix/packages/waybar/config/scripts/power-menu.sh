@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 entries="Logout Suspend Reboot Shutdown"
 

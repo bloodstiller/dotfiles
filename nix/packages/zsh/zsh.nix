@@ -147,6 +147,24 @@ else:
           sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
         };
       }
+      {
+        name = "fast-syntax-highlighting";
+        src = pkgs.fetchFromGitHub {
+          owner = "zdharma-continuum";
+          repo = "fast-syntax-highlighting";
+          rev = "master";
+          sha256 = "sha256-RVX9ZSzjBW3LpFs2W86lKI6vtcvDWP6EPxzeTcRZua4=";
+        };
+      }
+      {
+        name = "zsh-autocomplete";
+        src = pkgs.fetchFromGitHub {
+          owner = "marlonrichert";
+          repo = "zsh-autocomplete";
+          rev = "main";
+          sha256 = "sha256-o8IQszQ4/PLX1FlUvJpowR2Tev59N8lI20VymZ+Hp4w=";
+        };
+      }
     ];
 
     oh-my-zsh = {

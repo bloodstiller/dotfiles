@@ -120,7 +120,9 @@ in
     extraGroups = [ "networkmanager" "wheel" "docker" "ssl-cert" "libvirtd" "kvm" ];
     useDefaultShell = true;
     packages = with pkgs; [
+    
     ];
+
   };
   users.users.martin.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOg2VKzAytPvs9aArki7JPDyOLjn6+/soebm7JJdNQ5x martin@Lok" 
@@ -175,8 +177,47 @@ in
     xfce.xfce4-whiskermenu-plugin
     xfce.xfce4-pulseaudio-plugin
     brightnessctl
-    pulseaudio-ctl
-    # Add any other system packages you need here
+    wireplumber
+    playerctl
+    blueman
+    virt-manager
+    qemu
+    OVMF
+    swtpm
+    spice-gtk
+    win-virtio
+    slurp
+    scrot
+    # Development tools
+    gnumake
+    gcc
+    cmake
+    
+    # LSP and development dependencies
+    python311Packages.pyflakes
+    python311Packages.isort
+    python311Packages.pytest
+    python311Packages.setuptools
+    
+    # Nix tools
+    nixfmt-classic
+    
+    # Markdown tools
+    grip
+    
+    # XML tools
+    libxml2    # Provides xmllint
+    
+    
+    # X11 tools
+    xorg.xwininfo
+    xdotool
+    xclip
+    
+    # Shell tools
+    shfmt
+    shellcheck
+    
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -302,8 +343,10 @@ in
       qemu = {
         swtpm.enable = true;
         ovmf.enable = true;
+        package = pkgs.qemu;
       };
     };
+    spiceUSBRedirection.enable = true;  # Add USB redirection support
   };
 
 # Enable AppImage support 
@@ -358,4 +401,17 @@ services.pia = {
       dates = ["weekly"];
     };
   };
+
+  # Enable bluetooth and blueman
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;  # Optional: automatically power-on Bluetooth at boot
+  };
+
+  # Blueman for bluetooth management
+  services.blueman.enable = true;
+
+  # Enable virt-manager
+  programs.virt-manager.enable = true;
+
 }

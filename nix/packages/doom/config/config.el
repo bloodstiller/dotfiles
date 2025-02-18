@@ -17,10 +17,10 @@
 (setq doom-theme 'doom-one)
 
 
-;;(setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
-(setq  doom-font (font-spec :family "JetBrains Mono" :size 18)
-       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
-       doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
+(setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
+      doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
+      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
 
 ;;(custom-theme-set-faces! 'tron-legacy
   ;;`(tree-sitter-hl-face:constructor :foreground ,(doom-color 'blue))
@@ -79,15 +79,16 @@
        :desc "Delete bookmark"                         "M" #'bookmark-set
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-(evil-define-key 'normal ibuffer-mode-map
-  (kbd "f c") 'ibuffer-filter-by-content
-  (kbd "f d") 'ibuffer-filter-by-directory
-  (kbd "f f") 'ibuffer-filter-by-filename
-  (kbd "f m") 'ibuffer-filter-by-mode
-  (kbd "f n") 'ibuffer-filter-by-name
-  (kbd "f x") 'ibuffer-filter-disable
-  (kbd "g h") 'ibuffer-do-kill-lines
-  (kbd "g H") 'ibuffer-update)
+(after! evil
+  (evil-define-key 'normal ibuffer-mode-map
+    (kbd "f c") 'ibuffer-filter-by-content
+    (kbd "f d") 'ibuffer-filter-by-directory
+    (kbd "f f") 'ibuffer-filter-by-filename
+    (kbd "f m") 'ibuffer-filter-by-mode
+    (kbd "f n") 'ibuffer-filter-by-name
+    (kbd "f x") 'ibuffer-filter-disable
+    (kbd "g h") 'ibuffer-do-kill-lines
+    (kbd "g H") 'ibuffer-update))
 
 ;;Global Auto Revert
 (global-auto-revert-mode 1)
@@ -517,10 +518,9 @@
     (let* ((id (org-element-property :path link))
            (node (org-roam-node-from-id id))
            (file (when node (org-roam-node-file node)))
-           (title (or desc (when node (org-roam-node-title node)) "Unknown")))
       (if (and file (file-exists-p file))
           (format "{{< ref \"%s\" >}}" (file-name-sans-extension (file-name-nondirectory file)))
-        (format "*%s*" title))))  ; Use italic text for missing links
+        (format "*%s*" (or desc (when node (org-roam-node-title node)) "Unknown")))))
 
   (defun my/export-org-to-hugo (file)
     "Export a single org file to Hugo markdown."
