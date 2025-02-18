@@ -18,8 +18,8 @@
     ".config/wofi/config".source = ./config/config;
     ".config/wofi/config.power".source = ./config/config.power;
     ".config/wofi/config.screenshot".source = ./config/config.screenshot;
-    ".config/wofi/style.css".source = ./style/style.css;
-    ".config/wofi/style.widgets.css".source = ./style/style.widgets.css;
+    ".config/wofi/style.css".source = ./config/style.css;
+    ".config/wofi/style.widgets.css".source = ./config/style.widgets.css;
     
     # Make scripts executable
     ".config/wofi/sway-select-window.sh" = {

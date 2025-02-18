@@ -19,20 +19,12 @@ in
   # Enable experimental features/flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+# Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/boot/crypto_keyfile.bin" = null;
-  };
-
-  boot.loader.grub.enableCryptodisk = true;
-
-  boot.initrd.luks.devices."luks-e29431c5-61b9-42a8-9ad3-878f8bc2889f".keyFile = "/boot/crypto_keyfile.bin";
-  networking.hostName = "nixos"; # Define your hostname.
+  boot.initrd.luks.devices."luks-a601452f-c475-48c2-aae4-466133c51938".device = "/dev/disk/by-uuid/a601452f-c475-48c2-aae4-466133c51938";
+  networking.hostName = "zeus"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -182,6 +174,8 @@ in
     xfce.thunar
     xfce.xfce4-whiskermenu-plugin
     xfce.xfce4-pulseaudio-plugin
+    brightnessctl
+    pulseaudio-ctl
     # Add any other system packages you need here
   ];
 
@@ -224,18 +218,18 @@ in
   ];
 
   # Set up ACLs for mount points
-  #system.activationScripts.mediaPermissions = {
-    #deps = [ "users" "groups" ];
-    #text = let
-      #setfacl = "${pkgs.acl}/bin/setfacl";
-    #in ''
-      #echo "Setting up permissions for /mnt and /mnt/media"
-      #${setfacl} -m u:martin:rwx /mnt
-      #${setfacl} -m u:martin:rwx /mnt/media
-      #${setfacl} -R -m u:martin:rwx /mnt/media/*
-      #${setfacl} -R -d -m u:martin:rwx /mnt/media/*
-    #'';
-  #};
+  system.activationScripts.mediaPermissions = {
+    deps = [ "users" "groups" ];
+    text = let
+      setfacl = "${pkgs.acl}/bin/setfacl";
+    in ''
+      echo "Setting up permissions for /mnt and /mnt/media"
+      ${setfacl} -m u:martin:rwx /mnt
+      ${setfacl} -m u:martin:rwx /mnt/media
+      ${setfacl} -R -m u:martin:rwx /mnt/media/*
+      ${setfacl} -R -d -m u:martin:rwx /mnt/media/*
+    '';
+  };
 
   # Define the NFS mounts
   fileSystems."/mnt/media/downloads" = {

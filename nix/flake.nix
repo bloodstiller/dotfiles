@@ -42,7 +42,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, agenix, pia, sops-nix, hyprland, pyprland, ... }@inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.zeus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [

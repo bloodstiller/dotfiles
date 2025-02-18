@@ -10,12 +10,6 @@
     
     # Install additional packages if needed
     package = pkgs.dunst;
-  };
-
-  # Create the dunst configuration file
-  home.file = {
-    ".config/dunst/dunstrc" = {
-      source = ./dunstrc;
-    };
+    configFile = ./dunstrc;
   };
 }

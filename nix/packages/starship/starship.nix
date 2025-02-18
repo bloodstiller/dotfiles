@@ -1,19 +1,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  hostname = builtins.readFile "/etc/hostname";
-  isZeus = lib.strings.hasInfix "zeus" hostname;
+  configFile = builtins.fromTOML (builtins.readFile ./laptopStarship.toml);
 in
 {
   programs.starship = {
     enable = true;
     
-    # Choose configuration file based on hostname
-    settings = if isZeus then
-      builtins.fromTOML (builtins.readFile ./laptopStarship.toml)
-    else
-      builtins.fromTOML (builtins.readFile ./starship.toml);
-
+    settings = configFile;
     # Additional settings that apply to both configurations
     enableBashIntegration = true;
     enableZshIntegration = true;

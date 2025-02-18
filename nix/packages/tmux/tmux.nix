@@ -8,7 +8,6 @@
     plugins = with pkgs.tmuxPlugins; [
       sensible
       vim-tmux-navigator
-      tmuxifier
       yank
       logging
       {
