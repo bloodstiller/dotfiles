@@ -86,7 +86,8 @@
     cursor
 
     # Emacs
-    emacsPackages.helm-flyspell
+    #emacsPackages.helm-flyspell
+    alacritty-theme
 
   ];
 }

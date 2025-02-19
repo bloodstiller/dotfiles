@@ -57,15 +57,4 @@
       colors.draw_bold_text_with_bright_colors = true;
     };
   };
-
-  # Add packages section
-  home.packages = with pkgs; [
-    alacritty-theme
-  ];
-
-  # Create the alacritty theme configuration files
-  home.file = {
-    ".config/alacritty/doom_one.toml".source = ./config/doom_one.toml;
-    ".config/alacritty/dracula.toml".source = ./config/dracula.toml;
-  };
 }
