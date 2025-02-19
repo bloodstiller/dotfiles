@@ -73,7 +73,7 @@ Main system configuration includes:
 - XDG Portal setup for Wayland
 - Automatic system optimization and garbage collection
 - Docker 
-- virtualization via qemu/kvm/virt-manager
+- Virtualization via qemu/kvm/virt-manager
 - AppImage support configuration
 - Audio configuration with PipeWire
 - British locale and keyboard settings
@@ -95,7 +95,7 @@ Main system configuration includes:
 User environment configuration including:
 - Git configuration
 - Tmux setup
-  - Inludint tpm
+  - Including tpm for plugin management
 - Service management (e.g., Dropbox)
 - Desktop environment tools (dunst, wofi, waybar)
 - Shell configuration (zsh with oh-my-zsh plugins)
