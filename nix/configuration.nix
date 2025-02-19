@@ -23,7 +23,15 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-a601452f-c475-48c2-aae4-466133c51938".device = "/dev/disk/by-uuid/a601452f-c475-48c2-aae4-466133c51938";
+  boot.initrd.luks.devices = {
+    "luks-a601452f-c475-48c2-aae4-466133c51938" = {
+      device = "/dev/disk/by-uuid/a601452f-c475-48c2-aae4-466133c51938";
+    };
+    "second-drive" = {
+      device = "/dev/disk/by-uuid/42462bdb-3302-4f01-817e-484ee3fd30e4";
+      preLVM = true;
+    };
+  };
   networking.hostName = "zeus"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -218,6 +226,7 @@ in
     shfmt
     shellcheck
     
+    polkit_gnome
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -295,6 +304,11 @@ in
     device = "192.168.2.12:/mnt/MasterPool/Media/Music";
     fsType = "nfs";
     options = [ "defaults" "_netdev" "user" "nofail" ];
+  };
+
+  fileSystems."/mnt/second-drive" = {
+    device = "/dev/mapper/second-drive";
+    fsType = "ext4";  # Adjust this if you're using a different filesystem
   };
 
 
@@ -413,5 +427,23 @@ services.pia = {
 
   # Enable virt-manager
   programs.virt-manager.enable = true;
+
+  # Enable and configure polkit
+  security.polkit.enable = true;
+
+  # Start polkit authentication agent
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
 
 }
