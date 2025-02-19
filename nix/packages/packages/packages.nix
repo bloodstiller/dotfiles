@@ -84,5 +84,9 @@
     
     # Custom Packages
     cursor
+
+    # Emacs
+    emacsPackages.helm-flyspell
+
   ];
 }

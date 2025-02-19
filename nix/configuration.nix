@@ -196,6 +196,10 @@ in
     win-virtio
     slurp
     scrot
+    grim
+    swappy
+    wl-clipboard
+    ispell
     # Development tools
     gnumake
     gcc
@@ -268,18 +272,19 @@ in
   ];
 
   # Set up ACLs for mount points
-  system.activationScripts.mediaPermissions = {
-    deps = [ "users" "groups" ];
-    text = let
-      setfacl = "${pkgs.acl}/bin/setfacl";
-    in ''
-      echo "Setting up permissions for /mnt and /mnt/media"
-      ${setfacl} -m u:martin:rwx /mnt
-      ${setfacl} -m u:martin:rwx /mnt/media
-      ${setfacl} -R -m u:martin:rwx /mnt/media/*
-      ${setfacl} -R -d -m u:martin:rwx /mnt/media/*
-    '';
-  };
+  
+  #system.activationScripts.mediaPermissions = {
+    #deps = [ "users" "groups" ];
+    #text = let
+      #setfacl = "${pkgs.acl}/bin/setfacl";
+    #in ''
+      #echo "Setting up permissions for /mnt and /mnt/media"
+      #${setfacl} -m u:martin:rwx /mnt
+      #${setfacl} -m u:martin:rwx /mnt/media
+      #${setfacl} -R -m u:martin:rwx /mnt/media/*
+      #${setfacl} -R -d -m u:martin:rwx /mnt/media/*
+    #'';
+  #};
 
   # Define the NFS mounts
   fileSystems."/mnt/media/downloads" = {

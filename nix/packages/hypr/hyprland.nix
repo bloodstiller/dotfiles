@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 
+let
+  hyprlock = pkgs.hyprlock;
+  hypridle = pkgs.hypridle;
+in
 {
   # Enable Hyprland
   wayland.windowManager.hyprland = {
@@ -17,6 +21,10 @@
       source = ${./config/Keybindings.conf}
       source = ${./config/Envs.conf}
       source = ${./config/laptopVariables.conf}
+
+      # Add hyprlock and hypridle configurations directly
+      exec-once = ${hypridle}/bin/hypridle
+      bind = $mainMod, L, exec, ${hyprlock}/bin/hyprlock
     '';
     
     settings = {
@@ -29,5 +37,21 @@
       };
     };
   };
+
+  # Add script files
+  # Keep actual congfigs seperated from scripts as above
+  home.file = {
+    ".config/hypr/scripts" = {
+      source = ./scripts;
+      recursive = true;
+      executable = true;
+    };
+  };
+
+  # Make the packages available
+  home.packages = with pkgs; [
+    hyprlock
+    hypridle
+  ];
 
 }
