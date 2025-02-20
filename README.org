@@ -7,7 +7,7 @@
 :END:
 This repository contains my personal NixOS system configuration using the Nix flakes feature.
 
-* Structure
+* Structure:
 :PROPERTIES:
 :ID:       dd885485-db0b-410c-83be-01db8dbc49cc
 :END:
@@ -31,7 +31,7 @@ The configuration is organized as follows:
   ├── hypr/                    # Hyprland window manager config
   │   └── config/              # Hyprland config
   │       ├── hypridle         # Hypridle config
-  │       └── hyprlock         # Hyprlock config
+  │       ├── hyprlock         # Hyprlock config
   │       └── ...              # Other config files
   ├── pia/                     # Private Internet Access VPN
   ├── scripts/                 # Custom shell scripts
@@ -42,12 +42,12 @@ The configuration is organized as follows:
   └── wofi/                    # Application launcher
 #+end_src
 
-* Key Components
+* Key Components:
 :PROPERTIES:
 :ID:       bf8a77df-a3b1-4602-841b-1845ef33bc55
 :END:
 
-** Flake Configuration (flake.nix)
+** Flake Configuration (flake.nix):
 :PROPERTIES:
 :ID:       ee51beb8-384c-48ed-b269-89450596d858
 :END:
@@ -60,7 +60,7 @@ The configuration is organized as follows:
     - hypridle & hyprlock setup (managed in ~hyprland.nix~)
   - pyprland for Hyprland extensions
 
-** System Configuration (configuration.nix)
+** System Configuration (configuration.nix):
 :PROPERTIES:
 :ID:       e5137a31-1f54-4108-8389-5f15ccb7847b
 :END:
@@ -78,7 +78,7 @@ Main system configuration includes:
 - Audio configuration with PipeWire
 - British locale and keyboard settings
 
-** Custom Packages
+** Custom Packages:
 :PROPERTIES:
 :ID:       48bfd942-67c2-4ff9-b29c-2b29c8ada395
 :END:
@@ -88,7 +88,7 @@ Main system configuration includes:
 - Configurations are automatically tangled to their respective locations
 - Includes documentation and explanations inline with the code
 
-** Home Manager
+** Home Manager:
 :PROPERTIES:
 :ID:       02d9ad0e-a0ac-44d1-9f3a-33911cd374bb
 :END:
@@ -103,7 +103,7 @@ User environment configuration including:
   - Cursor
   - Doom Emacs
 
-* Usage
+* Usage:
 :PROPERTIES:
 :ID:       dd708733-3883-46b1-9796-ff849e099989
 :END:
@@ -139,7 +139,7 @@ User environment configuration including:
    sudo nixos-rebuild switch --recreate-lock-file --flake .
    #+end_src
 
-* Notes
+* Notes:
 :PROPERTIES:
 :ID:       8d4a67c2-8aae-4806-8a8c-c2f9e63d7f5e
 :END:
@@ -156,11 +156,11 @@ User environment configuration including:
 - Configuration uses literate programming with Org-mode
 - Dotfiles are managed through Home Manager via imports of each program, e.g ~tmux.nix~, ~wofi.nix~ etc.
 
-* Additional Resources
+* Additional Resources:
 :PROPERTIES:
 :ID:       146b7e19-43c7-43f1-a534-ee543beb0902
 :END:
-- [[https://nixos-and-flakes.thiscute.world/][Best intor to NixOS and Flakes]]
+- [[https://nixos-and-flakes.thiscute.world/][Best intro to NixOS and Flakes]]
 - [[https://nixos.org/manual/nixos/stable/][NixOS Manual]]
 - [[https://nix-community.github.io/home-manager/][Home Manager Manual]]
 - [[https://search.nixos.org/packages][NixOS Package Search]]
