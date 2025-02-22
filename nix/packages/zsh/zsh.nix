@@ -125,6 +125,8 @@ else:
         gpg --decrypt --output $output "$1" && echo "$1 -> $output"
       }
 
+      eval "$(atuin init zsh)"
+
       export WORK_EMAIL=$(cat ${config.sops.secrets.work_email.path})
     '';
 
