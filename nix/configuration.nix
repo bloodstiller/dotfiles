@@ -193,6 +193,7 @@ in {
     swappy
     wl-clipboard
     ispell
+
     # Development tools
     gnumake
     gcc
@@ -222,8 +223,16 @@ in {
     shfmt
     shellcheck
 
+    # Password in the GUI
     polkit_gnome
+
+    # Tailscale
     tailscale
+
+    # Enable night-mode /blue light filter
+    hyprshade
+
+    pyprland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
