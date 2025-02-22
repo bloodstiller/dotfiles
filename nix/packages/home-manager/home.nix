@@ -80,7 +80,8 @@ in
         #};
       #}];
     };
-
+    
+    # Atuin Configuration for syncing shell history accross machines
     atuin = {
       enable = true;
       enableBashIntegration = true;
