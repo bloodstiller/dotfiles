@@ -1,2 +1,0 @@
-tailscale_preauth: |
-    TAILSCALE_AUTH_KEY=tskey-auth-xxxxx-xxxxxxxxxxxxx
