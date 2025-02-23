@@ -21,18 +21,14 @@
     ### Geometry ###
 
     # dynamic width from 0 to 300
-    # width = (0, 300)
-    # constant width of 300
-    width = 300
+    width = (0, 300)
 
     # The maximum height of a single notification, excluding the frame.
     height = 300
 
-    # Position the notification in the top right corner
-    origin = bottom-right
-
-    # Offset from the origin
-    offset = 30x40
+    # Position the notification in the top right of the screen
+    origin = top-right
+    offset = 30x30    # 30px down from top, 30px from right edge
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -152,9 +148,8 @@
     # Markup is allowed
     format = "<b>%s</b>\n%b"
 
-    # Alignment of message text.
-    # Possible values are "left", "center" and "right".
-    alignment = left
+    # Align the text within the notification
+    alignment = center
 
     # Vertical alignment of message text and icon.
     # Possible values are "top", "center" and "bottom".

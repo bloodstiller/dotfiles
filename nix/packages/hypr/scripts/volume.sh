@@ -2,7 +2,31 @@
 
 # Function to get the current volume
 get_current_volume() {
-    pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | sed 's/%//'
+    wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume: //' | awk '{print int($1 * 100)}'
+}
+
+# Function to show volume notification
+notify_volume() {
+    VOLUME=$(get_current_volume)
+    
+    # Choose icon based on volume level
+    if [ "$VOLUME" -ge 70 ]; then
+        ICON="󰕾"  # High volume icon
+    elif [ "$VOLUME" -ge 30 ]; then
+        ICON="󰖀"  # Medium volume icon
+    else
+        ICON="󰕿"  # Low volume icon
+    fi
+    
+    # Check if muted
+    if wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED; then
+        ICON="󰖁"  # Muted icon
+    fi
+
+    dunstify -t 3000 -r 2593 -a "volume" \
+        -h "int:value:${VOLUME}" \
+        "$ICON  Volume" \
+        "${VOLUME}%"
 }
 
 # Check command line arguments
@@ -11,17 +35,20 @@ if [[ "$#" != 1 || ! ("$1" == "inc" || "$1" == "dec" || "$1" == "mute" ) ]]; the
     exit 1
 fi
 
-# Check if pactl is installed
-if ! command -v pactl &> /dev/null; then
-    echo "Error: pactl is not installed. Please install it and try again."
+# Check if wpctl is installed
+if ! command -v wpctl &> /dev/null; then
+    echo "Error: wpctl is not installed. Please install wireplumber and try again."
     exit 1
 fi
 
 # Perform volume adjustment
 if [[ "$1" == "inc" ]]; then
-    [ "$(get_current_volume)" -lt 150 ] && pactl set-sink-volume @DEFAULT_SINK@ +10%
+    [ "$(get_current_volume)" -lt 150 ] && wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+    notify_volume
 elif [[ "$1" == "dec" ]]; then
-    pactl set-sink-volume @DEFAULT_SINK@ -10%
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    notify_volume
 elif [[ "$1" == "mute" ]]; then
-    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    notify_volume
 fi

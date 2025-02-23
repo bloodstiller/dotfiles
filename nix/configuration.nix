@@ -60,6 +60,11 @@ in {
     LC_TIME = "en_GB.UTF-8";
   };
 
+  # Configure console keymap
+  console = {
+    useXkbConfig = true;  # This will use the X11 keyboard configuration
+  };
+
   environment.variables = { EDITOR = "vim"; };
 
   # Enable XRDP with XFCE
@@ -86,14 +91,13 @@ in {
     xkb = {
       layout = "gb";
       variant = "";
+      options = "caps:escape";
     };
   };
 
   # Move defaultSession here (renamed from services.xserver.displayManager.defaultSession)
   services.displayManager.defaultSession = "xfce";
 
-  # Configure console keymap
-  console.keyMap = "uk";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

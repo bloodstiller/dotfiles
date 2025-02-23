@@ -1,162 +1,198 @@
 {
+  "layer": "top", "position": "top",
+  "modules-left": ["custom/logo", "clock",  "custom/weather", "disk", "memory", "cpu", "temperature", "custom/powerDraw", "hyprland/window" ],
+  "modules-center": [  "hyprland/workspaces" , "idle_inhibitor" ],
+  "modules-right": ["tray",  "custom/clipboard", "backlight", "bluetooth", "wireplumber", "network",  "battery" ],
+  "reload_style_on_change":true,
 
-    // Waybar at top layer:
-    "layer": "top",
+  "custom/logo": {
+    "format": "󱄅",
+    "tooltip": false
+  },
 
-    // Waybar position (top|bottom|left|right):
-    "position": "top",
+  "hyprland/workspaces": {
+	"format": "{icon}",
+	"format-icons": {
+		"1": "",
+		"2": "",
+		"3": "",
+		"4": "",
+		"5": "",
+		"6": "",
+		"active": "",
+		"default": ""
+	},
+       "persistent-workspaces": {
+         "*": [ 2, 3, 4, 5, 6 ]
+       }
+},
 
-    // Waybar height:
-    "height": 32, // Waybar height
+"idle_inhibitor":{
+  "format": "<span font='12'>{icon} </span>",
+  "format-icons": {
+    "activated":"󰈈",
+    "deactivated":"󰈉"
+  }
+},
 
-    // Modules-Left:
-    "modules-left": [
-        "custom/launcher",
-        // hyperland Variables When Using That
-         "hyprland/workspaces",
-         "hyprland/submap",
-        // sway Variables When Using That
-        // "sway/workspaces",
-        // "sway/submap",
-        "idle_inhibitor"
-    ],
+"custom/weather": {
+  "format": "{}",
+  "return-type": "json",
+  "exec": "~/.config/waybar/scripts/weather.sh",
+  "interval": 10,
+  "on-click": "brave https://wttr.in"
+},
 
-    // Modules-Center:
-    "modules-center": [
-    "disk",
-    ],
 
-    // Modules-Right:
-    "modules-right": [
-        "network",
-        "memory",
-        "temperature",
-        "cpu",
-        "pulseaudio",
-        "battery",
-        "clock",
-        "tray"
-        //"custom/PBPbattery",
-        //"backlight#icon",
-        //"backlight#value",
-        //"custom/keyboard-layout",
-        //"custom/weather",
-        //"custom/power",
-    ],
+"clock": {
+      "format": "{:%I:%M:%S %p}",
+      "interval":1,
+      "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "calendar-weeks-pos": "right",
+      "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
+      "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
+      "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
+      "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
+      },
 
-     // Configure-Workspaces:
-     // hyperland (when using it uncomment)
-     "hyprland/workspaces": {
-     // sway (when using it uncomment)
-     // "sway/workspaces": {
-     "disable-scroll": false,
-     "active-only": false,
-     "disable-markup" : false,
-     "all-outputs": true,
-     "format": "  {icon}  ",
-     "format-icons": {
-          "1": "",
-          "2": "",
-          "3": "",
-          "10": "",
-          "4": "",
-          "5": "",
-          "focused": "",
-          "default": ""
-         }
-     },
+  "bluetooth": {
+  "format-on": "",
+  "format-off": "",
+  "format-disabled": "󰂲",
+  "format-connected": "󰂴",
+  "format-connected-battery": "{device_battery_percentage}% 󰂴",
+  "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+  "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+  "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+  "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+  "on-click": "blueman-manager"
+ },
 
-     // hyprland Module Configuration (uncomment the one I am using)
-      "hyprland/mode": {
-     // Sway Module Configuration (uncomment the one I am using)
-     // "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-     },
-
-     // Idle Inhibitor Module Configuration:
-     "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "  No Sleep",
-            "deactivated": "  "
-        }
-     },
-
-     // Tray Module Configuration:
-     "tray": {
-         "icon-size": 15,
-         "spacing": 15
-     },
-
-     // Clock Module Configuration:
-     "clock": {
-         "format": "{:%Y-%m-%d %H:%M} ",
-         "on-click": "brave https://calendar.proton.me/u/2/month",
-         "Format-alt": "{:%Y-%m-%d} "
-     },
-
-     // CPU Module-Configuration:
-     "cpu": {
-         "interval": 5,
-         "format": " {usage}% used @ {avg_frequency}GHz", // Icon: microchip
-         "on-click": "alacritty -e 'btop'",
-         "states": {
-             "warning": 70,
-             "critical": 90,
-         },
-     },
-
-     // CPU Temprature Module Configuration:
-     "temperature": {
-          "thermal-zone": 2,
-         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-         "critical-threshold": 80,
-         // "format-critical": "{temperatureC}°C ",
-         "format": "{temperatureC}°C  "
-     },
-
-     // RAM Module Configuration:
-     "memory": {
-         "interval": 5,
-         "format": "Using {used}Gb of {total}Gb",
-         "on-click": "alacritty -e 'btop'",
-         "states": {
-             "warning": 80,
-             "critical": 95
-         }
-     },
-
-    // Network Module Configuration:
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-disconnected": "Disconnected ⚠ ",
-        "on-click": "gnome-nettool",
-        "interval" : 7
+"network": {
+      "format-wifi": " ",
+      "format-ethernet":" ",
+      "format-disconnected": "",
+      "tooltip-format": "{ipaddr}",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)  | {ipaddr}",
+      "tooltip-format-ethernet": "{ifname} 🖧 | {ipaddr}",
+      "on-click": "nm-connection-editor"
     },
 
-    // Audio Module Configuration:
-    "pulseaudio": {
-        //"scroll-step": 1,
-        "format": "{volume}% {icon} ",
-        "format-bluetooth": "{volume}% {icon} ",
-        "format-muted": " ",
-        "on-click": "jamesdsp",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "default": ["", ""]
-            }
-     },
+"battery": {
+    "interval":1,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{capacity}%  {icon} ",
+        "format-charging": "{capacity}% 󰂄 ",
+        "format-plugged": "{capacity}% 󰂄 ",
+        "format-alt": "{time} {icon}",
+            "format-icons": [
+          "󰁻",
+          "󰁼",
+          "󰁾",
+          "󰂀",
+          "󰂂",
+          "󰁹"
+        ]
+    },
+"backlight": {
+  "device": "intel_backlight",
+  "format": "<span font='12'>{icon}</span>",
+  "format-icons": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "on-scroll-down": "brightnessctl set +5%",
+  "on-scroll-up": "brightnessctl set 5%-",
+  "smooth-scrolling-threshold": 1
+},
 
-    // Disk Settings Module Configuration:
-        "disk": {
-            "path": "/",
-            "format": "{free} free in ~{path}",
-            "on-click": "gnome-disks",
-            "interval": 30,
+ "disk": {
+    "interval": 30,
+    "format": "  {percentage_used}%",
+    "path": "/"
+  },
+
+
+  "cpu": {
+      "interval": 1,
+      "format": " {usage}%",
+      "min-length": 6,
+      "max-length": 6,
+      "on-click": "alacritty -e 'btop'",
+      "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+ },
+
+"memory": {
+  "format": " {percentage}%",
+  "on-click": "alacritty -e 'btop'"
+},
+
+ "hyprland/window": {
+    "format": "( {class} )",
+    "rewrite": {
+         "(.*) - Mozilla Firefox": "🌎 $1",
+         "(.*) - zsh": "> [$1]"
     }
+},
+
+"temperature": {
+  "format": " {temperatureC}°C",
+  "format-critical": " {temperatureC}°C",
+  "interval": 1,
+  "critical-threshold": 80,
+  "on-click": "btop"
+ },
+
+"wireplumber": {
+  "format": "{volume}% {icon}",
+  "format-bluetooth": "󰂰",
+  "format-muted": "<span font='12'></span>",
+  "format-icons": {
+    "headphones": "",
+    "bluetooth": "󰥰",
+    "handsfree": "",
+    "headset": "󱡬",
+    "phone": "",
+    "portable": "",
+    "car": "",
+    "default": ["󰕿", "󰖀", "󰕾"]
+  },
+  "scroll-step": 5,
+  "on-click": "jamesdsp",
+  "on-click-right": "pavucontrol",
+  "tooltip-format": "{icon} {volume}%"
+},
+
+
+"tray": {
+    "icon-size": 14,
+    "spacing": 10
+},
+
+"upower": {
+    "show-icon": false,
+    "hide-if-empty": true,
+    "tooltip": true,
+    "tooltip-spacing": 20
+},
+
+  "custom/powerDraw": {
+    "format": "{}",
+    "interval": 1,
+    "exec": "~/.config/waybar/scripts/powerdraw.sh",
+    "return-type": "json"
+  }
 
 }

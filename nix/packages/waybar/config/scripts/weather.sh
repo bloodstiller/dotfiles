@@ -1,13 +1,24 @@
 #!/usr/bin/env bash
+BSSIDS="$(nmcli device wifi list |
+    awk 'NR>1 {if ($1 != "*") {print $1}}' |
+    tr -d ":" |
+    tr "\n" ",")"
 
-LOC="$1"
-# HTML encode string as %20
-LOCATION=$(sed -e "s/ /%20/g" <<<"$LOC")
-content=$(curl -sS "https://thisdavej.azurewebsites.net/api/weather/current?loc=$LOCATION&deg=C")
-ICON=$(curl -s 'https://wttr.in/?format=1' | sed 's/[+0-9a-cA-Z°-]//g' )
-# echo $ICON
-TEMP=$(echo $content | jq -r '. | "\(.temperature)°\(.degType)"' | sed 's/"//g')
-TOOLTIP=$(echo $content | jq -r '. | "\(.temperature)°\(.degType)\n\(.skytext)"' | sed 's/"//g')
-CLASS=$(echo $content | jq .skytext)
-echo '{"text": "'$TEMP'", "tooltip": "'$ICON $TOOLTIP $LOC'", "class": '$CLASS' }'
+LOC=""
+REQUEST_GEO="$(wget -qO - http://openwifi.su/api/v1/bssids/"$BSSIDS")"
+if [[ "$(jq ".count_results" <<< "$REQUEST_GEO")" -gt 0 ]] ; then
+    LAT="$(jq ".lat" <<< "$REQUEST_GEO")"
+    LON="$(jq ".lon" <<< "$REQUEST_GEO")"
+    LOC="$LAT,$LON"
+fi
+
+text="$(curl -s "https://wttr.in/$LOC?format=1" | sed 's/ //g')"
+tooltip="$(curl -s "https://wttr.in/$LOC?0QT" |
+    sed 's/\\/\\\\/g' |
+    sed ':a;N;$!ba;s/\n/\\n/g' |
+    sed 's/"/\\"/g')"
+
+if ! grep -q "Unknown location" <<< "$text"; then
+    echo "{\"text\": \"$text\", \"tooltip\": \"<tt>$tooltip</tt>\", \"class\": \"weather\"}"
+fi
 

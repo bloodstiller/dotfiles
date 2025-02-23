@@ -5,8 +5,22 @@ function notify_brightness() {
   MAX_BRIGHTNESS=$(brightnessctl max)
   CURRENT_BRIGHTNESS=$(brightnessctl get)
 
-  BRIGHTNESS_PERCENT=$(bc <<< "scale=1; "$CURRENT_BRIGHTNESS" / "$MAX_BRIGHTNESS" * 100")
-  dunstify -t 3000 -a "  Brightness" -h int:value:"$BRIGHTNESS_PERCENT" "%"
+  # Calculate percentage without bc
+  BRIGHTNESS_PERCENT=$(( (CURRENT_BRIGHTNESS * 100) / MAX_BRIGHTNESS ))
+  
+  # Use an icon based on brightness level without bc
+  if [ "$BRIGHTNESS_PERCENT" -ge 70 ]; then
+    ICON="󰃠"  # High brightness icon
+  elif [ "$BRIGHTNESS_PERCENT" -ge 30 ]; then
+    ICON="󰃟"  # Medium brightness icon
+  else
+    ICON="󰃞"  # Low brightness icon
+  fi
+
+  dunstify -t 3000 -r 2593 -a "brightness" \
+    -h "int:value:${BRIGHTNESS_PERCENT}" \
+    "$ICON  Brightness" \
+    "${BRIGHTNESS_PERCENT}%"
 }
 
 # Check command line arguments
