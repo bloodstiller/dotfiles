@@ -17,7 +17,25 @@ The configuration is organized as follows:
 - flake.nix                    # Main flake configuration
 - flake.lock                   # Flake lock file
 - configuration.nix            # Core system configuration
-- hardware-configuration.nix   # Hardware-specific configuration
+- modules/                     # Modular system configurations
+  ├── appimages.nix           # AppImage support
+  ├── bluetooth.nix           # Bluetooth configuration
+  ├── bootloader.nix          # Boot configuration
+  ├── de.nix                  # Desktop environment (Hyprland)
+  ├── fonts.nix               # Font configuration
+  ├── keyboard.nix            # Keyboard settings
+  ├── locale.nix              # Locale settings
+  ├── network.nix             # Network configuration
+  ├── nfs.nix                 # NFS mounts
+  ├── nix.nix                 # Nix settings
+  ├── nvidia.nix              # NVIDIA configuration
+  ├── pkgs.nix                # System packages
+  ├── security.nix            # Security settings
+  ├── sound.nix               # Audio configuration
+  ├── tailscale.nix           # Tailscale VPN
+  ├── users.nix               # User management
+  ├── virtualization.nix      # VM and container support
+  └── x11.nix                 # X11 configuration
 - packages/                    # Custom packages and configurations
   ├── alacritty/               # Terminal emulator config
   │   └── config/              # Theme configurations
@@ -64,19 +82,28 @@ The configuration is organized as follows:
 :PROPERTIES:
 :ID:       e5137a31-1f54-4108-8389-5f15ccb7847b
 :END:
-Main system configuration includes:
-- Internationalization (en_GB.UTF-8)
-- Remote desktop support (XRDP)
-- SSH server configuration
-- NFS mounts for media
-- Font configuration (JetBrains Mono, Iosevka)
-- XDG Portal setup for Wayland
-- Automatic system optimization and garbage collection
-- Docker 
-- Virtualization via qemu/kvm/virt-manager
-- AppImage support configuration
-- Audio configuration with PipeWire
-- British locale and keyboard settings
+The system configuration is modularized into separate components under the ~modules/~ directory:
+
+- appimages.nix :: AppImage support configuration
+- bluetooth.nix :: Bluetooth and Blueman setup
+- bootloader.nix :: Systemd-boot and LUKS configuration
+- de.nix :: Desktop Environment (Hyprland) configuration
+- fonts.nix :: Font management (JetBrains Mono, Iosevka)
+- keyboard.nix :: British keyboard layout with Caps as Escape
+- locale.nix :: British locale settings
+- network.nix :: NetworkManager and OpenSSH configuration
+- nfs.nix :: NFS mounts for media storage
+- nix.nix :: Nix package manager settings and optimization
+- nvidia.nix :: NVIDIA driver configuration (currently disabled)
+- pkgs.nix :: Core system packages
+- security.nix :: Security settings including SOPS and Polkit
+- sound.nix :: PipeWire audio configuration
+- tailscale.nix :: Tailscale VPN setup
+- users.nix :: User management and SSH keys
+- virtualization.nix :: QEMU/KVM and Docker configuration
+- x11.nix :: X11/Xfce fallback configuration
+
+Each module is focused on a specific aspect of the system, making the configuration more maintainable and easier to understand.
 
 ** Custom Packages:
 :PROPERTIES:
