@@ -10,6 +10,7 @@ in
     })
     ../alacritty/alacritty.nix
     ../doom/doom.nix
+    ../dropbox/dropbox.nix
     ../dunst/dunst.nix
     ../hypr/hyprland.nix
     ../Pia/pia.nix
@@ -122,20 +123,6 @@ in
   # Dotfile Management
   home.file = {
 
-  };
-
-  # Service Configuration
-  systemd.user.services.dropbox = {
-    Unit = {
-      Description = "Dropbox service";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox";
-      Restart = "on-failure";
-    };
   };
 
 

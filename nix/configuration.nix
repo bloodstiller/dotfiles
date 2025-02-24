@@ -17,6 +17,7 @@
     ./modules/network.nix
     ./modules/nfs.nix
     ./modules/nix.nix
+    ./modules/nvidia.nix
     ./modules/pkgs.nix
     ./modules/security.nix
     ./modules/sound.nix
