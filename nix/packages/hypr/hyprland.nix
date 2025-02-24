@@ -1,9 +1,5 @@
-{ config, pkgs, ... }:
+{ pkgs, inputs, ... }:
 
-let
-  hyprlock = pkgs.hyprlock;
-  hypridle = pkgs.hypridle;
-in
 {
   # Enable Hyprland
   wayland.windowManager.hyprland = {
@@ -23,8 +19,8 @@ in
       source = ${./config/laptopVariables.conf}
 
       # Add hyprlock and hypridle configurations directly
-      exec-once = ${hypridle}/bin/hypridle
-      bind = $mainMod, L, exec, ${hyprlock}/bin/hyprlock
+      exec-once = ${inputs.hypridle.packages.${pkgs.system}.default}/bin/hypridle
+      bind = $mainMod, L, exec, ${inputs.hyprlock.packages.${pkgs.system}.default}/bin/hyprlock
     '';
     
     settings = {
@@ -48,10 +44,17 @@ in
     };
   };
 
-  # Make the packages available
+  # User-specific packages
   home.packages = with pkgs; [
-    hyprlock
-    hypridle
+    inputs.hyprlock.packages.${system}.default
+    inputs.hypridle.packages.${system}.default
+    kitty
+    slurp
+    scrot
+    grim
+    swappy
+    wl-clipboard
+    hyprshade
+    pyprland
   ];
-
 }
