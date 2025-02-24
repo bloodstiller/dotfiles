@@ -6,9 +6,11 @@
     enable = true;
     systemd = {
       enable = true;
-      variables = ["--all"];
     };
     xwayland.enable = true;
+
+    # Use the correct package from the flake
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
 
     extraConfig = ''
       ${builtins.readFile ./config/hyprland.conf}
@@ -18,9 +20,7 @@
       source = ${./config/Envs.conf}
       source = ${./config/laptopVariables.conf}
 
-      # Add hyprlock and hypridle configurations directly
-      exec-once = ${inputs.hypridle.packages.${pkgs.system}.default}/bin/hypridle
-      bind = $mainMod, L, exec, ${inputs.hyprlock.packages.${pkgs.system}.default}/bin/hyprlock
+      # Hypridle and Hyprlock configuration
     '';
     
     settings = {
@@ -34,6 +34,9 @@
     };
   };
 
+  # Optional but recommended: add electron apps hint for Wayland
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Add script files
   # Keep actual congfigs seperated from scripts as above
   home.file = {
@@ -44,10 +47,16 @@
     };
   };
 
+  # Add hyprlock and hypridle config files
+  xdg.configFile = {
+    "hypr/hyprlock.conf".source = ./config/hyprlock.conf;
+    "hypr/hypridle.conf".source = ./config/hypridle.conf;
+  };
+
   # User-specific packages
   home.packages = with pkgs; [
-    inputs.hyprlock.packages.${system}.default
-    inputs.hypridle.packages.${system}.default
+    inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.hyprlock.packages.${pkgs.stdenv.hostPlatform.system}.default
     kitty
     slurp
     scrot

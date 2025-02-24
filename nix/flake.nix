@@ -24,12 +24,14 @@
 
     # Add hyprland and related packages
     hyprland.url = "github:hyprwm/Hyprland";
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    
+    # Add separate inputs for hypridle and hyprlock
     hypridle = {
       url = "github:hyprwm/hypridle";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -46,7 +48,7 @@
     nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hyprlock, hypridle, pyprland, nixos-hardware, nix-colors, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hypridle, hyprlock, pyprland, nixos-hardware, nix-colors, ... }@inputs: {
     nixosConfigurations.zeus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
