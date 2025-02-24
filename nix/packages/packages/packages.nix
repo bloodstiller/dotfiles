@@ -7,23 +7,7 @@
     ripgrep
     fd
     clang
-    cmake
     ansible
-    vagrant
-    
-    # Terminal
-    oh-my-zsh
-
-    # Applications
-    dropbox
-    slack
-    discord
-    google-chrome
-    brave
-    spotify
-    bitwarden
-    _1password-cli
-    _1password-gui
     
     # Python Development
     (python3.withPackages (ps: with ps; [
@@ -31,63 +15,51 @@
       virtualenv
       poetry-core
     ]))
+    
+    # Applications
+    discord
+    brave
+    spotify
+    bitwarden
+    
+    # Shell & Terminal
+    tmux
+    eza
+    fzf
+    tree
 
-    # Archives
+    # Archives & File Tools
     zip
     xz
     unzip
     p7zip
+    file
 
     # Networking Tools
-    mtr
-    iperf3
     dnsutils
-    ldns
-    aria2
-    socat
     nmap
-    ipcalc
 
-    # Virtualization
-    virt-manager
-
-    # Productivity
-    hugo
-    glow
-
-    # System Tools
-    tmux
-    age
+    # Monitoring & Debug Tools
     btop
     iotop
     iftop
-    eza
-    fzf
-    cowsay
-    file
-    which
-    tree
-    gnused
-    gnutar
-    gawk
-    zstd
-    gnupg 
-    sops
-    
-    # System Call Monitoring
     strace
     ltrace
     lsof
 
+
+    # Productivity & Documentation
+    hugo
+
+    # Security & Encryption
+    age
+    gnupg 
+    sops
+
     # Audio
     jamesdsp
     
-    # Custom Packages
+    # Custom & UI
     cursor
-
-    # Emacs
-    #emacsPackages.helm-flyspell
-    alacritty-theme
-
   ];
 }

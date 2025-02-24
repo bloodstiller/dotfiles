@@ -1,43 +1,38 @@
 { pkgs, ... }:
 
-
 # Consolidated system packages
 {
   environment.systemPackages = with pkgs; [
+    # Core System Utilities
     vim
     wget
     git
-    wireguard-tools
     curl
     rsync
     acl
     ispell
+    which
+    wireguard-tools
 
     # Development tools
     gnumake
     gcc
     cmake
 
-    # LSP and development dependencies
+    # Python Development
     python311Packages.pyflakes
     python311Packages.isort
     python311Packages.pytest
     python311Packages.setuptools
 
-    # Nix tools
+    # Development Support
     nixfmt-classic
-
-    # Markdown tools
     grip
-
-    # XML tools
-    libxml2 # Provides xmllint
-
-    # Shell tools
+    libxml2    # Provides xmllint
     shfmt
     shellcheck
 
-    # Password in the GUI
+    # System Integration
     polkit_gnome
   ];
-}
+} 

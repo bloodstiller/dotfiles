@@ -16,6 +16,7 @@
       "ssl-cert"
       "libvirtd"  # For VM management
       "kvm"
+      "vboxusers"  # For VirtualBox
     ];
   };
 

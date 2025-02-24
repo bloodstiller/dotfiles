@@ -9,7 +9,6 @@ in
     ./modules/cli-tools.nix     # CLI tools like eza, bat
     ./modules/git.nix           # Git configuration
     ./modules/theme.nix         # Theme, cursor, and GTK settings
-    ./modules/programs.nix      # Program imports and enables
     
     # Your existing imports can be moved to programs.nix
     (import ../packages/packages.nix {
@@ -29,6 +28,7 @@ in
     ../waybar/waybar.nix
     ../wofi/wofi.nix
     ../zsh/zsh.nix
+    ../work/work.nix
   ];
 
   # Set Home Manager State Version
