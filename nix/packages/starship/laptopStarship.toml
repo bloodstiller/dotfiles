@@ -1,3 +1,12 @@
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Timeout for commands executed by starship (in milliseconds).
+command_timeout = 3600000
+
+# Timeout for starship to scan files (in milliseconds).
+scan_timeout = 500
+
 [env_var.SHELL]
 variable = "SHELL"
 default = "unknown shell"
@@ -52,19 +61,19 @@ format = " [$symbol$branch]($style) "
 symbol = "🍣 "
 style = "bold #F1FA8C"
 
-[git_status]
-conflicted = "⚔️ "
-ahead = "🏎️ 💨 ×${count}"
-behind = "🐢 ×${count}"
-diverged = "🔱 🏎️ 💨 ×${ahead_count} 🐢 ×${behind_count}"
-untracked = "🛤️  ×${count}"
-stashed = "📦 "
-modified = "📝 ×${count}"
-staged = "🗃️  ×${count}"
-renamed = "📛 ×${count}"
-deleted = "🗑️  ×${count}"
-style = "bright-white"
-format = "$all_status$ahead_behind"
+#[git_status]
+#conflicted = "⚔️ "
+#ahead = "🏎️ 💨 ×${count}"
+#behind = "🐢 ×${count}"
+#diverged = "🔱 🏎️ 💨 ×${ahead_count} 🐢 ×${behind_count}"
+#untracked = "🛤️  ×${count}"
+#stashed = "📦 "
+#modified = "📝 ×${count}"
+#staged = "🗃️  ×${count}"
+#renamed = "📛 ×${count}"
+#deleted = "🗑️  ×${count}"
+#style = "bright-white"
+#format = "$all_status$ahead_behind"
 
 [vagrant]
 format = "via [⍱ $version](bold white) "
@@ -95,3 +104,4 @@ format = "via [🔹 $version](147 bold) "
 full_symbol = '🔋 '
 charging_symbol = '⚡ '
 discharging_symbol = '💀 '
+

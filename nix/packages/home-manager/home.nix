@@ -20,6 +20,7 @@ in
     ../dropbox/dropbox.nix
     ../dunst/dunst.nix
     ../hypr/hyprland.nix
+    ../kitty/kitty.nix
     ../Pia/pia.nix
     ../scripts/scripts.nix
     ../sops/sops.nix
