@@ -6,6 +6,7 @@
     google-chrome
     _1password-cli
     _1password-gui
+    anydesk
 
   ];
 }

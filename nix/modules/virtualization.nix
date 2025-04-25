@@ -12,15 +12,17 @@
         swtpm.enable = true;
         ovmf.enable = true;
         package = pkgs.qemu;
+        vhostUserPackages = with pkgs; [ virtiofsd ];
       };
     };
     spiceUSBRedirection.enable = true; # Add USB redirection support
-    
+
     # Enable VirtualBox
     virtualbox = {
       host = {
         enable = true;
-        enableExtensionPack = true;  # Enables USB 2.0/3.0, disk encryption, and more
+        enableExtensionPack =
+          true; # Enables USB 2.0/3.0, disk encryption, and more
       };
     };
   };
@@ -30,6 +32,7 @@
     spice-gtk
     win-virtio
     vagrant
+    virtiofsd
   ];
 }
 

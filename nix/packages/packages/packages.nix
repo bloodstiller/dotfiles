@@ -8,20 +8,17 @@
     fd
     clang
     ansible
-    
+
     # Python Development
-    (python3.withPackages (ps: with ps; [
-      pip
-      virtualenv
-      poetry-core
-    ]))
-    
+    (python3.withPackages (ps: with ps; [ pip virtualenv poetry-core ]))
+
     # Applications
     discord
     brave
     spotify
     bitwarden
-    
+    firefox
+
     # Shell & Terminal
     tmux
     eza
@@ -47,18 +44,17 @@
     ltrace
     lsof
 
-
     # Productivity & Documentation
     hugo
 
     # Security & Encryption
     age
-    gnupg 
+    gnupg
     sops
 
     # Audio
     jamesdsp
-    
+
     # Custom & UI
     cursor
   ];

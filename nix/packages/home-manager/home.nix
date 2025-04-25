@@ -24,7 +24,6 @@ in
     ../Pia/pia.nix
     ../scripts/scripts.nix
     ../sops/sops.nix
-    ../starship/starship.nix
     ../tmux/tmux.nix
     ../waybar/waybar.nix
     ../wofi/wofi.nix
