@@ -16,7 +16,6 @@
     # Use LightDM
     displayManager = {
       lightdm.enable = true;
-      defaultSession = "xfce";
     };
 
     # Only enable XFCE (remove GNOME)
