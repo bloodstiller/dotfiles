@@ -12,6 +12,7 @@
     ./modules/bootloader.nix
     ./modules/de.nix
     ./modules/fonts.nix
+    ./modules/kernel.nix
     ./modules/keyboard.nix
     ./modules/locale.nix
     ./modules/network.nix
