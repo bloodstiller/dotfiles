@@ -57,5 +57,8 @@
 
     # Custom & UI
     cursor
+
+    # Blogging
+    hugo
   ];
 }

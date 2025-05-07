@@ -6,7 +6,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
-    
+
     shellAliases = {
       ls = "eza -T -L=1 -a -B -h -l -g --icons";
       lsl = "eza -T -L=2 -a -B -h -l -g --icons";
@@ -15,64 +15,33 @@
       history = "history 0";
       host-update = "sudo nixos-rebuild switch";
       home-update = "home-manager switch";
-      
+      dt = "/home/martin/.dotfiles";
+
       # PIA VPN connection aliases with common parameters
-      pia-base = "cd ~/Pia && sudo PIA_USER=$(cat /run/user/1000/secrets/pia_user) PIA_PASS=$(cat /run/user/1000/secrets/pia_pass) DISABLE_IPV6=yes PIA_PF=false PIA_DNS=true VPN_PROTOCOL=wireguard";
+      pia-base =
+        "cd ~/Pia && sudo PIA_USER=$(cat /run/user/1000/secrets/pia_user) PIA_PASS=$(cat /run/user/1000/secrets/pia_pass) DISABLE_IPV6=yes PIA_PF=false PIA_DNS=true VPN_PROTOCOL=wireguard";
       pia-ldn = "pia-base PREFERRED_REGION=uk ./get_region.sh";
       pia-sth = "pia-base PREFERRED_REGION=uk_southampton ./get_region.sh";
       pia-man = "pia-base PREFERRED_REGION=uk_manchester ./get_region.sh";
 
-        # Work Aliases: 
-        work-base = "ssh -i ~/.ssh/bvawslondon";
-        reg-base = "work-base -L8000:127.0.0.8000";
-
-        # Scoop
-        scoop = "work-base $(cat /run/user/1000/secrets/scoop)";
-        scoopreg = "reg-base $(cat /run/user/1000/secrets/scoop)";
-        # Gobo
-        gobo = "work-base $(cat /run/user/1000/secrets/gobo)";
-        goboreg = "reg-base $(cat /run/user/1000/secrets/gobo)";
-        # Wing
-        wing = "work-base $(cat /run/user/1000/secrets/wing)";
-        wingreg = "reg-base $(cat /run/user/1000/secrets/wing)";
-        # Mirk
-        mirk = "work-base $(cat /run/user/1000/secrets/mirk)";
-        mirkreg = "reg-base $(cat /run/user/1000/secrets/mirk)";
-        # Sand
-        sand = "work-base $(cat /run/user/1000/secrets/sand)";
-        sandreg = "reg-base $(cat /run/user/1000/secrets/sand)";
-        # Boop
-        boop = "work-base $(cat /run/user/1000/secrets/boop)";
-        boopreg = "reg-base $(cat /run/user/1000/secrets/boop)";
-        # Sally
-        sally = "work-base $(cat /run/user/1000/secrets/sally)";
-        sallyreg = "reg-base $(cat /run/user/1000/secrets/sally)";
-        
-        # Realms
-        realms = "curl 127.0.0.1:8000/reg/realms? | jq";
-        realmsr = "~/.config/scripts/realms.sh";
-        realmsu = "curl '127.0.0.1:8000/reg/realms?u=9023' | jq";
-
-        # Capture Scripts
-        warm = "~/.config/work/HelpDesk/captureScripts/captureWarmTimer.sh";
-        hot = "~/.config/work/HelpDesk/captureScripts/captureHotTimer.sh";
-
       # URL Encoding/Decoding Aliases
-      urldecode = ''python3 -c "
-import sys, urllib.parse as ul
-if len(sys.argv) > 1 and sys.argv[1] != \"-\":
-    print(ul.unquote_plus(sys.argv[1]))
-else:
-    print(ul.unquote_plus(sys.stdin.read().strip()))
-"'';
+      urldecode = ''
+        python3 -c "
+        import sys, urllib.parse as ul
+        if len(sys.argv) > 1 and sys.argv[1] != \"-\":
+            print(ul.unquote_plus(sys.argv[1]))
+        else:
+            print(ul.unquote_plus(sys.stdin.read().strip()))
+        "'';
 
-      urlencode = ''python3 -c "
-import sys, urllib.parse as ul
-if len(sys.argv) > 1 and sys.argv[1] != \"-\":
-    print(ul.quote_plus(sys.argv[1]))
-else:
-    print(ul.quote_plus(sys.stdin.read().strip()))
-"'';
+      urlencode = ''
+        python3 -c "
+        import sys, urllib.parse as ul
+        if len(sys.argv) > 1 and sys.argv[1] != \"-\":
+            print(ul.quote_plus(sys.argv[1]))
+        else:
+            print(ul.quote_plus(sys.stdin.read().strip()))
+        "'';
 
       # GPG and Security Aliases
       rkey = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
@@ -82,14 +51,18 @@ else:
       kvmssh = "ssh kali@$kali";
       kvmsshd = "ssh -D 1080 kali@$kali";
       kvmsshc = "kvms && sleep 30 && kvmsshd";
-      kvmrc = ''xfreerdp3 /v:192.168.122.66 /u:kali /size:100% /dynamic-resolution /gfx:progressive /d: /network:lan -z'';
+      kvmrc =
+        "xfreerdp3 /v:192.168.122.66 /u:kali /size:100% /dynamic-resolution /gfx:progressive /d: /network:lan -z";
       kvmsrc = "kvms && sleep 40 && kvmrc";
 
       # Windows VM Aliases
-      wvmsc = ''virsh --connect qemu:///system start Windows11 && sleep 40 && xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'';
-      wvmc = ''xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'';
+      wvmsc =
+        "virsh --connect qemu:///system start Windows11 && sleep 40 && xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:";
+      wvmc =
+        "xfreerdp3 /v:192.168.122.182 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:";
       wwu = ''wakeonlan -i 192.168.2.255 "2C:F0:5D:7A:71:0B"'';
-      w11c = ''xfreerdp3 /v:192.168.2.115 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:'';
+      w11c =
+        "xfreerdp3 /v:192.168.2.115 /u:martin /size:100% /dynamic-resolution /gfx:progressive /d:";
 
       # Work and Project Aliases
       cpts = "~/Dropbox/40-49_Career/41-Courses/41.22-CPTS";
@@ -98,6 +71,7 @@ else:
       sw = "/home/martin/.config/scripts/start_work.sh 2>/dev/null";
       npt = "/home/martin/.config/scripts/newpentest.sh";
       nbx = "/home/martin/.config/scripts/newbox.sh";
+      nsh = "/home/martin/.config/scripts/newsherlock.sh";
       wbr = "/home/martin/.config/scripts/waybarRestart.sh";
     };
 
@@ -172,13 +146,8 @@ else:
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ 
-        "git" 
-        "history" 
-        "tmux" 
-        "docker-compose"
-      ];
+      plugins = [ "git" "history" "tmux" "docker-compose" ];
       theme = "robbyrussell";
     };
   };
-} 
+}

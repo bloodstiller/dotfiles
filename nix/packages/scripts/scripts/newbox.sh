@@ -1,27 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-read -p "Enter boxname value: " base_dir
+read -p "Enter boxname value: " box_name
 # Define the base directory, default if not provided
 #
 
+src="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Templates/BoxTemplate/"
+dest="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Boxes/BlogEntriesMade/"
+box_dir="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Boxes/BlogEntriesMade/$box_name"
 # Create directories using a nested structure
-mkdir -p "$base_dir"
+mkdir -p "$box_dir"
 
-# Check if the folder structure already exists before copying
-if [ ! -d "$base_dir/Org" ]; then
+cp -r $src/BoxTemplate.org "$box_dir/$box_name-box.org"
+cp $src/Hashes.txt "$box_dir"
+cp $src/Passwords.txt "$box_dir"
+cp $src/Users.txt "$box_dir"
 
-    cp -r ~/.config/orgTemplates/Box/BoxTemplate.org "$base_dir/$base_dir-box.org"
-    cp ~/.config/orgTemplates/Box/Hashes.txt "$base_dir"
-    cp ~/.config/orgTemplates/Box/Passwords.txt "$base_dir"
-    cp ~/.config/orgTemplates/Box/Users.txt "$base_dir"
-
-    cd $base_dir
-    ln -s ~/Dropbox/screenshots .
-    mkdir -p loot/ticket scans/nmap scans/bloodhound scans/ldap payloads
-
-else
-    echo "Org files already exists, not copying over."
-fi
+cd $box_dir
+ln -s ~/Dropbox/screenshots .
+mkdir -p loot/ticket scans/nmap scans/bloodhound scans/ldap payloads
 
 # Confirmation message
-echo "Folder structure, files, created in $base_dir."
+echo "Folder structure, files, created in $box_dir."
