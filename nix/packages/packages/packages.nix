@@ -24,6 +24,7 @@
     eza
     fzf
     tree
+    yazi
 
     # Archives & File Tools
     zip

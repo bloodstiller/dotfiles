@@ -16,6 +16,7 @@
       host-update = "sudo nixos-rebuild switch";
       home-update = "home-manager switch";
       dt = "/home/martin/.dotfiles";
+      doom = "/home/martin/.config/emacs/bin/doom";
 
       # PIA VPN connection aliases with common parameters
       pia-base =

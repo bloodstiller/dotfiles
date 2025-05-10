@@ -1,7 +1,9 @@
 { config, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;  # Allow proprietary software
+  nixpkgs.config.allowUnfree = true; # Allow proprietary software
+
+  home-manager.backupFileExtension = "backup";
 
   nix = {
     settings = {

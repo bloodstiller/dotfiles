@@ -1,12 +1,26 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home = {
     username = "martin";
     homeDirectory = "/home/martin";
-    
+
     sessionVariables = {
-      EDITOR = "vim";
+      EDITOR = "${lib.getExe pkgs.emacs}";
+      BROWSER = "${lib.getExe pkgs.firefox}";
+      TERMINAL = "${lib.getExe pkgs.alacritty}";
     };
   };
-} 
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "application/xhtml+xml" = "firefox.desktop";
+      "text/html" = "firefox.desktop";
+      "text/xml" = "firefox.desktop";
+      "x-scheme-handler/ftp" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+    };
+  };
+}

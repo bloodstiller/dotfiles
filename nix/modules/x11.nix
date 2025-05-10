@@ -4,10 +4,10 @@
   # Move defaultSession here (renamed from services.xserver.displayManager.defaultSession)
   services.displayManager.defaultSession = "xfce";
 
-  services.xrdp = {
-    enable = true;
-    openFirewall = true;
-  };
+ # services.xrdp = {
+ #   enable = true;
+ #   openFirewall = true;
+ # };
 
   # X11 and display manager configuration
   services.xserver = {

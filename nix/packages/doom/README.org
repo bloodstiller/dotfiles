@@ -1,7 +1,7 @@
 #+TITLE: Bloodstiller Dev Doom Config
 #+AUTHOR: blooodstiller
 #+DESCRIPTION: Bloodstiller Personal Doom Emacs Config.
-#+PROPERTY: header-args :tangle /home/martin/.config/doom/config.el
+#+PROPERTY: header-args :tangle /home/martin/.dotfiles/nix/packages/doom/config.el
 #+auto_tangle: t
 #+STARTUP: showeverything
 
@@ -34,7 +34,7 @@
 * Doom Main Config:
 :PROPERTIES:
 :ID:       20a5b90c-8c46-4037-bb1e-ee9fefda1e30
-:header-args: :tangle ~/.config/doom/config.el
+:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/config.el
 :END:
 ** General Settings:
 :PROPERTIES:
@@ -1228,10 +1228,48 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
         :desc "Insert today's date" "t" #'dt/insert-todays-date
         :desc "Insert current time" "c" #'dt/insert-current-time))
 #+end_src
+*** Dynamically Resize Minibuffer:
+:PROPERTIES:
+:ID:       0fb10dbc-58dc-445a-9af2-1fe7fad903aa
+:END:
+#+begin_src emacs-lisp
+;; 📚 Customize Org Roam buffer window behavior
+(after! org-roam
+  (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-side-window)
+                 (side . right)
+                 (window-width . 0.4)
+                 (window-parameters . ((no-other-window . t)
+                                       (no-delete-other-windows . t))))))
+
+;; Floating minibuffer popup with Vertico
+(use-package! vertico-posframe
+  :after vertico
+  :config
+  (vertico-posframe-mode 1)
+  (setq vertico-posframe-poshandler 'posframe-poshandler-frame-center
+        vertico-posframe-border-width 8
+        vertico-posframe-parameters
+        '((left-fringe . 10)
+          (right-fringe . 10)
+          (internal-border-width . 10)
+          (undecorated . t)
+          (no-accept-focus . t)
+          (no-focus-on-map . t)
+          (min-width . t)
+          (min-height . t)
+          (border-width . 10)
+          (child-frame-border-width . 10)
+          (background-color . "#1e1e2e") ; or any dark theme color
+          (internal-border-color . "#585b70") ; slight contrast
+          (alpha . (95 . 95))))) ; slight transparency for soft edge
+#+end_src
 * packages.el:
 :PROPERTIES:
 :ID:       e8e9c48f-7898-45fd-b2eb-9a1d542991b6
-:header-args: :tangle ~/.config/doom/packages.el
+:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/packages.el
 :END:
 - Dooms package manager. Specify here waht packages to install.
 #+begin_src emacs-lisp
@@ -1274,13 +1312,13 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 (package! vlf :recipe (:host github :repo "emacs-straight/vlf" :files ("*.el"))
   :pin "9b7bc521e54af2c7a5c882e4758b66ee4af1a152")
 ;; For emacs-everywhere browser integration
-
+(package! vertico-posframe)
 
 #+end_src
 * init.el
 :PROPERTIES:
 :ID:       b2e9f677-b4e4-4d95-b5e7-e548686441cd
-:header-args: :tangle ~/.config/doom/init.el
+:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/init.el
 :END:
 - This file controls what Doom modules are enabled and what order they load in. Remember to run '~doom sync~' after modifying it!
 #+begin_src emacs-lisp
@@ -1477,9 +1515,10 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 * custom.el
 :PROPERTIES:
 :ID:       c05d64f2-1583-44e0-9d61-bbe4dc6de1e3
-:header-args: :tangle ~/.config/doom/custom.el
+:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/custom.el
 :END:
 #+begin_src emacs-lisp
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1491,6 +1530,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ ;; Test
  )
 (setq org-gtd-update-ack "3.0.0")
 

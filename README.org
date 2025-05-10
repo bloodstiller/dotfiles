@@ -1,195 +1,167 @@
 #+title: NixOS Configuration
+#+author: Martin Barker
 #+description: Personal NixOS System Configuration
 
 * Overview
 :PROPERTIES:
 :ID:       6b99c255-3eb5-43c5-9d3d-7e432d1e9000
 :END:
-This repository contains my personal NixOS system configuration using the Nix flakes feature.
+This repository contains my personal NixOS system configuration using the Nix flakes feature. It's built on NixOS unstable and focuses on a Wayland-first experience with Hyprland.
 
-* Structure:
-:PROPERTIES:
-:ID:       dd885485-db0b-410c-83be-01db8dbc49cc
-:END:
-The configuration is organized as follows:
+* Key Features
+- Full Wayland desktop with Hyprland (XFCE fallback)
+- UK English locale and keyboard settings
+- LUKS encryption on drives
+- Comprehensive development environment
+- Advanced power management
+- Remote desktop support via XRD
+- Automated secrets management
+- Literate configuration with Org-mode
 
+* Structure
+The configuration is organized into three main components:
+
+** System Modules (./modules/)
 #+begin_src bash
-- flake.nix                    # Main flake configuration
-- flake.lock                   # Flake lock file
-- configuration.nix            # Core system configuration
-- modules/                     # Modular system configurations
-  ├── appimages.nix           # AppImage support
-  ├── bluetooth.nix           # Bluetooth configuration
-  ├── bootloader.nix          # Boot configuration
-  ├── de.nix                  # Desktop environment (Hyprland)
-  ├── fonts.nix               # Font configuration
-  ├── keyboard.nix            # Keyboard settings
-  ├── locale.nix              # Locale settings
-  ├── network.nix             # Network configuration
-  ├── nfs.nix                 # NFS mounts
-  ├── nix.nix                 # Nix settings
-  ├── nvidia.nix              # NVIDIA configuration
-  ├── pkgs.nix                # System packages
-  ├── security.nix            # Security settings
-  ├── sound.nix               # Audio configuration
-  ├── tailscale.nix           # Tailscale VPN
-  ├── users.nix               # User management
-  ├── virtualization.nix      # VM and container support
-  └── x11.nix                 # X11 configuration
-- packages/                    # Custom packages and configurations
-  ├── alacritty/               # Terminal emulator config
-  │   └── config/              # Theme configurations
-  ├── cursor/                  # VSCode-based Cursor editor
-  ├── doom/                    # Doom Emacs configuration
-  │   └── config/              # Doom Emacs config
-  │       ├── snippets/        # Custom snippets
-  │       └── ...              # Other config files
-  ├── dunst/                   # Notification daemon
-  ├── home-manager/            # User environment management
-  ├── hypr/                    # Hyprland window manager config
-  │   └── config/              # Hyprland config
-  │       ├── hypridle         # Hypridle config
-  │       ├── hyprlock         # Hyprlock config
-  │       └── ...              # Other config files
-  ├── pia/                     # Private Internet Access VPN
-  ├── scripts/                 # Custom shell scripts
-  ├── sops/                    # Secrets management
-  ├── starship/                # Shell prompt customization
-  ├── tmux/                    # Terminal multiplexer config
-  ├── waybar/                  # Status bar for Wayland
-  └── wofi/                    # Application launcher
+modules/
+├── appimages.nix           # AppImage support + binfmt config
+├── bluetooth.nix           # Bluetooth + Blueman management
+├── bootloader.nix          # Systemd-boot + LUKS encryption
+├── cpu.nix                 # CPU management + power settings
+├── de.nix                  # Hyprland + Wayland + XDG portals
+├── fonts.nix               # Nerd Fonts + System fonts
+├── kernel.nix              # Zen kernel configuration
+├── keyboard.nix            # UK layout + Caps:Escape
+├── locale.nix              # UK English locale settings
+├── network.nix             # NetworkManager + DNS + SSH
+├── nfs.nix                 # Network storage + mount points
+├── nix.nix                 # Package manager + GC settings
+├── nvidia.nix              # NVIDIA drivers + Prime
+├── pkgs.nix                # Core system packages
+├── security.nix            # GPG + Sops + Polkit
+├── sound.nix               # Pipewire audio stack
+├── tailscale.nix           # VPN + auto-connect
+├── users.nix               # User management + SSH keys
+├── virtualization.nix      # Docker + QEMU + VirtualBox
+└── x11.nix                 # XFCE + LightDM
 #+end_src
 
-* Key Components:
-:PROPERTIES:
-:ID:       bf8a77df-a3b1-4602-841b-1845ef33bc55
-:END:
+** Custom Packages (./packages/)
+#+begin_src bash
+packages/
+├── alacritty/            # Terminal emulator
+├── atuin/                # Shell history manager
+├── cursor/               # AI-powered editor
+├── doom/                 # Emacs configuration
+│   └── config/          
+│       ├── snippets/    
+│       └── init.el      
+├── dropbox/              # Dropbox sync client
+├── dunst/                # Notifications
+├── firefox/              # Browser configuration
+├── git/                  # Git configuration
+├── home-manager/         # User environment
+├── hypr/                 # Window manager
+│   └── config/         
+│       ├── hypridle    
+│       ├── hyprlock    
+│       └── hyprland.conf
+├── kitty/               # Terminal emulator
+├── pia/                 # VPN client
+├── scripts/             # Custom utilities
+├── sops/                # Secrets management
+├── starship/            # Shell prompt
+├── tmux/                # Terminal multiplexer
+├── waybar/              # Status bar
+├── wofi/                # Application launcher
+└── zsh/                 # Shell configuration
+#+end_src
 
-** Flake Configuration (flake.nix):
-:PROPERTIES:
-:ID:       ee51beb8-384c-48ed-b269-89450596d858
-:END:
-- Uses nixos-unstable channel
-- Integrates home-manager for user environment management
-- Includes additional tools:
-  - sops-nix for encrypted secrets
-  - agenix for secrets management (will retire soon)
-  - hyprland for window management
-    - hypridle & hyprlock setup (managed in ~hyprland.nix~)
-  - pyprland for Hyprland extensions
+** Home Manager (./packages/home-manager/)
+User environment configuration managing:
+- Shell: ZSH with custom plugins
+- Development: Emacs 29, Git, VSCode
+- Desktop: Wayland tools suite
+- CLI tools: eza, bat, fd, ripgrep
+- Services: Dropbox, GPG agent
+- Dotfiles: Automated management
 
-** System Configuration (configuration.nix):
-:PROPERTIES:
-:ID:       e5137a31-1f54-4108-8389-5f15ccb7847b
-:END:
-The system configuration is modularized into separate components under the ~modules/~ directory:
+* Installation
 
-- appimages.nix :: AppImage support configuration
-- bluetooth.nix :: Bluetooth and Blueman setup
-- bootloader.nix :: Systemd-boot and LUKS configuration
-- de.nix :: Desktop Environment (Hyprland) configuration
-- fonts.nix :: Font management (JetBrains Mono, Iosevka)
-- keyboard.nix :: British keyboard layout with Caps as Escape
-- locale.nix :: British locale settings
-- network.nix :: NetworkManager and OpenSSH configuration
-- nfs.nix :: NFS mounts for media storage
-- nix.nix :: Nix package manager settings and optimization
-- nvidia.nix :: NVIDIA driver configuration (currently disabled)
-- pkgs.nix :: Core system packages
-- security.nix :: Security settings including SOPS and Polkit
-- sound.nix :: PipeWire audio configuration
-- tailscale.nix :: Tailscale VPN setup
-- users.nix :: User management and SSH keys
-- virtualization.nix :: QEMU/KVM and Docker configuration
-- x11.nix :: X11/Xfce fallback configuration
+** Prerequisites
+- NixOS installation media
+- UEFI system
+- Internet connection
+- (Optional) NVIDIA GPU
 
-Each module is focused on a specific aspect of the system, making the configuration more maintainable and easier to understand.
+** Basic Setup
+#+begin_src shell
+# Clone repository
+git clone https://github.com/bloodstiller/dotfiles.git ~/.dotfiles
 
-** Custom Packages:
-:PROPERTIES:
-:ID:       48bfd942-67c2-4ff9-b29c-2b29c8ada395
-:END:
-*Work in Progress* Each package in the packages directory follows a literate programming approach using Org-mode:
-- Configuration is written in README.org files
-- Uses Org-mode's literate programming features
-- Configurations are automatically tangled to their respective locations
-- Includes documentation and explanations inline with the code
+# Review and modify hardware configuration
+nano ~/.dotfiles/modules/hardware.nix
 
-** Home Manager:
-:PROPERTIES:
-:ID:       02d9ad0e-a0ac-44d1-9f3a-33911cd374bb
-:END:
-User environment configuration including:
-- Git configuration
-- Tmux setup
-  - Including tpm for plugin management
-- Service management (e.g., Dropbox)
-- Desktop environment tools (dunst, wofi, waybar)
-- Shell configuration (zsh with oh-my-zsh plugins)
-- Development tools and environments
-  - Cursor
-  - Doom Emacs
+# Build and activate
+cd ~/.dotfiles
+sudo nixos-rebuild switch --flake .
+#+end_src
 
-* Usage:
-:PROPERTIES:
-:ID:       dd708733-3883-46b1-9796-ff849e099989
-:END:
+** Post-Installation
+1. Set up GPG keys
+2. Configure SSH keys
+3. Import secrets
+4. Set up Doom Emacs
 
-1. Clone this repository:
-   #+begin_src shell
-   git clone https://github.com/bloodstiller/dotfiles.git ~/.dotfiles
-   #+end_src
+* Updating
+#+begin_src shell
+# Update all flake inputs
+nix flake update
 
-2. Review and modify configurations as needed
+# Apply updates
+sudo nixos-rebuild switch --flake .
 
-3. Build and activate:
-   #+begin_src shell
-   # Navigate to the directory containing flake.nix
-   cd ~/.dotfiles/nix/configuration  
-   # Build and activate using flake
-   sudo nixos-rebuild switch --flake .  
-   #+end_src
-   - *Note*: This will also update the home-manager packages *be patient*, this will take a while as it's compiling a lot of packages.
+# Update and apply in one command
+sudo nixos-rebuild switch --recreate-lock-file --flake .
+#+end_src
 
-4. To update the system packages, run:
-   #+begin_src shell
-   # Update flake.lock
-   nix flake update
+* Development Setup
 
-   # Or replace only the specific input, such as home-manager:
-   nix flake update home-manager
+** Editor Configuration
+- Doom Emacs (managed outside home-manager)
+- Cursor (AI-powered VSCode)
+- Custom snippets and templates
 
-   # Apply the updates
-   sudo nixos-rebuild switch --flake .
+** Virtual Environments
+- Docker containers
+- QEMU/KVM virtual machines
+- VirtualBox support
 
-   # Or to update flake.lock & apply with one command (i.e. same as running "nix flake update" before)
-   sudo nixos-rebuild switch --recreate-lock-file --flake .
-   #+end_src
-
-* Notes:
-:PROPERTIES:
-:ID:       8d4a67c2-8aae-4806-8a8c-c2f9e63d7f5e
-:END:
+* Notes
 - System state version: 25.05
-- Uses Hyprland as the primary window manager
-  - Has xfce as a fallback for x11 support, will eventually port of my old i3 config as a fallback.
-- Includes extensive Doom Emacs configuration.
-  - Doom emacs is already declaried declaratively so it is not intergrated into home-manager. Othewise I would have rebuild the entire system each time I made a change. 
-  - Some further reading as to why this is the preffered approach:
-      - https://discourse.nixos.org/t/advice-needed-installing-doom-emacs/8806 
-      - https://discourse.doomemacs.org/t/installing-doom-emacs-on-nixos/4600
-- Configured for both X11 and Wayland support
-- Secrets are managed using age encryption
-- Configuration uses literate programming with Org-mode
-- Dotfiles are managed through Home Manager via imports of each program, e.g ~tmux.nix~, ~wofi.nix~ etc.
+- Wayland-first with X11 fallback
+- Encrypted storage by default
+- Automated power management
+- Remote desktop ready
+- Comprehensive font setup with Nerd Fonts
 
-* Additional Resources:
-:PROPERTIES:
-:ID:       146b7e19-43c7-43f1-a534-ee543beb0902
-:END:
-- [[https://nixos-and-flakes.thiscute.world/][Best intro to NixOS and Flakes]]
+* Troubleshooting
+
+** Common Issues
+- NVIDIA: Ensure kernel modules match driver version
+- Virtualization: Enable CPU virtualization in BIOS
+- Audio: Check Pipewire service status
+
+** Logs
+- System: ~/var/log/messages~
+- Hyprland: ~$XDG_CACHE_HOME/hyprland/hyprland.log~
+- Home Manager: ~$HOME/.local/state/nix/profiles~
+
+* Additional Resources
+- [[https://nixos-and-flakes.thiscute.world/][NixOS and Flakes Guide]]
 - [[https://nixos.org/manual/nixos/stable/][NixOS Manual]]
 - [[https://nix-community.github.io/home-manager/][Home Manager Manual]]
 - [[https://search.nixos.org/packages][NixOS Package Search]]
+- [[https://hyprland.org/][Hyprland Documentation]]
 
 
