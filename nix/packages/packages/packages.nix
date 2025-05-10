@@ -14,8 +14,6 @@
 
     # Applications
     discord
-    brave
-    spotify
     bitwarden
     firefox
 
@@ -24,7 +22,6 @@
     eza
     fzf
     tree
-    yazi
 
     # Archives & File Tools
     zip
@@ -32,6 +29,7 @@
     unzip
     p7zip
     file
+    exiftool
 
     # Networking Tools
     dnsutils
@@ -44,9 +42,6 @@
     strace
     ltrace
     lsof
-
-    # Productivity & Documentation
-    hugo
 
     # Security & Encryption
     age

@@ -22,6 +22,7 @@ in {
     ../tmux/tmux.nix
     ../waybar/waybar.nix
     ../wofi/wofi.nix
+    ../yazi/yazi.nix
     ../zsh/zsh.nix
   ];
 
