@@ -60,5 +60,8 @@
 
     # Blogging
     hugo
+
+    # Nextcloud
+    nextcloud-client
   ];
 }
