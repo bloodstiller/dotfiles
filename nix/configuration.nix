@@ -19,6 +19,7 @@
     ./modules/nfs.nix
     ./modules/nix.nix
     ./modules/nvidia.nix
+    ./modules/pam.nix
     ./modules/pkgs.nix
     ./modules/security.nix
     ./modules/sound.nix
@@ -27,7 +28,6 @@
     ./modules/virtualization.nix
     ./modules/x11.nix
   ];
-
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 
 {
+
   # System-level configuration
   programs.hyprland = {
     enable = true;
