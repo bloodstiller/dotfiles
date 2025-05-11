@@ -5,4 +5,6 @@
   security.polkit.enable = true;
   # Install polkit-lxqt (auth agent required for keyring + system prompts)
   environment.systemPackages = with pkgs; [ lxqt.lxqt-policykit ];
+  # Enable Keyring
+  services.gnome.gnome-keyring.enable = true;
 }
