@@ -1,0 +1,29 @@
+* Used-For: +%^{Used-for}+
+
+* Attack Information:
+
++ *CVE's Involved*:
+
++ *Exploit Flow*:
+
++ *Prevention & Detection*:
+
+* Requirements:
+
+* + %^{AttackName} Enumeration+: 
+
+* + %^{AttackName} Attack+: 
+
+* Tools Used for the attack:
+
+- [[id:6f3dcf1b-729f-4386-a953-e723bf5abc18][metasploit]]
+
+-
+
+* References:
+
+- [[id:87a24cb5-3db2-45f9-8e4e-d32fddd1e876][Attacks]]
+
+-
+
+

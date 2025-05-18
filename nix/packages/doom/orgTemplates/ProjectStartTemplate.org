@@ -1,0 +1,38 @@
+:PROPERTIES:
+:END:
+#+title: Project Kickoff Start Checklist
+#+filetags: template checklist
+
+* NOTE We are planning here /not/ executing the project!
+
+* TODO Capture my current thinking on the project [0/4]:
++ [ ] What do I already know about the project?
++ [ ] What don't I know that I need to find out?
++ [ ] Who can I talk to who might provide insights?
++ [ ] What can I read or listen to for relevant ideas?
+  - Quick list not detailed search yet.
+
+* TODO Define Success Criteria [0/2]
++ [ ] What is my goal or intention for this project?
+  - /This should be a single sentence - distill the essence./
++ [ ] What needs to happen for this to be considered a succes.s
+
+* TODO Review existing folders and tages that may contain relevant notes: [0/1]
+/This is about quickly scanning, do _NOT_ get bogged down and lose momentum./
+- [ ] Collate related sources.
+
+* TODO Search for related terms accross all folders: [/]
+/We already have notes/resources, utilize them./
+
+- [ ] Search the notes _not_ the internet.
+
+* TODO Move tag/back link relevant notes to the project folder/document: [/]
+- [ ] Create a simple relevant section and link back to other notes and projects.
+  - _Remember in org we can link to entire folders too_.
+
+* TODO Create an outline of collected notes and plan the project: [0/3]
+/This is an outline, it is not meant to be perfect or cover all eventualities./
+- [ ] Create an archipelago of ideas.
+- [ ] Create a project in org-gtd.
+  - [ ] Write at least the next actionable task.
+- [ ] Set a start date for the first task.

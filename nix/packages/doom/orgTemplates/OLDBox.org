@@ -1,0 +1,106 @@
+* Service Enumeration:
+
+** Basic NMAP scans:
+  + *TCP*:
+  + *UDP*:
+*** <Service 1>
+*** <Service 2>
+*** <Service 3>
+*** <Service 4>
+
+* +Available Networks+: 
+  + *Hosts*:
+  - _Host 1_:  
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 2_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 3_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - *Ping Sweep Results*:
+    - [[id:0c67fab1-55d7-48e3-9baf-321bbfbc9c15][ping sweep & port scanning]]
+    + /NOTE/: It is possible that a ping sweep may not result in successful replies on the first attempt, 
+     especially when communicating across networks. This can be caused by the time it takes for a host to build it's arp cache. 
+     In these cases, it is good to attempt our ping sweep at least twice to ensure the arp cache gets built. 
+
+  + Topology Diagram:   
+#+begin_src shell
+            +-------------------------------------------------------+
+            |                   Network Topology                    |
+            +-------------------------------------------------------+
+
+ +----------------+       +----------------+       +----------------+
+ |   AttackHost   |       |   PivotHost    |       |  TargetHost    |
+ |----------------|       |----------------|       |----------------|
+ | NIC1: [______] |-------| NIC1: [______] |-------| NIC1: [______] |
+ | NIC2: [______] |       | NIC2: [______] |       | NIC2: [______] |
+ | Machine: [___] |       | Machine: [___] |       | Machine: [___] |
+ +----------------+       +----------------+       +----------------+
+
+Notes:
+1. "-------" represents a direct connection.
+2. "[______]" placeholders are for you to enter IP ranges.
+3. "Machine: [___]" placeholders are for you to enter actual machine names.
+#+end_src
+
+
+* /KILL-CHAIN/:
+1. 
+* =LOOT=:
+  - 
+* +CREDS+:
+- *Usernames/Password*: 
+  - User 1: 
+    - _Discovered By_: 
+  - User 2: 
+    - _Discovered By_: 
+  - User 3: 
+    - _Discovered By_: 
+
+- *Services*
+  - Servie A: 
+    - _Discovered By_: 
+  - Service B: 
+    - _Discovered By_: 
+  - Service C: 
+    - _Discovered By_: 
+
+
+* Notes: 
+- 
+
+* TODOLIST: [/]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+
+* What do we know?
++Do you need to enumerate more?+
+  1. 
+  2. 
+* What did I learn? 
+  1.
+  2. 
+  3.  
+* What silly mistakes did I make? 
+  1. 
+  2. 
+

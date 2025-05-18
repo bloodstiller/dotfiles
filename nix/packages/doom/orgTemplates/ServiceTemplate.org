@@ -1,0 +1,58 @@
+:PROPERTIES:
+:END:
+
+* Port Number: +%^{Port-Number(s)}+
+- TCP:
+- UDP:
+
+* Used-For: +%^{Used-for}+
+
+
+* Information:
+
+%?
+
+* Commands:
+
+| Option | Description |
+|--------+-------------|
+|        |             |
+|        |             |
+
+* +Attacking+:
+
+
+** [[id:f3811bfe-8d48-4458-bea6-835b22c2b390][NMAP]] Scripting Engine:
++ Location of scripts:
+  - ls /usr/share/nmap/scripts/ | grep %^{Service Name}
+  - locate *nse | grep %^{Service Name}
+
+
+
+** _Conf File Location & Information_:
++ Located at:
+  * cat <location> | grep -v "#\|;"
+    * View only uncommented lines.
+
+*** Conf Options (+Dangerous Options+):
+| Option | +Dangerous+ | Description |
+|--------+-----------+-------------|
+|        |           |             |
+
+
+
+
+* Useful Tools:
+
+-
+
+-
+
+* References:
+
+-
+
+-
+
+
+[[id:563d3991-0494-4af0-b2a0-bce36751dbc7][Services]]

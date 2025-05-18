@@ -68,5 +68,6 @@
     s-tui # Terminal UI for monitoring CPU
     stress # Used with s-tui for stressing
     undervolt # Used to undervolt system
+    acpi # Advanced Configuration & Power
   ];
 }

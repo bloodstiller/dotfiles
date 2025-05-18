@@ -1,0 +1,7 @@
+* Used For: +%^{Used For}+
++ +Official Documentation+: 
+
+* %^{Name of app} Overview: 
+* +Discovery/Footprinting %^{Name of app}+:
+* +Enumerating %^{Name of app}+:
+* +Attacking %^{Name of app}+:

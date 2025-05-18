@@ -715,13 +715,14 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 
 (after! org
 (setq org-emphasis-alist
-  '(("*" (underline :weight black :foreground "#EB00E4" ))
+  ;'(("*" (underline :weight black :foreground "#ee9955"))
+  '(("*" (:foreground "#c5cdd8" :height 1.1 :weight bold ))
    ;; ("/" (:weight black :background "#745B00" :foreground "#FF3D2B" ))
     ("_" (:weight black :foreground "#79c6ff" ))
     ("=" (underline :weight black :foreground "#b18c00" ))
-    ("~" (:foreground "#6BB86B" ))
-    ("+" (underline bold :weight italic :foreground "#FF3D2B" )))))
-
+    ;;("~" (:foreground "#6BB86B" ))
+    ("~" (:foreground "#c678dd" :background "#2d333b"))
+    ("+" (underline bold :weight italic :foreground "#FF6c6b" )))))
 #+end_src
 
 **** Cosmetics - Headline Bullets and Folds:
@@ -812,22 +813,24 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
   (setq org-roam-list-files-commands '(find fd fdfind rg)))
 
 #+end_src
+
+/home/martin/.dotfiles/nix/packages/doom
 **** Roam - Capture Templates:
 :PROPERTIES:
 :ID:       0b82e2bd-d707-4757-97bf-8c912fce2043
 :END:
 | **Path To Template**                              | **Description** | **Keybinding** |
 |-------------------------------------------------+---------------+--------------|
-| ~/.config/orgTemplates/Application.org          | Application   | A            |
-| ~/.config/orgTemplates/AttackTemplate.org       | Attack Type   | a            |
-| ~/.config/orgTemplates/BoxTemplate.org          | Box           | b            |
-| ~/.config/orgTemplates/CPTSSection.org          | CPTS Module   | c            |
-| ~/.config/orgTemplates/DailyReview.org          | Daily Review  | d            |
-| ~/.config/orgTemplates/Pentest.org              | New Pentest   | p            |
-| ~/.config/orgTemplates/ProjectStartTemplate.org | Start Project | n            |
-| ~/.config/orgTemplates/ProjectEndTemplate.org   | End Project   | N            |
-| ~/.config/orgTemplates/ServiceTemplate.org      | Service       | s            |
-| ~/.config/orgTemplates/ToolTemplate.org         | Tool          | t            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/Applicatio.org           | Application   | A            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/AttackTemplate.org       | Attack Type   | a            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/BoxTemplate.org          | Box           | b            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/CPTSSection.org          | CPTS Module   | c            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/DailyReview.org          | Daily Review  | d            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/Pentest.org              | New Pentest   | p            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectStartTemplate.org | Start Project | n            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectEndTemplate.org   | End Project   | N            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/ServiceTemplate.org      | Service       | s            |
+| /home/martin/.dotfiles/nix/packages/doom/orgTemplates/ToolTemplate.org         | Tool          | t            |
 |-------------------------------------------------+---------------+--------------|
 
 #+begin_src emacs-lisp
@@ -839,53 +842,53 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
       :unnarrowed t)
 
  ("A" "Application" plain
-  (file "~/.config/orgTemplates/Application.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Application.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("a" "Attack Type" plain
-  (file "~/.config/orgTemplates/AttackTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/AttackTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("b" "Box" plain
-  (file "~/.config/orgTemplates/BoxTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/BoxTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("c" "CPTS Module" plain
-  (file "~/.config/orgTemplates/CPTSSection.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/CPTSSection.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("d" "Daily Review" plain
-  (file "~/.config/orgTemplates/DailyReview.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/DailyReview.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("p" "Pentest" plain
-  (file "~/.config/orgTemplates/Pentest.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Pentest.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
 
  ("n" "Start Project" plain
-  (file "~/.config/orgTemplates/ProjectStartTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectStartTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("N" "End Project" plain
-  (file "~/.config/orgTemplates/ProjectEndTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectEndTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("s" "Service" plain
-  (file "~/.config/orgTemplates/ServiceTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ServiceTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("t" "Tool" plain
-  (file "~/.config/orgTemplates/ToolTemplate.org")
+  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ToolTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)))
 #+end_src
@@ -1234,37 +1237,39 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 :END:
 #+begin_src emacs-lisp
 ;; 📚 Customize Org Roam buffer window behavior
-(after! org-roam
-  (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
-  (add-to-list 'display-buffer-alist
-               '("\\*org-roam\\*"
-                 (display-buffer-in-side-window)
-                 (side . right)
-                 (window-width . 0.4)
-                 (window-parameters . ((no-other-window . t)
-                                       (no-delete-other-windows . t))))))
+
+;(after! org-roam
+  ;(setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
+  ;(add-to-list 'display-buffer-alist
+               ;'("\\*org-roam\\*"
+                 ;(display-buffer-in-side-window)
+                 ;(side . right)
+                 ;(window-width . 0.4)
+                 ;(window-parameters . ((no-other-window . t)
+                                       ;(no-delete-other-windows . t))))))
 
 ;; Floating minibuffer popup with Vertico
-(use-package! vertico-posframe
-  :after vertico
-  :config
-  (vertico-posframe-mode 1)
-  (setq vertico-posframe-poshandler 'posframe-poshandler-frame-center
-        vertico-posframe-border-width 8
-        vertico-posframe-parameters
-        '((left-fringe . 10)
-          (right-fringe . 10)
-          (internal-border-width . 10)
-          (undecorated . t)
-          (no-accept-focus . t)
-          (no-focus-on-map . t)
-          (min-width . t)
-          (min-height . t)
-          (border-width . 10)
-          (child-frame-border-width . 10)
-          (background-color . "#1e1e2e") ; or any dark theme color
-          (internal-border-color . "#585b70") ; slight contrast
-          (alpha . (95 . 95))))) ; slight transparency for soft edge
+
+;(use-package! vertico-posframe
+  ;:after vertico
+  ;:config
+  ;(vertico-posframe-mode 1)
+  ;(setq vertico-posframe-poshandler 'posframe-poshandler-frame-center
+        ;vertico-posframe-border-width 8
+        ;vertico-posframe-parameters
+        ;'((left-fringe . 10)
+          ;(right-fringe . 10)
+          ;(internal-border-width . 10)
+          ;(undecorated . t)
+          ;(no-accept-focus . t)
+          ;(no-focus-on-map . t)
+          ;(min-width . t)
+          ;(min-height . t)
+          ;(border-width . 10)
+          ;(child-frame-border-width . 10)
+          ;(background-color . "#1e1e2e") ; or any dark theme color
+          ;(internal-border-color . "#585b70") ; slight contrast
+          ;(alpha . (95 . 95))))) ; slight transparency for soft edge
 #+end_src
 * packages.el:
 :PROPERTIES:

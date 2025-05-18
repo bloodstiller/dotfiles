@@ -1,0 +1,706 @@
+#+title: New PenTest
+#+AUTHOR: MDB Dev
+#+DESCRIPTION: New Pentest Template
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* :TOC:
+:PROPERTIES:
+:ID:       c53b6a80-1d48-407d-87fe-fcd64dea2bb8
+:END:
+
+
+* Activity Log Information:
+:PROPERTIES:
+:header-args: :tangle Notes/3.Activity-Log.md
+:END:
+
+#+begin_src org
+| Action                         | Start Time | End Time  | Date       | Notes                                    |
+| ------------------------------ | ---------- | --------- | ---------- | -----------------------------------------|
+|<PlaceHolder>                   |<time>      |<time>     |<notes>     |                                          |
+| Test                           |            |           |            |                                          |
+#+end_src
+
+* Admin:
+:PROPERTIES:
+:END:
+
+
+** 1. Scoping Information:
+:PROPERTIES:
+:header-args: :tangle Admin/Scoping-Information.md :mkdirp yes :perms
+:END:
+
+#+begin_src org
+- Network range: 
+- Domain (AD): 
+- Domain (Web):
+#+end_src
+
+** 2. Client-Contact-Information:
+:PROPERTIES:
+:header-args: :tangle Admin/Client-Contact-Information.md :mkdirp yes :perms
+:END:
+
+#+begin_src org
+- *Role*:
+  - Name:
+  - Contact Information:
+
+- *Role*:
+  - Name:
+  - Contact Information:
+
+- *Role*:
+  - Name:
+  - Contact Information:
+
+#+end_src
+
+** 3. Administrative Information:
+:PROPERTIES:
+:header-args: :tangle Admin/Administrative-Information.md :mkdirp yes :perms
+:END:
+
+#+begin_src org
+#+end_src
+
+
+
+* Deliverables:
+:PROPERTIES:
+:header-args: :tangle Deliverables/Deliverables.md
+:END:
+#+begin_src org
+
+#+end_src
+* Data:
+:PROPERTIES:
+:header-args: :tangle Data/Data.md
+:END:
+ - For any script exports e.g. dumping NTDS.
+* Evidence:
+:PROPERTIES:
+:END:
+
+** Findings:
+:PROPERTIES:
+:header-args: :tangle Evidence/Findings/Findings.md
+:END:
+
+*** ASEPRoasting:
+:PROPERTIES:
+:END:
+
+*** Kerberoasting:
+:PROPERTIES:
+:END:
+
+*** LLMNR&NBT-NS Response:
+:PROPERTIES:
+:END:
+
+*** Local Admin Password Reuse:
+:PROPERTIES:
+:END:
+
+*** Password Re-use:
+:PROPERTIES:
+:END:
+
+*** Weak Admininstrator Credentials: 
+:PROPERTIES:
+:END:
+
+*** Weak Service Credentials: 
+:PROPERTIES:
+:END:
+
+*** Default Credentials: 
+:PROPERTIES:
+:END:
+
+*** Service Accounts Part of Domain Admin Group: 
+:PROPERTIES:
+:END:
+
+*** Local File Inclusion:
+:PROPERTIES:
+:END:
+
+*** Command Injection:
+:PROPERTIES:
+:END:
+** Logging Output:
+:PROPERTIES:
+:END:
+*** Tmux:
+:PROPERTIES:
+:header-args: :tangle Evidence/Logging-Output/tmux-Logging.md :mkdirp yes :perms
+:END:
+#+begin_src org
+
+#+end_src
+
+*** mimikatz:
+:PROPERTIES:
+:header-args: :tangle Evidence/Logging-Output/mimikatz.md :mkdirp yes :perms
+:END:
+#+begin_src org
+
+#+end_src
+** OSINT:
+:PROPERTIES:
+:header-args: :tangle Evidence/OSINT/OSINT.md
+:END:
+#+begin_src org 
+
+#+end_src
+** Scans:
+:PROPERTIES:
+:END:
+*** NMAP:
+:PROPERTIES:
+:END:
+**** Basic NMAP scan:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/nmapBasicTCP.md :mkdirp yes :perms
+:END:
+- This is just to get a lay of the land and see up hosts.
+- We can extract the information from this for our
+__________________________________________________________
+- [ ] *Basic Scan*:
+  - sudo nmap -sV -oA initialScan -iL scope_list
+
+- *Scan Results*:
+    #+BEGIN_SRC org
+    ## NMAP Basic Scan 
+    - Command run `sudo nmap -sV -oA initialScan -iL scope_list`
+
+      ```
+
+      ```
+    #+END_SRC
+***** Common Ports Scan [0/0]:
+:PROPERTIES:
+:END:
+- *If testing web applications try*:
+  - [ ] Common Web App Scan:
+    - sudo nmap -sV -p 80,443,8000,8080,8180,8888,10000 -oA webDiscovery -iL scopelist
+
+    #+BEGIN_SRC org
+    ## NMAP Common Web Ports  Scan 
+    - Command run `sudo nmap -sV -p 80,443,8000,8080,8180,8888,10000 -oA webDiscovery -iL scopelist`
+
+      ```
+
+      ```
+    #+END_SRC
+  - [ ] Other targets try:
+    - [ ] [[Indepth Scans:]]
+  - *Scan Results*:
+    #+BEGIN_SRC bash
+
+    #+END_SRC
+**** Indepth NMAP Scans:
+:PROPERTIES:
+:END:
+- Depending on size of scope run either:
+***** NMAP Top 10,000 ports TCP:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/nmapTop10000TCP.md :mkdirp yes :perms
+:END:
+
+- sudo nmap --top-ports=10000 -sV -oA 10kPortsTCP -iL scopeList
+    #+BEGIN_SRC org
+    ## NMAP Top 10,000 Ports TCP Scan 
+    - Command run `sudo nmap --top-ports=10000 -sV -oA 10kPortsTCP -iL scopeList`
+
+      ```
+
+      ```
+    #+END_SRC
+
+***** NMAP Top 10,000 ports UDP:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/nmapTop10000UDP.md :mkdirp yes :perms
+:END:
+
+- sudo nmap --top-ports=10000 -sU -sV -oA 10kPortsUDP -iL scopeList
+    #+BEGIN_SRC org
+    ## NMAP Top 10,000 Ports TCP Scan 
+    - Command run `sudo nmap --top-ports=10000 -sV -sU -oA 10kPortsUDP -iL scopeList`
+
+      ```
+
+      ```
+    #+END_SRC
+***** Full TCP port scan:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/nmapFullTCP.md :mkdirp yes :perms
+:END:
+- sudo nmap -p- -sV -A -oA FullTCP -iL scopeList
+#+BEGIN_SRC org
+#+END_SRC
+***** Full UDP port scan:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/nmapFullUDP.md :mkdirp yes :perms
+:END:
+- sudo nmap -p- -sV -A -oA FullTCP -iL scopeList
+#+BEGIN_SRC org
+#+END_SRC
+*** Aquatone/Eyewitness Scans (Web): [0/2]
+:PROPERTIES:
+:END:
+- Run these off the basis of the common ports scan (ingest):
+  - When reviewing the results of the below run [[Indepth Scans:]]
+________________________________________________________
+- [ ] [[id:7655547e-716a-47a5-8aed-03d6b6452797][Eyewitness]] Scan:
+  - [ ] eyewitness --web -x <nmap>.xml -d <directoryNameForResults>
+  - /Remember to read the entire report!!!/ There are often very important discoveries burried deep in the report!
+    - Just because it will show High Value Targets at the start doesn't mean these are our best route!
+- [ ] [[id:5953d611-4d68-4df5-82e9-20aa32df99f7][Aquatone]] Scan:
+  - [ ]  cat <nmap>.xml | ./aquatone -nmap
+
+*** Masscan/Nessus Scans [0/3]:
+:PROPERTIES:
+:END:
+- Use in non-evassive tests as these are noisy:
+- [ ] *Masscan*:
+- [ ] *Nessus*:
+*** AD Enumeration:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/AD Enumeration/AD-Enum.md
+:END:
+#+begin_src org
+
+#+end_src
+** Service:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/Service/Service.md
+:END:
+#+begin_src org
+
+#+end_src
+** Vuln:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/Vuln/Vuln.md
+:END:
+#+begin_src org
+
+#+end_src
+** Web:
+:PROPERTIES:
+:header-args: :tangle Evidence/Scans/Web/Web.md
+:END:
+#+begin_src org
+#+end_src
+** Wireless:
+:PROPERTIES:
+:header-args: :tangle Evidence/Wireless/Wireless.md
+:END:
+#+begin_src org
+
+#+end_src
+** Misc Files:
+:PROPERTIES:
+:END:
+#+begin_src org
+
+
+#+end_src
+* Notes:
+:PROPERTIES:
+:END:
+- Numbering is right, activity log exports to here as number 2, but is above for conviencnec. 
+** 0. KILL-CHAIN:
+:PROPERTIES:
+:header-args: :tangle Notes/0.Kill-Chain.md
+:END:
+#+begin_src org
+# Kill Chain
+1. Foothold:
+2. Privesc:
+3. Ownership:
+4. Persistence:
+#+end_src
+
+
+** 3. Payload-Log:
+:PROPERTIES:
+:header-args: :tangle Notes/4.Payload-Log.md
+:END:
+
+#+begin_src org
+| Target Host                    | File-Name  | File MD5SUM   | Date   | Time  | Notes                           |
+|--------------------------------|------------|---------------|--------|-------|---------------------------------|
+|<PlaceHolder>                   |<time>      |<time>         |<notes> |       |                                 |
+#+end_src
+
+** 4. OSINT-Data:
+:PROPERTIES:
+:header-args: :tangle Notes/5.OSINT-Data.md
+:END:
+#+begin_src org
+
+#+end_src
+
+** 6. Credentials:
+:PROPERTIES:
+:header-args: :tangle Notes/6.Credentials.md
+:END:
+
+*** User:
+:PROPERTIES:
+:END:
+#+begin_src org
+# Credentials
+
+## User Credentials:
+
+1. *User Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+2. *User Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+3. *User Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+#+end_src
+
+*** Service Credentials:
+:PROPERTIES:
+:END:
+#+begin_src org
+
+## Service Credentials:
+
+1. *Service Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+2. *Service Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+3. *Service Cred*:
+   + *Username*:
+   + _Password_:
+   + *Hash*:
+   + _Can be used on services_:
+     1.
+   + _Discovered By_:
+
+#+end_src
+
+*** SSH Keys:
+:PROPERTIES:
+:END:
+#+begin_src org
+## SSH-Keys
+`test key`
+
+#+end_src
+*** Hashes:
+:PROPERTIES:
+:END:
+**** AsRep:
+:PROPERTIES:
+:END:
+#+begin_src org
+## AsRep Hashes
+
+#+end_src
+**** Kerb:
+:PROPERTIES:
+:END:
+#+begin_src org
+## Kerb Hashes
+
+#+end_src
+
+**** LLMNR:
+:PROPERTIES:
+:END:
+#+begin_src org
+## LLMNR Hashes
+
+#+end_src
+**** IPMI:
+:PROPERTIES:
+:END:
+#+begin_src org
+## IPMI Hashes
+
+#+end_src
+
+** 6. Web-Application-Research:
+:PROPERTIES:
+:header-args: :tangle Notes/7.Web-application-Research.md
+:END:
+
+#+begin_src org
+
+#+end_src
+
+** 7. Vulnerability Scan Research:
+:PROPERTIES:
+:header-args: :tangle Notes/8.Vulnerability-Scan-Research.md
+:END:
+
+#+begin_src org
+
+#+end_src
+
+** 8. Service Enumeration Research:
+:PROPERTIES:
+:header-args: :tangle Notes/9.Service-Enumeration-Research.md
+:END:
+
+#+begin_src org
+
+#+end_src
+
+** 9. AD-Enumeration-Research:
+:PROPERTIES:
+:header-args: :tangle Notes/10.AD-Enumeration-Research.md
+:END:
+
+#+begin_src org
+
+#+end_src
+
+
+** 10. Findings:
+
+:PROPERTIES:
+:header-args: :tangle Notes/12.Findings.md
+:END:
+
+- Must be written up into proper findings afterwards. 
+- This is purely for my reference. 
+
+*** Finding 1 :
+#+begin_src org
+
+# Finding 1. 
+| Finding            | Level           | 
+|--------------------|-----------------|
+|<PlaceHolder>       | <High/Low/Info> |
+#+end_src
+
+- Tool output to accompany
+#+begin_src org
+
+
+#+end_src
+
+*** Finding 2 :
+#+begin_src org
+
+# Finding 1. 
+| Finding            | Level           | 
+|--------------------|-----------------|
+|<PlaceHolder>       | <High/Low/Info> |
+#+end_src
+
+- Tool output to accompany
+#+begin_src org
+
+
+#+end_src
+
+** 11. Network Information:
+:PROPERTIES:
+:header-args: :tangle Notes/13.Network-Information.md
+:END:
+*** Interesting Hosts:
+:PROPERTIES:
+:END:
+#+begin_src org
++ *IP/URL/Hostname*:
+  - Service/App Running:
+    - Version:
++ *IP/URL/Hostname*:
+  - Service/App Running:
+    - Version:
++ *IP/URL/Hostname*:
+  - Service/App Running:
+    - Version:
++ *IP/URL/Hostname*:
+  - Service/App Running:
+    - Version:
+#+end_src
+*** Available Networks/NICS:
+:PROPERTIES:
+:END:
+#+begin_src org
++ *Hosts*:
+  + _Host 1_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+
+  + _Host 2_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+
+  + _Host 3_:
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts:
+#+end_src
+
++ *Ping Sweep Results*:
+  - [[id:0c67fab1-55d7-48e3-9baf-321bbfbc9c15][ping sweep & port scanning]]
+  - /NOTE/: It is possible that a ping sweep may not result in successful replies on the first attempt,
+   especially when communicating across networks. This can be caused by the time it takes for a host to build it's arp cache.
+   In these cases, it is good to attempt our ping sweep at least twice to ensure the arp cache gets built.
+
+*** Network Topology Diagram:
+:PROPERTIES:
+:END:
+
+#+begin_src org
+## Network Topology
+```
+            +-------------------------------------------------------+
+            |                   Network Topology                    |
+            +-------------------------------------------------------+
+
+ +----------------+       +----------------+       +----------------+
+ |   AttackHost   |       |   PivotHost    |       |  TargetHost    |
+ |----------------|       |----------------|       |----------------|
+ | NIC1: [______] |-------| NIC1: [______] |-------| NIC1: [______] |
+ | NIC2: [______] |       | NIC2: [______] |       | NIC2: [______] |
+ | Machine: [___] |       | Machine: [___] |       | Machine: [___] |
+ +----------------+       +----------------+       +----------------+
+```
+
+Notes:
+1. "-------" represents a direct connection.
+2. "[______]" placeholders are for you to enter IP ranges.
+3. "Machine: [___]" placeholders are for you to enter actual machine names.
+#+end_src
+* +TODOLIST+: [0/3]
+:PROPERTIES:
+:END:
+** TODO TODO A
+:PROPERTIES:
+:END:
+** TODO TODO B
+:PROPERTIES:
+:END:
+** TODO TODO C
+:PROPERTIES:
+:END:
+
+* Checklists:
+ - Pentetsting Methodology: 
+   - https://book.hacktricks.xyz/generic-methodologies-and-resources/pentesting-methodology
+ - Extenernal Recon Methodology: 
+   - https://book.hacktricks.xyz/generic-methodologies-and-resources/external-recon-methodology
+ - Linux Privesc Methodology: 
+   - https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist
+ - Windows Privesc Methodology: 
+   - https://book.hacktricks.xyz/windows-hardening/checklist-windows-privilege-escalation
+ - Web Vulns Testing Methodology: 
+   - https://book.hacktricks.xyz/pentesting-web/web-vulnerabilities-methodology
+* Retest:
+:PROPERTIES:
+:header-args: :tangle Retest/retest.md
+:END:
+#+begin_src org
+#+end_src
+
+
+* Script to Create Directories & Keep the whole structure in sync:
+:PROPERTIES:
+:header-args: :tangle indexSync.sh :shebang #!/bin/bash :mkdirp yes :perms (identity #o755) :post (shell-command "./indexSync.sh")
+:END:
+- The file auto updates the ~index.md~ file that is at the root of this structure.
+  - +Note+: This has to be at the very end of the script as tangling happens sequentially, so this will not re-index new files if it is executed before the files are tangled & created.
+
+#+begin_src bash
+
+# Determine the directory where the script is located
+script_dir="$(dirname "$(realpath "$0")")"
+
+# Function to update the index file with tree-like structure
+update_index() {
+    # Create or replace the content of Index.md with the heading
+    echo "# Index of Markdown Files" > "$script_dir/Index.md"
+
+    # Function to generate the index with proper indentation
+    generate_tree() {
+        local directory="$1"
+        local prefix="$2"
+        
+        # Find all markdown files in the current directory
+        find "$directory" -maxdepth 1 -type f -name "*.md" ! -name "Index.md" | sort | while read md_file; do
+            # Generate a relative path by removing the base directory and the .md extension
+            rel_path="${md_file#$script_dir/}"
+            # Extract the file name without extension
+            file_name="${rel_path%.md}"
+            # Print the link with indentation
+            echo "${prefix}- [[${file_name}]]" >> "$script_dir/Index.md"
+        done
+
+        # Recursively process subdirectories
+        find "$directory" -mindepth 1 -maxdepth 1 -type d | sort | while read subdir; do
+            # Extract the subdirectory name
+            sub_name="${subdir#$directory/}"
+            # Add the subdirectory name with proper indentation
+            echo "${prefix}- ${sub_name}/" >> "$script_dir/Index.md"
+            # Call the function recursively for subdirectories with increased indentation
+            generate_tree "$subdir" "    ${prefix}"
+        done
+    }
+
+    # Start generating the tree from the root directory
+    generate_tree "$script_dir" ""
+}
+
+# Call the update_index function
+update_index
+
+# Print a confirmation message
+echo "Index.md has been updated in $script_dir."
+
+#+end_src
+
+

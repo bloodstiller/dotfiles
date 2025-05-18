@@ -1,0 +1,297 @@
+#+filetags: :enagement: 
+:HIDDEN:
+#+STARTUP: overview
+#+STARTUP: hidestars
+#+STARTUP: indent
+#+STARTUP: entitiespretty
+#+STARTUP: inlineimages
+#+OPTIONS: H:4 toc:nil num:nil \n:nil ':nil *:t -:t ::t <:t ^:{} _:{} |:t f:t d:nil
+#+OPTIONS: tex:mathjax tags:not-in-toc tasks:t title:nil
+#+COLUMNS: %80ITEM %TAGS %TODO %SCHEDULED
+#+TODO: TODO(t) IN-PROGRESS(i) NOTES(m) RABBITHOLE!(R) | DONE(d!) HOLD(h) WONT-DO(n)
+:END:
+
+
+* Name of box: - 
+
+
+*** TODO /RE-CHECK Existing Findings if stuck & think dumber!/
+
+*** Scope: 
+**** IP's in scope: 
+- 
+**** URLs in Scope: 
+ -   
+**** Testing Time Frames: 
+ - 
+**** Additional Important Information: 
+ - 
+
+*** Client Point of Contact/Communication Channels: 
+- *Role*: 
+  - Name: 
+  - Contact Information:  
+
+- *Role*: 
+  - Name: 
+  - Contact Information:  
+
+- *Role*: 
+  - Name:
+  - Contact Information:  
+
+*** Discovery/Enumeration:
+**** IP/CIDR Range Scans (Lay of the Land): 
+***** Basic NMAP scan:
+- This is just to get a lay of the land and see up hosts. 
+- We can extract the information from this for our 
+__________________________________________________________
+- [ ] *Basic Scan*:
+  - sudo nmap -oA initialScan -iL scope_list
+
+- *Scan Results*: 
+    #+BEGIN_SRC bash
+     
+    #+END_SRC
+***** Common Ports Scan [0/0]: 
+- *If testing web applications try*:
+  - [ ] Common Web App Scan:  
+    - sudo nmap -p 80,443,8000,8080,8180,8888,10000 -oA webDiscovery -iL scopelist 
+      #+begin_src bash
+
+      #+end_src
+  - [ ] Other targets try:
+    - [ ] [[Indepth Scans:]]
+  - *Scan Results*: 
+    #+BEGIN_SRC bash
+     
+    #+END_SRC
+***** Masscan/Nessus Scans [0/3]:
+- Use in non-evassive tests as these are noisy:
+- [ ] *Masscan*: 
+  - 
+- [ ] *Nessus*:  
+  - 
+***** Aquatone/Eyewitness Scans (Web): [0/2]
+- Run these off the basis of the common ports scan (ingest):
+  - When reviewing the results of the below run [[Indepth Scans:]]
+________________________________________________________
+- [ ] [[id:7655547e-716a-47a5-8aed-03d6b6452797][Eyewitness]] Scan: 
+  - [ ] eyewitness --web -x <nmap>.xml -d <directoryNameForResults> 
+  - /Remember to read the entire report!!!/ There are often very important discoveries burried deep in the report!
+    - Just because it will show High Value Targets at the start doesn't mean these are our best route! 
+
+      
+- [ ] [[id:5953d611-4d68-4df5-82e9-20aa32df99f7][Aquatone]] Scan: 
+  - [ ]  cat <nmap>.xml | ./aquatone -nmap
+
+***** Indepth Scans: 
+- Depending on size of scope run either: 
+****** Top 10,000 ports:
+    - [ ] *TCP*: 
+      - sudo nmap --top-ports=10000 -sV -oA 10kPortsTCP -iL scopeList 
+      #+BEGIN_SRC shell
+      #+END_SRC
+    - [ ] *UDP*: 
+      - sudo nmap --top-ports=10000 -sU -sV -oA 10kPortsUDP -iL scopeList 
+      #+BEGIN_SRC shell
+      #+END_SRC
+****** Full TCP port scan: 
+    - [ ] *Full TCP* 
+      - sudo nmap -p- -sV -A -oA FullTCP -iL scopeList
+        #+BEGIN_SRC shell
+        #+END_SRC
+
+**** Application Discovery:
+***** Interesting Hosts: 
++ *IP/URL/Hostname*:
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
+
+****** Interesting Hosts Scans:  
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+
+*** +Available Networks+: 
+  + *Hosts*:
+  - _Host 1_:  
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 2_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 3_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - *Ping Sweep Results*:
+    - [[id:0c67fab1-55d7-48e3-9baf-321bbfbc9c15][ping sweep & port scanning]]
+    + /NOTE/: It is possible that a ping sweep may not result in successful replies on the first attempt, 
+     especially when communicating across networks. This can be caused by the time it takes for a host to build it's arp cache. 
+     In these cases, it is good to attempt our ping sweep at least twice to ensure the arp cache gets built. 
+
+  + Topology Diagram:   
+#+begin_src shell
+            +-------------------------------------------------------+
+            |                   Network Topology                    |
+            +-------------------------------------------------------+
+
+ +----------------+       +----------------+       +----------------+
+ |   AttackHost   |       |   PivotHost    |       |  TargetHost    |
+ |----------------|       |----------------|       |----------------|
+ | NIC1: [______] |-------| NIC1: [______] |-------| NIC1: [______] |
+ | NIC2: [______] |       | NIC2: [______] |       | NIC2: [______] |
+ | Machine: [___] |       | Machine: [___] |       | Machine: [___] |
+ +----------------+       +----------------+       +----------------+
+
+Notes:
+1. "-------" represents a direct connection.
+2. "[______]" placeholders are for you to enter IP ranges.
+3. "Machine: [___]" placeholders are for you to enter actual machine names.
+#+end_src
+
+*** /KILL-CHAIN/:
+**** +1.+ Enumeration:
+1. 
+**** +2.+ Foothold:
+1. 
+**** +3.+ Privesc:
+1. 
+**** +4.+ Ownership:
+1. 
+**** +5.+ Persistence:
+
+*** =LOOT=:
+ Place any files, lists etc in here that could be of use.  
+*** +CREDS+:
+**** User Credentials:
+
+1. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+2. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+3. *Cred: <UserName> Cred*::
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+**** Service Credentials:
+
+1. *Service A*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+2. *Service B*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+3. *Service C*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+**** SSH Keys: 
+**** Hashes: 
+***** *AsRep*
+***** *Kerb*
+
+
+
+*** Notes: 
+**** NOTE  
+
+*** TODOLIST: [0/5]
+**** TODO .
+**** TODO .
+**** TODO .
+**** TODO .
+*** TODO /RE-CHECK Existing Findings if stuck & think dumber!/
+*** What do we know?
++Do you need to enumerate more?+
+  1. 
+  2. 
+*** What did I learn? 
+  1.
+  2. 
+  3.  
+*** What silly mistakes did I make? 
+  1. 
+  2. 
+

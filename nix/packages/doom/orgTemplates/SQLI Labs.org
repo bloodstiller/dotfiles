@@ -1,0 +1,109 @@
+* LAB
+  :PROPERTIES:
+  :CUSTOM_ID: lab
+  :END:
+
+*Known Weakness:*
+
+** *End Goal:*
+   :PROPERTIES:
+   :CUSTOM_ID: end-goal
+   :END:
+
+** **Steps (Overview):
+   :PROPERTIES:
+   :CUSTOM_ID: steps-overview
+   :END:
+
+** *Analysis:*
+   :PROPERTIES:
+   :CUSTOM_ID: analysis
+   :END:
+
+- *URL/Input Field =*
+- *Suspected Backend Query:*
+
+  - 
+
+** *Methodology:*
+   :PROPERTIES:
+   :CUSTOM_ID: methodology
+   :END:
+
+*** *Fuzzing*
+    :PROPERTIES:
+    :CUSTOM_ID: fuzzing
+    :END:
+
+**** Query 1
+     :PROPERTIES:
+     :CUSTOM_ID: query-1
+     :END:
+
+- *Payload:*
+- *URL:*
+- *Suspected Backend Query:*
+- *Why this works:*
+
+  - 
+  - 
+
+- *Findings/Results:*
+
+**** Query 2
+     :PROPERTIES:
+     :CUSTOM_ID: query-2
+     :END:
+
+- *Payload:*
+- *URL:*
+- *Suspected Backend Query:*
+- *Why this works:*
+
+  - 
+  - 
+
+- *Findings/Results:*
+
+- *Payload:*
+- *URL:*
+- *Suspected Backend Query:*
+- *Why this works:*
+
+  - 
+  - 
+
+- *Findings/Results:*
+
+- *Payload:*
+- *URL:*
+- *Suspected Backend Query:*
+- *Why this works:*
+
+  - 
+  - 
+
+- *Findings/Results:*
+
+** *Exploit:*
+   :PROPERTIES:
+   :CUSTOM_ID: exploit
+   :END:
+
+- *Payload:*
+- *URL:*
+- *Suspected Backend Query:*
+- *Why this works:*
+
+  - 
+  - 
+
+* Automating the Exploit with scripting
+  :PROPERTIES:
+  :CUSTOM_ID: automating-the-exploit-with-scripting
+  :END:
+
+#+BEGIN_SRC python
+#+END_SRC
+
+*POC (screenshot) That it works:*

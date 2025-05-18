@@ -1,0 +1,31 @@
+:PROPERTIES:
+:END:
+#+title: Project Completion End Checklist
+#+filetags: template checklist
+
+* NOTE - /This whole process should take no more than 15/20 mins, it's a way to get decisively finish a project./
+
+* TODO Mark project complete in org [0/1]:
+- [ ] Only do if all tasks within the project can be marked as complete.
+
+* TODO Create lessonsLearned doc and ask [0/4]:
+- [ ] What did I learn?
+- [ ] What did I do well?
+- [ ] What could I have done better?
+- [ ] What can I improve on next time?
+
+* TODO Move to org mode goals completed section of goals.org (not project folder) [0/2]:
+- [ ] Take time to reflect on the goal completion.
+- [ ] Give it the completed tag.
+- [ ] _If project is to be marked as +inactive/held/cancelled+ leave a note stating so._
+  - This only applies if the poject is being cancelled etc.
+  - Add a note with the current status, add a few bullet points so it's easier to come back to in the future alas good code notes.
+
+* TODO Review intermediate packets [/]
+- [ ] If more useful move to other folders and projects move.
+  /It's okay if this is not 100%, just go with gut/
+- [ ] If good where they are leave in place.
+
+* TODO Move project folder to arhive [/]:
+- [ ] If the project is in other platforms also archive there.
+

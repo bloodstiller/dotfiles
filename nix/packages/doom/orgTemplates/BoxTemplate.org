@@ -1,0 +1,403 @@
+#+filetags: :Box_:%__Box:Platform:e_g:VH_HTB_THM_:easy_medium_hard:Windows_Linux:
+:HIDDEN:
+#+STARTUP: overview
+#+STARTUP: hidestars
+#+STARTUP: indent
+#+STARTUP: entitiespretty
+#+STARTUP: inlineimages
+#+OPTIONS: H:4 toc:nil num:nil \n:nil ':nil *:t -:t ::t <:t ^:{} _:{} |:t f:t d:nil
+#+OPTIONS: tex:mathjax tags:not-in-toc tasks:t title:nil
+#+COLUMNS: %80ITEM %TAGS %TODO %SCHEDULED
+#+TODO: TODO(t) IN-PROGRESS(i) NOTES(m) RABBITHOLE!(R) | DONE(d!) HOLD(h) WONT-DO(n)
+:END:
+
+
+* Name of box: -
+:PROPERTIES:
+:ID:       e3f25c99-179f-461d-9310-dd1f026d4ec1
+:END:
+
+
+*** Scope:
+:PROPERTIES:
+:ID:       0611a531-5c8e-44bb-a5bc-4af2ba9d1339
+:END:
+**** IP's in scope:
+:PROPERTIES:
+:ID:       33815d11-4f97-446a-b650-4174ff314cef
+:END:
+- 
+**** URLs in Scope:
+:PROPERTIES:
+:ID:       c84d2be3-1abe-44e1-9444-b8cc6d96a453
+:END:
+ -   
+
+*** Discovery/Enumeration:
+:PROPERTIES:
+:ID:       d2c7a197-3733-4202-9a0d-69af12e32715
+:END:
+**** IP/CIDR Range Scans (Lay of the Land):
+:PROPERTIES:
+:ID:       0d862def-4b8b-4792-b7df-1715c32fa1c9
+:END:
+***** Basic NMAP scan:
+:PROPERTIES:
+:ID:       a16b8cd1-70ba-4c8b-a098-666357f3dac5
+:END:
+- This is just to get a lay of the land and see up hosts. 
+- We can extract the information from this for our 
+__________________________________________________________
+- [ ] *Basic Scan*:
+  - sudo nmap -oA initialScan -iL scope_list
+
+- *Scan Results*: 
+    #+BEGIN_SRC bash
+     
+    #+END_SRC
+***** Common Ports Scan [0/0]:
+:PROPERTIES:
+:ID:       6b0ca7e0-d060-4210-acce-a9005f462565
+:END:
+- *If testing web applications try*:
+  - [ ] Common Web App Scan:  
+    - sudo nmap -p 80,443,8000,8080,8180,8888,10000 -oA webDiscovery -iL scopelist 
+      #+begin_src bash
+
+      #+end_src
+  - [ ] Other targets try:
+    - [ ] [[Indepth Scans:]]
+  - *Scan Results*: 
+    #+BEGIN_SRC bash
+     
+    #+END_SRC
+***** Masscan/Nessus Scans [0/3]:
+:PROPERTIES:
+:ID:       407bf2dd-64c2-4859-b238-4f3e64f2e4e4
+:END:
+- Use in non-evassive tests as these are noisy:
+- [ ] *Masscan*: 
+  - 
+- [ ] *Nessus*:  
+  - 
+***** Aquatone/Eyewitness Scans (Web): [0/2]
+:PROPERTIES:
+:ID:       f52d386f-8f87-453d-bc50-6df98fe07915
+:END:
+- Run these off the basis of the common ports scan (ingest):
+  - When reviewing the results of the below run [[Indepth Scans:]]
+________________________________________________________
+- [ ] [[id:7655547e-716a-47a5-8aed-03d6b6452797][Eyewitness]] Scan: 
+  - [ ] eyewitness --web -x <nmap>.xml -d <directoryNameForResults> 
+  - /Remember to read the entire report!!!/ There are often very important discoveries burried deep in the report!
+    - Just because it will show High Value Targets at the start doesn't mean these are our best route! 
+
+      
+- [ ] [[id:5953d611-4d68-4df5-82e9-20aa32df99f7][Aquatone]] Scan: 
+  - [ ]  cat <nmap>.xml | ./aquatone -nmap
+
+***** Indepth Scans:
+:PROPERTIES:
+:ID:       2d3f8398-f5c8-4b91-b606-f59002062197
+:END:
+- Depending on size of scope run either: 
+****** Top 10,000 ports:
+:PROPERTIES:
+:ID:       87b81cc6-6654-4f1e-a6d3-9a2b6ae205bc
+:END:
+    - [ ] *TCP*: 
+      - sudo nmap --top-ports=10000 -sV -oA 10kPortsTCP -iL scopeList 
+      #+BEGIN_SRC shell
+      #+END_SRC
+    - [ ] *UDP*: 
+      - sudo nmap --top-ports=10000 -sU -sV -oA 10kPortsUDP -iL scopeList 
+      #+BEGIN_SRC shell
+      #+END_SRC
+****** Full TCP port scan:
+:PROPERTIES:
+:ID:       a0fde684-7775-4fdf-8138-9bf4d5293073
+:END:
+    - [ ] *Full TCP* 
+      - sudo nmap -p- -sV -A -oA FullTCP -iL scopeList
+        #+BEGIN_SRC shell
+        #+END_SRC
+
+**** Application Discovery:
+:PROPERTIES:
+:ID:       da2ebeaa-9bc5-4f76-8e3a-f1002e817d43
+:END:
+***** Interesting Hosts:
+:PROPERTIES:
+:ID:       018702cd-00c6-4c8a-88c4-57bb45c21964
+:END:
++ *IP/URL/Hostname*:
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
++ *IP/URL/Hostname*: 
+  - Service/App Running:  
+    - Version:  
+
+****** Interesting Hosts Scans:
+:PROPERTIES:
+:ID:       a54844bd-1696-4eab-81c1-78122fd583af
+:END:
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+  + *IP/URL/Hostname* = 
+    + [ ] *TCP*:
+      - sudo nmap -open -p-
+      #+BEGIN_SRC shell
+      #+END_SRC
+    + [ ] *UDP*: Takes A LONG TIME!
+      - sudo nmap -open -p- -sU 
+      #+BEGIN_SRC shell
+      #+END_SRC
+
+*** +Available Networks+:
+:PROPERTIES:
+:ID:       bcade1da-d8c2-40a9-8186-c2986f231cf0
+:END:
+  + *Hosts*:
+  - _Host 1_:  
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 2_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - _Host 3_: 
+    - Hostname:
+    - IP:
+    - NIC 1:
+    - NIC 2:   
+    - Netstat -r output:
+    - Reachable hosts: 
+
+  - *Ping Sweep Results*:
+    - [[id:0c67fab1-55d7-48e3-9baf-321bbfbc9c15][ping sweep & port scanning]]
+    + /NOTE/: It is possible that a ping sweep may not result in successful replies on the first attempt, 
+     especially when communicating across networks. This can be caused by the time it takes for a host to build it's arp cache. 
+     In these cases, it is good to attempt our ping sweep at least twice to ensure the arp cache gets built. 
+
+  + Topology Diagram:   
+#+begin_src shell
+            +-------------------------------------------------------+
+            |                   Network Topology                    |
+            +-------------------------------------------------------+
+
+ +----------------+       +----------------+       +----------------+
+ |   AttackHost   |       |   PivotHost    |       |  TargetHost    |
+ |----------------|       |----------------|       |----------------|
+ | NIC1: [______] |-------| NIC1: [______] |-------| NIC1: [______] |
+ | NIC2: [______] |       | NIC2: [______] |       | NIC2: [______] |
+ | Machine: [___] |       | Machine: [___] |       | Machine: [___] |
+ +----------------+       +----------------+       +----------------+
+
+Notes:
+1. "-------" represents a direct connection.
+2. "[______]" placeholders are for you to enter IP ranges.
+3. "Machine: [___]" placeholders are for you to enter actual machine names.
+#+end_src
+
+*** /KILL-CHAIN/:
+:PROPERTIES:
+:ID:       27f1fd91-5ce0-4fdd-84f0-3a7297540aea
+:END:
+**** +1.+ Enumeration:
+:PROPERTIES:
+:ID:       df114f61-f09f-46bc-a9d0-e1e62bf4d249
+:END:
+1. 
+**** +2.+ Foothold:
+:PROPERTIES:
+:ID:       12cad379-c0d0-4c07-8b2c-28440c2582cf
+:END:
+1. 
+**** +3.+ Privesc:
+:PROPERTIES:
+:ID:       d9e6b559-a369-42b5-92da-4ccd104efb1c
+:END:
+1. 
+**** +4.+ Ownership:
+:PROPERTIES:
+:ID:       ddf9d907-494c-4116-94e1-f7de89f4f1c7
+:END:
+1. 
+**** +5.+ Persistence:
+:PROPERTIES:
+:ID:       37a8061a-df18-452e-a13a-025297fb661f
+:END:
+
+*** =LOOT=:
+:PROPERTIES:
+:ID:       51de4e19-94b9-46fb-9587-38a1f4c04924
+:END:
+ Place any files, lists etc in here that could be of use.  
+*** +CREDS+:
+:PROPERTIES:
+:ID:       a2cc951e-6532-48e3-ab1c-367ac0062b38
+:END:
+**** User Credentials:
+:PROPERTIES:
+:ID:       a3c775e7-5ec6-4485-abdc-a481be2eeee5
+:END:
+
+1. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+2. *User: <UserName> Cred*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+3. *Cred: <UserName> Cred*::
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Can be used on services_:
+     1. 
+   + _Discovered By_:
+
+**** Service Credentials:
+:PROPERTIES:
+:ID:       ac766bbf-222d-4eb4-8730-41df9b70c660
+:END:
+
+1. *Service A*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+2. *Service B*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+3. *Service C*:
+   + ~Username~:
+   + +Password+:
+   + +Hash+:
+   + _Discovered By_:
+
+**** SSH Keys:
+:PROPERTIES:
+:ID:       a7494955-ab6b-4500-8d5d-e3fb9ef341bf
+:END:
+**** Hashes:
+:PROPERTIES:
+:ID:       a83fe5ef-8fff-4c20-8e8e-828781650595
+:END:
+***** *AsRep*
+:PROPERTIES:
+:ID:       95be0cf7-7cdc-4ed9-ad36-0c3216858b18
+:END:
+***** *Kerb*
+:PROPERTIES:
+:ID:       b65231c1-199f-468e-92cd-067185da65b1
+:END:
+
+
+*** Notes:
+:PROPERTIES:
+:ID:       f1bb49ad-f085-44d0-bd6f-8b2462d0da93
+:END:
+**** NOTE
+:PROPERTIES:
+:ID:       b7fa5525-6db0-4aff-9a05-7141ffa145f9
+:END:
+
+*** TODOLIST: [0/5]
+:PROPERTIES:
+:ID:       b5a39a74-4379-40ca-8e52-a54cc17678e6
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       3cd261ac-4e83-4266-b460-2d072873e7c4
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       4819ac60-9d79-4643-b0b8-c87ffff877cf
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       c97cbc87-6b96-4806-8173-6fb1a8d5e623
+:END:
+**** TODO .
+:PROPERTIES:
+:ID:       edd295e8-66fc-4aae-9ca4-fe44ed4b08ec
+:END:
+*** TODO /RE-CHECK Existing Findings if stuck & think dumber!/
+:PROPERTIES:
+:ID:       c26b923a-fc97-4120-8c80-4a2893540091
+:END:
+*** What do we know?
+:PROPERTIES:
+:ID:       839564fe-0182-417a-9e0f-31267aca08e2
+:END:
++Do you need to enumerate more?+
+  1. 
+  2. 
+*** What did I learn?
+:PROPERTIES:
+:ID:       6fe78ec6-f538-4653-a4de-987388927bb7
+:END:
+  1.
+  2. 
+  3.  
+*** What silly mistakes did I make?
+:PROPERTIES:
+:ID:       9c617b79-9173-496c-a4eb-7d43fb807aee
+:END:
+  1. 
+  2. 
+
