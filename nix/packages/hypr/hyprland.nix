@@ -4,13 +4,12 @@
   # Enable Hyprland
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd = {
-      enable = true;
-    };
+    systemd = { enable = true; };
     xwayland.enable = true;
 
     # Use the correct package from the flake
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
 
     extraConfig = ''
       ${builtins.readFile ./config/hyprland.conf}
@@ -22,7 +21,7 @@
 
       # Hypridle and Hyprlock configuration
     '';
-    
+
     settings = {
       monitor = ",preferred,auto,1";
       general = {
@@ -51,6 +50,7 @@
   xdg.configFile = {
     "hypr/hyprlock.conf".source = ./config/hyprlock.conf;
     "hypr/hypridle.conf".source = ./config/hypridle.conf;
+    "hypr/pyprland.toml".source = ./config/pyprland.toml;
   };
 
   # User-specific packages
@@ -65,5 +65,6 @@
     wl-clipboard
     hyprshade
     pyprland
+    nwg-displays
   ];
 }
