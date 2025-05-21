@@ -58,6 +58,15 @@
       # Platform and fan control profiles
       PLATFORM_PROFILE_ON_AC = "performance";
       PLATFORM_PROFILE_ON_BAT = "quiet";
+
+      # Set the min/max/turbo frequency for the Intel GPU. Possible values depend on your hardware.
+      # See the output of tlp-stat -g for available frequencies.
+      # On AC: prioritize performance
+      INTEL_GPU_MIN_FREQ_ON_AC = 600;
+      INTEL_GPU_MAX_FREQ_ON_AC = 1200;
+      # On Battery: prioritize battery life without killing responsiveness
+      INTEL_GPU_MIN_FREQ_ON_BAT = 350;
+      INTEL_GPU_MAX_FREQ_ON_BAT = 600;
     };
   };
 
