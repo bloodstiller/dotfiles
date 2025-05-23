@@ -76,7 +76,7 @@
       wbr = "/home/martin/.config/scripts/waybarRestart.sh";
     };
 
-    initExtra = ''
+    initContent = ''
       # History Configuration
       HISTFILE=/home/$USER/.zsh_history
       HISTSIZE=200000
