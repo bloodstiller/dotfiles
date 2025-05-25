@@ -32,4 +32,10 @@
     }];
   };
 
+  services.resolved.extraConfig = ''
+    DNS=192.168.2.136 192.168.2.195
+    FallbackDNS=1.1.1.1 8.8.8.8
+    Domains=~.
+  '';
+
 }
