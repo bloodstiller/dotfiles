@@ -104,6 +104,8 @@
       eval "$(atuin init zsh)"
 
       export WORK_EMAIL=$(cat ${config.sops.secrets.work_email.path})
+      export XDG_CURRENT_DESKTOP=Hyprland
+      export XDG_SESSION_DESKTOP=Hyprland
     '';
 
     plugins = [

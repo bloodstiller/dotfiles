@@ -14,6 +14,7 @@ in {
     ../atuin/atuin.nix
     ../doom/doom.nix
     ../dunst/dunst.nix
+    ../foot/foot.nix
     ../hypr/hyprland.nix
     ../kitty/kitty.nix
     ../Pia/pia.nix

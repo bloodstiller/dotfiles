@@ -28,11 +28,17 @@
     # Development Support
     nixfmt-classic
     grip
-    libxml2    # Provides xmllint
+    libxml2 # Provides xmllint
     shfmt
     shellcheck
 
     # System Integration
     polkit_gnome
+
+    # video
+    vlc
+
+    # Archiver
+    file-roller
   ];
-} 
+}

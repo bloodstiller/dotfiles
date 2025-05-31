@@ -66,5 +66,10 @@
     hyprshade
     pyprland
     nwg-displays
+
+    # Desktop integration packages
+    xdg-utils
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
   ];
 }
