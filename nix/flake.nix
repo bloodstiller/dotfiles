@@ -24,7 +24,7 @@
 
     # Add hyprland and related packages
     hyprland.url = "github:hyprwm/Hyprland";
-    
+
     # Add separate inputs for hypridle and hyprlock
     hypridle = {
       url = "github:hyprwm/hypridle";
@@ -48,40 +48,40 @@
     nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hypridle, hyprlock, pyprland, nixos-hardware, nix-colors, ... }@inputs: {
-    nixosConfigurations.zeus = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration.nix
-        agenix.nixosModules.age
-        sops-nix.nixosModules.sops
+  outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hypridle
+    , hyprlock, pyprland, nixos-hardware, nix-colors, ... }@inputs: {
+      nixosConfigurations.zeus = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          agenix.nixosModules.age
+          sops-nix.nixosModules.sops
 
-        # Add hardware-specific optimizations if needed
-        # nixos-hardware.nixosModules.dell-xps-15-9560  # Example, replace with your model
+          # Add hardware-specific optimizations if needed
+          # nixos-hardware.nixosModules.dell-xps-15-9560  # Example, replace with your model
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = {
-              inherit inputs;
-              # Add if you want to use nix-colors
-              # inherit (nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              extraSpecialArgs = {
+                inherit inputs;
+                # Add if you want to use nix-colors
+                # inherit (nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
+              };
+
+              users.martin = import ./packages/home-manager/home.nix;
+              sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
             };
-            users.martin = import ./packages/home-manager/home.nix;
-            sharedModules = [
-              inputs.sops-nix.homeManagerModules.sops
-            ];
-          };
-        }
-        {
-          environment.systemPackages = [ 
-            agenix.packages.x86_64-linux.default
-          ];
-        }
-      ];
+          }
+          {
+            environment.systemPackages =
+              [ agenix.packages.x86_64-linux.default ];
+          }
+        ];
+      };
     };
-  };
 }

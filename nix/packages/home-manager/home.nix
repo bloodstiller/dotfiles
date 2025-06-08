@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 let cursor = pkgs.callPackage ../cursor/cursor.nix { };
+
 in {
   imports = [
     ./modules/base.nix # Basic home-manager configuration

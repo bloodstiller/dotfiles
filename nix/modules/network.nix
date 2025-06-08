@@ -32,6 +32,12 @@
     }];
   };
 
+  #networking.extraHosts = ''
+  # 192.168.2.113 radarr.homelab.bloodstiller.com sonarr.homelab.bloodstiller.com navidrome.homelab.bloodstiller.com nextcloud.homelab.bloodstiller.com
+  #192.168.2.12 truenas.homelab.bloodstiller.com
+
+  # '';
+
   services.resolved.extraConfig = ''
     DNS=192.168.2.136 192.168.2.195
     FallbackDNS=1.1.1.1 8.8.8.8

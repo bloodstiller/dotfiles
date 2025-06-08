@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     # Development Tools
-    thefuck
     ripgrep
     fd
     clang
