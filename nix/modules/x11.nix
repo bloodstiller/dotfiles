@@ -1,9 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Move defaultSession here (renamed from services.xserver.displayManager.defaultSession)
-  services.displayManager.defaultSession = "hyprland";
-  #services.displayManager.defaultSession = "xfce";
 
   # services.xrdp = {
   #   enable = true;
@@ -18,10 +15,7 @@
     displayManager = { lightdm.enable = true; };
 
     # Only enable XFCE (remove GNOME)
-    desktopManager = {
-      xfce.enable = true;
-      gnome.enable = false; # Disable GNOME
-    };
+    desktopManager = { xfce.enable = true; };
 
   };
   environment.systemPackages = with pkgs; [

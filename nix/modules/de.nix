@@ -2,6 +2,9 @@
 
 {
 
+  # Set hyprland as the default display manager
+  services.displayManager.defaultSession = "hyprland";
+
   # System-level configuration
   programs.hyprland = {
     enable = true;
@@ -50,10 +53,10 @@
     brightnessctl
     wireplumber
     playerctl
-    
+
     # Additional packages for MIME type support
     shared-mime-info
     desktop-file-utils
-    gtk3  # For GTK applications integration
+    gtk3 # For GTK applications integration
   ];
 }

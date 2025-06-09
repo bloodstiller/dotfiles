@@ -58,5 +58,20 @@
 
     # Nextcloud
     nextcloud-client
+
+    # video
+    vlc
+    ffmpeg
+
+    # Archiver
+    file-roller
+
+    # office
+    libreoffice-fresh
+
+    # Recovery
+    ddrescue
+    testdisk-qt
+
   ];
 }

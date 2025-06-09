@@ -35,18 +35,5 @@
     # System Integration
     polkit_gnome
 
-    # video
-    vlc
-
-    # Archiver
-    file-roller
-
-    # office
-    libreoffice-fresh
-
-    # Recovery
-    ddrescue
-    # Includes photorect etc
-    testdisk-qt
   ];
 }
