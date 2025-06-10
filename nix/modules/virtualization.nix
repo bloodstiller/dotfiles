@@ -18,13 +18,13 @@
     spiceUSBRedirection.enable = true; # Add USB redirection support
 
     # Enable VirtualBox
-    virtualbox = {
-      host = {
-        enable = true;
-        enableExtensionPack =
-          true; # Enables USB 2.0/3.0, disk encryption, and more
-      };
-    };
+    #virtualbox = {
+    #host = {
+    #enable = true;
+    #enableExtensionPack =
+    #true; # Enables USB 2.0/3.0, disk encryption, and more
+    #};
+    #};
   };
 
   environment.systemPackages = with pkgs; [

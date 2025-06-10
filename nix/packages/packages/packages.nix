@@ -6,7 +6,6 @@
     ripgrep
     fd
     clang
-    ansible
 
     # Python Development
     (python3.withPackages (ps: with ps; [ pip virtualenv poetry-core ]))
@@ -63,15 +62,13 @@
     vlc
     ffmpeg
 
-    # Archiver
-    file-roller
-
     # office
     libreoffice-fresh
 
     # Recovery
-    ddrescue
-    testdisk-qt
+    #ddrescue
+    #testdisk-qt
+    #foremost
 
   ];
 }
