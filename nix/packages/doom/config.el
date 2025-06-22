@@ -10,64 +10,20 @@
   (pixel-scroll-precision-mode))
 
 ;;Select my preffered theme:
-;;(setq doom-theme 'doom-dracula)
-;;(setq doom-theme 'modus-vivendi)
-;;(load-theme 'tron-legacy t)
-;;(setq doom-theme 'doom-nord)
 (setq doom-theme 'doom-one)
 
 
 (setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
       doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
-      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
-
-;;(custom-theme-set-faces! 'tron-legacy
-  ;;`(tree-sitter-hl-face:constructor :foreground ,(doom-color 'blue))
-  ;;`(tree-sitter-hl-face:number :foreground ,(doom-color 'orange))
-  ;;`(tree-sitter-hl-face:attribute :foreground ,(doom-color 'magenta) :weight bold)
-  ;;`(tree-sitter-hl-face:variable :foreground ,(doom-color 'base7) :weight bold)
-  ;;`(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'red))
-  ;;`(tree-sitter-hl-face:constant.builtin :foreground ,(doom-color 'magenta) :weight bold)
-  ;;`(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight bold)
-  ;;`(tree-sitter-hl-face:function.macro :foreground ,(doom-color 'teal))
-  ;;`(tree-sitter-hl-face:label :foreground ,(doom-color 'magenta))
-  ;;`(tree-sitter-hl-face:operator :foreground ,(doom-color 'blue))
-  ;;`(tree-sitter-hl-face:variable.parameter :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:punctuation.special :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:type :foreground ,(doom-color 'yellow))
-  ;;`(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'blue))
-  ;;`(tree-sitter-hl-face:tag :foreground ,(doom-color 'base7))
-  ;;`(tree-sitter-hl-face:string :foreground ,(doom-color 'green))
-  ;;`(tree-sitter-hl-face:comment :foreground ,(doom-color 'base6))
-  ;;`(tree-sitter-hl-face:function :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:method :foreground ,(doom-color 'blue))
-  ;;`(tree-sitter-hl-face:function.builtin :foreground ,(doom-color 'cyan))
-  ;;`(tree-sitter-hl-face:property :foreground ,(doom-color 'blue))
-  ;;`(tree-sitter-hl-face:keyword :foreground ,(doom-color 'magenta))
-  ;;`(corfu-default :font "Iosevka Nerd Font Mono" :background ,(doom-color 'bg-alt) :foreground ,(doom-color 'fg))
-  ;;`(adoc-title-0-face :foreground ,(doom-color 'blue) :height 1.2)
-  ;;`(adoc-title-1-face :foreground ,(doom-color 'magenta) :height 1.1)
-  ;;`(adoc-title-2-face :foreground ,(doom-color 'violet) :height 1.05)
-  ;;`(adoc-title-3-face :foreground ,(doom-lighten (doom-color 'blue) 0.25) :height 1.0)
-  ;;`(adoc-title-4-face :foreground ,(doom-lighten (doom-color 'magenta) 0.25) :height 1.1)
-  ;;`(adoc-verbatim-face :background nil)
-  ;;`(adoc-list-face :background nil)
-  ;;`(adoc-internal-reference-face :foreground ,(face-attribute 'font-lock-comment-face :foreground)))
-
-
-; Set preffered fonts:
-;;(setq doom-font (font-spec :family "JetBrains Mono" :size 20)
-      ;;doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 15)
-      ;;doom-big-font (font-spec :family "JetBrains Mono" :size 24))
-;;(after! doom-themes
-  ;;(setq doom-themes-enable-bold t
-        ;;doom-themes-enable-italic t))
-;;(custom-set-faces!
-  ;;'(font-lock-comment-face :slant italic)
-  ;;'(font-lock-keyword-face :slant italic))
+      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
 
 ;;Setup Bookmarks
 (setq bookmark-default-file "~/.config/doom/bookmarks/")
@@ -373,18 +329,6 @@
 ;;Customize ORG higlighting
 ;; this controls the color of bold, italic, underline, verbatim, strikethrough
 
-    ;; Purple Bold & Underline Brighter purple Dracula purple "#A061F9"
-    ;; Red text highligted in yellow (important)
-    ;; Dracula setup ("/" (:weight black :background "#FF5555" :foreground "#F1FA8C" ))
-    ;; Blue
-    ;;Higlighter  brighter yellow "#F1FA8C"
-    ;; Code block
-    ;; Green Background Option Dracula:
-    ;;("~" (:background "#6BB86B" :foreground "#575a71" ))
-    ;; Red = Important red
-    ;; Red for dracula theme "#FF5555"
-    ;;("+" (bold :strike-through nil :foreground "#ffb86c" #cd5c5c )))))
-
 (after! org
 (setq org-emphasis-alist
   ;'(("*" (underline :weight black :foreground "#ee9955"))
@@ -396,11 +340,11 @@
     ("~" (:foreground "#c678dd" :background "#2d333b"))
     ("+" (underline bold :weight italic :foreground "#FF6c6b" )))))
 
-(setq org-superstar-headline-bullets-list '("› "))
+;(setq org-superstar-headline-bullets-list '("› "))
 
-(setq org-superstar-item-bullet-alist '((?* . ?⋆)
-                                        (?+ . ?‣)
-                                        (?- . ?•)))
+;;(setq org-superstar-item-bullet-alist '((?* . ?⋆)
+                                        ;;(?+ . ?‣)
+                                        ;;(?- . ?•)))
 
 (setq org-ellipsis " ⯯")
 
@@ -493,7 +437,7 @@
 (use-package ox-hugo
   :after org
   :config
-  (setq org-hugo-base-dir "/home/martin/.config/hugo/bloodstiller")
+  (setq org-hugo-base-dir "/home/martin/Dropbox/40-49_Career/44-Blog/bloodstiller")
 
   (defun my/ensure-hugo-title (file)
     "Ensure the file has a #+title: keyword, adding one based on the filename if missing."

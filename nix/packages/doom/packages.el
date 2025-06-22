@@ -29,11 +29,10 @@
 ;;(package! minimap)
 (package! olivetti)
 (package! powershell)
-;;(package! multi-vterm)
+(package! multi-vterm)
 (package! org-download)
 (package! org-ros)
 (package! mini-frame)
-(package! tron-legacy-theme)
 (package! vlf :recipe (:host github :repo "emacs-straight/vlf" :files ("*.el"))
   :pin "9b7bc521e54af2c7a5c882e4758b66ee4af1a152")
 ;; For emacs-everywhere browser integration
