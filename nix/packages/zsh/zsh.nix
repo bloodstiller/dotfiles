@@ -118,15 +118,15 @@
           sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
         };
       }
-      {
-        name = "zsh-syntax-highlighting";
-        src = pkgs.fetchFromGitHub {
-          owner = "zsh-users";
-          repo = "zsh-syntax-highlighting";
-          rev = "0.7.1";
-          sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-        };
-      }
+      #{
+      #name = "zsh-syntax-highlighting";
+      #src = pkgs.fetchFromGitHub {
+      #owner = "zsh-users";
+      #repo = "zsh-syntax-highlighting";
+      #rev = "0.7.1";
+      #sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
+      #};
+      #}
       {
         name = "fast-syntax-highlighting";
         src = pkgs.fetchFromGitHub {

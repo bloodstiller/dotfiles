@@ -64,11 +64,13 @@
 
     # office
     libreoffice-fresh
+    teams-for-linux
 
     # Recovery
     #ddrescue
     #testdisk-qt
     #foremost
+    #
 
     # Temp
 

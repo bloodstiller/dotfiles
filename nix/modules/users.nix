@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
-{   
+{
   # Enable zsh system-wide
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -11,12 +11,12 @@
     description = "martin";
     extraGroups = [
       "networkmanager"
-      "wheel"  # Enable sudo
+      "wheel" # Enable sudo
       "docker"
       "ssl-cert"
-      "libvirtd"  # For VM management
+      "libvirtd" # For VM management
       "kvm"
-      "vboxusers"  # For VirtualBox
+      "vboxusers" # For VirtualBox
     ];
   };
 
