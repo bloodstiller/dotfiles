@@ -8,9 +8,9 @@
     enableCompletion = true;
 
     shellAliases = {
-      ls = "eza -T -L=0 -a -B -h -l -g --icons";
-      lsl = "eza -T -L=1 -a -B -h -l -g --icons";
-      lss = "eza -T -L=2 -B -h -l -g --icons";
+      ls = "eza -T -L=1 -a -B -h -l -g --icons";
+      lsl = "eza -T -L=2 -a -B -h -l -g --icons";
+      lss = "eza -T -L=3 -B -h -l -g --icons";
       cat = "bat";
       history = "history 0";
       host-update = "sudo nixos-rebuild switch";

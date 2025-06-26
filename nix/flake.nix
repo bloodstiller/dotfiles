@@ -4,6 +4,8 @@
   inputs = {
     # Use nixos-unstable or nixpkgs-unstable instead of versioned channel
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url =
+      "github:NixOS/nixpkgs/nixos-unstable"; # Unstable channel
 
     # Use main branch instead of release-25.05
     home-manager = {

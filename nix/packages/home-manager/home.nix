@@ -9,8 +9,8 @@ in {
     ./modules/git.nix # Git configuration
     ./modules/theme.nix # Theme, cursor, and GTK settings
 
-    # Your existing imports can be moved to programs.nix
-    (import ../packages/packages.nix { inherit pkgs cursor; })
+    # inputs has to be passed to allow unstable packages from packages to be passed
+    (import ../packages/packages.nix { inherit pkgs cursor inputs; })
     ../alacritty/alacritty.nix
     ../atuin/atuin.nix
     ../doom/doom.nix

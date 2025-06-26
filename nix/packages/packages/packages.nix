@@ -1,4 +1,4 @@
-{ pkgs, cursor, ... }:
+{ pkgs, cursor, inputs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -55,8 +55,10 @@
     # Blogging
     hugo
 
-    # Nextcloud
-    nextcloud-client
+    # Nextcloud using unstable as better
+    #
+    #nextcloud-client
+    (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
 
     # video
     vlc
