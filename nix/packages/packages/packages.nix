@@ -64,6 +64,10 @@
     vlc
     ffmpeg
 
+    # audio
+    strawberry
+    picard
+
     # office
     libreoffice-fresh
     teams-for-linux
