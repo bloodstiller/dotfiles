@@ -19,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Add sops
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,12 +47,21 @@
     # Add hardware-specific optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
+    # NFV for neovim config
+    nvf.url = "github:notashelf/nvf";
+
     # Add nix-colors for theming (optional)
     nix-colors.url = "github:misterio77/nix-colors";
   };
 
   outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hypridle
-    , hyprlock, pyprland, nixos-hardware, nix-colors, ... }@inputs: {
+    , hyprlock, pyprland, nixos-hardware, nix-colors, nvf, ... }@inputs: {
+
+      packages."x86_64-linux".default = (nvf.lib.neovimConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        modules = [ ./packages/nvim/nvf-configuration.nix ];
+      }).neovim;
+
       nixosConfigurations.zeus = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };

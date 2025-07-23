@@ -367,6 +367,7 @@
 
 (require 'org-roam)
 (setq org-roam-directory "~/Dropbox")
+(setq org-roam-db-location "~/.config/emacs/org-roam/org-roam.db")
 
 (after! org-roam
   (setq org-roam-list-files-commands '(find fd fdfind rg)))

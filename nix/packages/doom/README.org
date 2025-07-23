@@ -745,7 +745,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 #+begin_src emacs-lisp
 (require 'org-roam)
 (setq org-roam-directory "~/Dropbox")
-
+(setq org-roam-db-location "~/.config/emacs/org-roam/org-roam.db")
 #+end_src
 
 **** Roam - (make git ignored files in subdirectories still searchable)

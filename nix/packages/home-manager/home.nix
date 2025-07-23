@@ -18,6 +18,7 @@ in {
     ../foot/foot.nix
     ../hypr/hyprland.nix
     ../kitty/kitty.nix
+    ../nvim/nvim.nix
     ../Pia/pia.nix
     ../scripts/scripts.nix
     ../sops/sops.nix
