@@ -237,6 +237,8 @@
     }];
   };
 
+
+## Referneces raw lua for these plugins not nixified yet
   vim.startPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
       name = "org-modern-menu";
@@ -253,7 +255,7 @@
   ];
 
   vim.luaConfigRC.extraPlugins = ''
-         --Org Lua
+         --Org
          require("orgmode").setup({})
 
          require("org-bullets").setup()
