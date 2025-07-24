@@ -76,7 +76,6 @@ packages/
 ├── wofi/                # Application launcher
 └── zsh/                 # Shell configuration
 #+end_src
-
 ** Home Manager (./packages/home-manager/)
 User environment configuration managing:
 - Shell: ZSH with custom plugins
