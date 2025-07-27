@@ -596,6 +596,256 @@
 ; Make emacs auto indent when we create a new list item.
 ;;(setq markdown-indent-on-enter 'indent-and-new-item)
 
+(require 'json)
+
+;; Quick and dirty - just dump what's already in the database
+(defun org-roam-quick-export-for-migration ()
+  "Quick export of ID->title mapping for migration (no sync)."
+  (interactive)
+  (let* ((query "SELECT id, title, file FROM nodes")
+         (results (org-roam-db-query query))
+         (output-lines (mapcar (lambda (row)
+                                 (let ((id (nth 0 row))
+                                       (title (nth 1 row))
+                                       (filepath (nth 2 row)))
+                                   (format "%s\t%s\t%s\t%s"
+                                           id
+                                           title
+                                           filepath
+                                           (file-name-base filepath))))
+                               results)))
+    (with-temp-file "~/org-roam-migration.tsv"
+      (insert "ID\tTitle\tFilePath\tFileName\n")
+      (insert (string-join output-lines "\n")))
+    (message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+
+;; If you want JSON format instead
+(defun org-roam-quick-json-export ()
+  "Quick JSON export for migration."
+  (interactive)
+  (let* ((query "SELECT id, title, file FROM nodes")
+         (results (org-roam-db-query query))
+         (map (mapcar (lambda (row)
+                        (let ((filepath (nth 2 row)))
+                          `((id . ,(nth 0 row))
+                            (title . ,(nth 1 row))
+                            (filepath . ,filepath)
+                            (filename . ,(file-name-base filepath))
+                            (md_file . ,(concat (file-name-base filepath) ".md")))))
+                      results))
+         (json-output (json-encode map)))
+    (with-temp-file "~/org-roam-migration.json"
+      (insert json-output))
+    (message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+
+;; Super simple - just get the raw data for inspection
+(defun org-roam-dump-ids ()
+  "Just dump all IDs and titles to messages buffer."
+  (interactive)
+  (let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
+    (dolist (row results)
+      (message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
+    (message "Found %d org-roam nodes" (length results))))
+
+
+
+;;(require 'json)
+;;
+;;;; Quick and dirty - just dump what's already in the database
+;;(defun org-roam-quick-export-for-migration ()
+  ;;"Quick export of ID->title mapping for migration (no sync)."
+  ;;(interactive)
+  ;;(let* ((query "SELECT id, title FROM nodes")
+         ;;(results (org-roam-db-query query))
+         ;;(output-lines (mapcar (lambda (row)
+                                 ;;(format "%s\t%s" (nth 0 row) (nth 1 row)))
+                               ;;results)))
+    ;;(with-temp-file "~/org-roam-migration.tsv"
+      ;;(insert "ID\tTitle\n")
+      ;;(insert (string-join output-lines "\n")))
+    ;;(message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+;;
+;;;; If you want JSON format instead
+;;(defun org-roam-quick-json-export ()
+  ;;"Quick JSON export for migration."
+  ;;(interactive)
+  ;;(let* ((query "SELECT id, title FROM nodes")
+         ;;(results (org-roam-db-query query))
+         ;;(map (mapcar (lambda (row)
+                        ;;`((id . ,(nth 0 row))
+                          ;;(title . ,(nth 1 row))
+                          ;;(md_file . ,(concat (replace-regexp-in-string "[^a-zA-Z0-9-_]" "_" (nth 1 row)) ".md"))))
+                      ;;results))
+         ;;(json-output (json-encode map)))
+    ;;(with-temp-file "~/org-roam-migration.json"
+      ;;(insert json-output))
+    ;;(message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+;;
+;;;; Super simple - just get the raw data for inspection
+;;(defun org-roam-dump-ids ()
+  ;;"Just dump all IDs and titles to messages buffer."
+  ;;(interactive)
+  ;;(let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
+    ;;(dolist (row results)
+      ;;(message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
+    ;;(message "Found %d org-roam nodes" (length results))))
+
+(setq org-export-with-broken-links 'mark)  ; Export and mark broken links
+
+;;(defun org-export-folder-to-markdown (input-folder output-folder)
+  ;;"Export all .org files in INPUT-FOLDER to markdown in OUTPUT-FOLDER."
+  ;;(interactive "DInput folder: \nDOutput folder: ")
+;;
+  ;;;; Create output folder if it doesn't exist
+  ;;(unless (file-exists-p output-folder)
+    ;;(make-directory output-folder t))
+;;
+  ;;;; Get all .org files in the input folder
+  ;;(let ((org-files (directory-files input-folder t "\\.org$")))
+    ;;(dolist (org-file org-files)
+      ;;(let* ((base-name (file-name-base org-file))
+             ;;(output-file (expand-file-name
+                          ;;(concat base-name ".md")
+                          ;;output-folder)))
+;;
+        ;;;; Open the org file, export to markdown, then close
+        ;;(with-current-buffer (find-file-noselect org-file)
+          ;;(org-md-export-to-markdown)
+          ;;;; Move the generated .md file to the output folder
+          ;;(let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
+            ;;(when (file-exists-p generated-file)
+              ;;(rename-file generated-file output-file t)))
+          ;;(kill-buffer))))))
+(require 'ox-gfm)
+
+(defun org-export-folder-to-gfm-improved (input-folder output-folder &optional recursive)
+  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER.
+If RECURSIVE is non-nil, also process subdirectories."
+  (interactive "DInput folder: \nDOutput folder: \nP")
+  
+  ;; Create output folder if it doesn't exist
+  (unless (file-exists-p output-folder)
+    (make-directory output-folder t))
+  
+  ;; Get all .org files
+  (let* ((org-files (if recursive
+                       (directory-files-recursively input-folder "\\.org$")
+                     (directory-files input-folder t "\\.org$")))
+         (total-files (length org-files))
+         (processed 0)
+         (failed 0)
+         (failed-files '()))
+    
+    (message "Found %d .org files to process..." total-files)
+    
+    (dolist (org-file org-files)
+      (condition-case err
+          (let* ((base-name (file-name-base org-file))
+                 (output-file (expand-file-name
+                              (concat base-name ".md")
+                              output-folder)))
+            
+            (message "Processing: %s (%d/%d)" base-name (1+ processed) total-files)
+            
+            ;; Check if file is readable
+            (unless (file-readable-p org-file)
+              (error "File not readable: %s" org-file))
+            
+            ;; Open the org file, export to GFM, then close
+            (with-current-buffer (find-file-noselect org-file)
+              (condition-case export-err
+                  (progn
+                    ;; Try to export
+                    (org-gfm-export-to-markdown)
+                    
+                    ;; Move the generated .md file to the output folder
+                    (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
+                      (when (file-exists-p generated-file)
+                        (rename-file generated-file output-file t)
+                        (setq processed (1+ processed)))
+                      (unless (file-exists-p generated-file)
+                        (error "Export didn't generate expected file: %s" generated-file))))
+                
+                (error
+                 (setq failed (1+ failed))
+                 (push (cons org-file (error-message-string export-err)) failed-files)
+                 (message "Export failed for %s: %s" base-name (error-message-string export-err))))
+              
+              (kill-buffer)))
+        
+        (error
+         (setq failed (1+ failed))
+         (push (cons org-file (error-message-string err)) failed-files)
+         (message "Failed to process %s: %s" org-file (error-message-string err)))))
+    
+    ;; Summary
+    (message "\nExport complete!")
+    (message "Successfully processed: %d files" processed)
+    (message "Failed: %d files" failed)
+    
+    ;; Report failed files
+    (when failed-files
+      (message "\nFailed files:")
+      (dolist (failed-file failed-files)
+        (message "  %s: %s" (car failed-file) (cdr failed-file))))
+    
+    ;; Return summary
+    (list :processed processed :failed failed :failed-files failed-files)))
+
+;; Helper function to diagnose issues
+(defun org-export-diagnose-folder (input-folder)
+  "Diagnose potential issues with org files in INPUT-FOLDER."
+  (interactive "DInput folder: ")
+  
+  (let* ((all-files (directory-files input-folder t "\\.org$"))
+         (readable-files '())
+         (unreadable-files '())
+         (empty-files '())
+         (large-files '()))
+    
+    (dolist (file all-files)
+      (cond
+       ((not (file-readable-p file))
+        (push file unreadable-files))
+       ((= (nth 7 (file-attributes file)) 0)
+        (push file empty-files))
+       ((> (nth 7 (file-attributes file)) 1000000) ; > 1MB
+        (push file large-files))
+       (t
+        (push file readable-files))))
+    
+    (message "Diagnosis for %s:" input-folder)
+    (message "Total .org files: %d" (length all-files))
+    (message "Readable files: %d" (length readable-files))
+    (message "Unreadable files: %d" (length unreadable-files))
+    (message "Empty files: %d" (length empty-files))
+    (message "Large files (>1MB): %d" (length large-files))
+    
+    (when unreadable-files
+      (message "\nUnreadable files:")
+      (dolist (file unreadable-files)
+        (message "  %s" file)))
+    
+    (when empty-files
+      (message "\nEmpty files:")
+      (dolist (file empty-files)
+        (message "  %s" file)))
+    
+    (when large-files
+      (message "\nLarge files:")
+      (dolist (file large-files)
+        (message "  %s (%d bytes)" file (nth 7 (file-attributes file)))))))
+
+;; Quick function to check what files are being found
+(defun org-list-files-in-folder (input-folder)
+  "List all .org files found in INPUT-FOLDER."
+  (interactive "DInput folder: ")
+  (let ((org-files (directory-files input-folder t "\\.org$")))
+    (message "Found %d .org files:" (length org-files))
+    (dolist (file org-files)
+      (message "  %s" (file-name-nondirectory file)))
+    org-files))
+
 ;Back to a simpler time…
 (map! :g "C-s" #'save-buffer)
 

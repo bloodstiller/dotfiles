@@ -1049,6 +1049,168 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 ;;(setq markdown-indent-on-enter 'indent-and-new-item)
 #+end_src
 
+*** Export json map of org-roam id's to markdown.
+:PROPERTIES:
+:ID:       8aaaa29b-7db1-4ae1-a2ab-65c740ce009a
+:END:
+#+begin_src emacs-lisp
+(require 'json)
+
+;; Quick and dirty - just dump what's already in the database
+(defun org-roam-quick-export-for-migration ()
+  "Quick export of ID->title mapping for migration (no sync)."
+  (interactive)
+  (let* ((query "SELECT id, title, file FROM nodes")
+         (results (org-roam-db-query query))
+         (output-lines (mapcar (lambda (row)
+                                 (let ((id (nth 0 row))
+                                       (title (nth 1 row))
+                                       (filepath (nth 2 row)))
+                                   (format "%s\t%s\t%s\t%s"
+                                           id
+                                           title
+                                           filepath
+                                           (file-name-base filepath))))
+                               results)))
+    (with-temp-file "~/org-roam-migration.tsv"
+      (insert "ID\tTitle\tFilePath\tFileName\n")
+      (insert (string-join output-lines "\n")))
+    (message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+
+;; If you want JSON format instead
+(defun org-roam-quick-json-export ()
+  "Quick JSON export for migration."
+  (interactive)
+  (let* ((query "SELECT id, title, file FROM nodes")
+         (results (org-roam-db-query query))
+         (map (mapcar (lambda (row)
+                        (let ((filepath (nth 2 row)))
+                          `((id . ,(nth 0 row))
+                            (title . ,(nth 1 row))
+                            (filepath . ,filepath)
+                            (filename . ,(file-name-base filepath))
+                            (md_file . ,(concat (file-name-base filepath) ".md")))))
+                      results))
+         (json-output (json-encode map)))
+    (with-temp-file "~/org-roam-migration.json"
+      (insert json-output))
+    (message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+
+;; Super simple - just get the raw data for inspection
+(defun org-roam-dump-ids ()
+  "Just dump all IDs and titles to messages buffer."
+  (interactive)
+  (let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
+    (dolist (row results)
+      (message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
+    (message "Found %d org-roam nodes" (length results))))
+
+
+
+;;(require 'json)
+;;
+;;;; Quick and dirty - just dump what's already in the database
+;;(defun org-roam-quick-export-for-migration ()
+  ;;"Quick export of ID->title mapping for migration (no sync)."
+  ;;(interactive)
+  ;;(let* ((query "SELECT id, title FROM nodes")
+         ;;(results (org-roam-db-query query))
+         ;;(output-lines (mapcar (lambda (row)
+                                 ;;(format "%s\t%s" (nth 0 row) (nth 1 row)))
+                               ;;results)))
+    ;;(with-temp-file "~/org-roam-migration.tsv"
+      ;;(insert "ID\tTitle\n")
+      ;;(insert (string-join output-lines "\n")))
+    ;;(message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+;;
+;;;; If you want JSON format instead
+;;(defun org-roam-quick-json-export ()
+  ;;"Quick JSON export for migration."
+  ;;(interactive)
+  ;;(let* ((query "SELECT id, title FROM nodes")
+         ;;(results (org-roam-db-query query))
+         ;;(map (mapcar (lambda (row)
+                        ;;`((id . ,(nth 0 row))
+                          ;;(title . ,(nth 1 row))
+                          ;;(md_file . ,(concat (replace-regexp-in-string "[^a-zA-Z0-9-_]" "_" (nth 1 row)) ".md"))))
+                      ;;results))
+         ;;(json-output (json-encode map)))
+    ;;(with-temp-file "~/org-roam-migration.json"
+      ;;(insert json-output))
+    ;;(message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+;;
+;;;; Super simple - just get the raw data for inspection
+;;(defun org-roam-dump-ids ()
+  ;;"Just dump all IDs and titles to messages buffer."
+  ;;(interactive)
+  ;;(let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
+    ;;(dolist (row results)
+      ;;(message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
+    ;;(message "Found %d org-roam nodes" (length results))))
+#+end_src
+*** Export with broken links
+:PROPERTIES:
+:ID:       f5ddc666-8ecb-4c97-b711-1703b30fed19
+:END:
+#+begin_src emacs-lisp
+(setq org-export-with-broken-links 'mark)  ; Export and mark broken links
+#+end_src
+*** Export to markdown:
+    :PROPERTIES:
+    :ID:       ea613c31-3d80-4a16-8f79-15960305f3a9
+    :END:
+    #+begin_src emacs-lisp
+;;(defun org-export-folder-to-markdown (input-folder output-folder)
+  ;;"Export all .org files in INPUT-FOLDER to markdown in OUTPUT-FOLDER."
+  ;;(interactive "DInput folder: \nDOutput folder: ")
+;;
+  ;;;; Create output folder if it doesn't exist
+  ;;(unless (file-exists-p output-folder)
+    ;;(make-directory output-folder t))
+;;
+  ;;;; Get all .org files in the input folder
+  ;;(let ((org-files (directory-files input-folder t "\\.org$")))
+    ;;(dolist (org-file org-files)
+      ;;(let* ((base-name (file-name-base org-file))
+             ;;(output-file (expand-file-name
+                          ;;(concat base-name ".md")
+                          ;;output-folder)))
+;;
+        ;;;; Open the org file, export to markdown, then close
+        ;;(with-current-buffer (find-file-noselect org-file)
+          ;;(org-md-export-to-markdown)
+          ;;;; Move the generated .md file to the output folder
+          ;;(let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
+            ;;(when (file-exists-p generated-file)
+              ;;(rename-file generated-file output-file t)))
+          ;;(kill-buffer))))))
+(require 'ox-gfm)
+(defun org-export-folder-to-gfm (input-folder output-folder)
+  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER."
+  (interactive "DInput folder: \nDOutput folder: ")
+
+  ;; Create output folder if it doesn't exist
+  (unless (file-exists-p output-folder)
+    (make-directory output-folder t))
+
+  ;; Get all .org files in the input folder
+  (let ((org-files (directory-files input-folder t "\\.org$")))
+    (dolist (org-file org-files)
+      (let* ((base-name (file-name-base org-file))
+             (output-file (expand-file-name
+                          (concat base-name ".md")
+                          output-folder)))
+
+        ;; Open the org file, export to GFM, then close
+        (with-current-buffer (find-file-noselect org-file)
+          (org-gfm-export-to-markdown)  ; Changed this line
+          ;; Move the generated .md file to the output folder
+          (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
+            (when (file-exists-p generated-file)
+              (rename-file generated-file output-file t)))
+          (kill-buffer))))))
+
+    #+end_src
 ** Quality Of Life:
 :PROPERTIES:
 :ID:       9738f0a2-351e-4da6-a97b-cc4951baa6be
@@ -1241,6 +1403,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 (package! org-auto-tangle)
 (package! org-web-tools)
 (package! ox-hugo)
+(package! ox-gfm) ;github flavoured markdown
 ;; So I can export org to md well
 ;;(package! ox-gemini)
 (package! peep-dired)
@@ -1484,3 +1647,5 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 (setq org-gtd-update-ack "3.0.0")
 
 #+end_src
+
+rg

@@ -72,6 +72,10 @@
     libreoffice-fresh
     teams-for-linux
 
+    # Markdown
+    marksman
+    pandoc
+
     # Recovery
     #ddrescue
     #testdisk-qt

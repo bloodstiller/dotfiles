@@ -16,6 +16,7 @@
 (package! org-auto-tangle)
 (package! org-web-tools)
 (package! ox-hugo)
+(package! ox-gfm) ;github flavoured markdown
 ;; So I can export org to md well
 ;;(package! ox-gemini)
 (package! peep-dired)

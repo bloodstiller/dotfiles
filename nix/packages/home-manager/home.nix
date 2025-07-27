@@ -13,6 +13,7 @@ in {
     (import ../packages/packages.nix { inherit pkgs cursor inputs; })
     ../alacritty/alacritty.nix
     ../atuin/atuin.nix
+    ../claude/claude.nix
     ../doom/doom.nix
     ../dunst/dunst.nix
     ../foot/foot.nix
@@ -25,6 +26,7 @@ in {
     ../tmux/tmux.nix
     ../waybar/waybar.nix
     ../wofi/wofi.nix
+    ../wezterm/wezterm.nix
     ../yazi/yazi.nix
     ../zsh/zsh.nix
   ];
