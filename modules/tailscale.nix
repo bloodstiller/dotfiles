@@ -3,7 +3,7 @@
 {
   services.tailscale.enable = true;
 
-    # Add tailscale service and use routes by other nodes in cluster
+  # Add tailscale service and use routes by other nodes in cluster
   systemd.services.tailscale-autoconnect = {
     description = "Automatic connection to Tailscale";
 
@@ -30,11 +30,8 @@
       fi
 
       # otherwise authenticate with tailscale using the key from secrets
-      ${tailscale}/bin/tailscale up -authkey "$TAILSCALE_AUTH_KEY" --accept-routes=true
+      ${tailscale}/bin/tailscale up -authkey "$TAILSCALE_AUTH_KEY" --accept-routes=true --reset
     '';
   };
-  environment.systemPackages = with pkgs; [
-    tailscale
-    jq
-  ];
+  environment.systemPackages = with pkgs; [ tailscale jq ];
 }

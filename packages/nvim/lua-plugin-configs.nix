@@ -2,9 +2,25 @@
 { lib, pkgs, ... }: {
   vim.luaConfigRC.pluginConfigs = ''
      --Org
-     require("orgmode").setup({})
+     require("orgmode").setup({
+         org_agenda_files = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/*.org",
+         org_default_notes_file = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org",
+         org_hide_emphasis_markers = true,
+         org_startup_indented = true,
+         org_edit_src_content_indentation = 2,
+     })
+     
+     -- Set conceallevel for org files
+     vim.api.nvim_create_autocmd('FileType', {
+         pattern = 'org',
+         callback = function()
+             vim.opt_local.conceallevel = 2
+         end,
+     })
+
      require("org-bullets").setup()
 
+     --Org-Modern
      local Menu = require("org-modern.menu")
      require("orgmode").setup({
        ui = {
@@ -16,6 +32,20 @@
        },
      })
 
+    --Org-Roam 
+    --Works but seeing if I can replace with normal relative links to 
+    --require("org-roam").setup({
+    --  directory = "/home/martin/Dropbox/40-49_Career/40-Career-ZK",
+    --  org_files = {
+    --    "/home/martin/Dropbox/40-49_Career/40-Career-ZK/*.org",
+    --    },
+    --  database = { 
+    --    path = "/home/martin/Nextcloud/Dropbox/40-49_Career/40-Career-ZK/db", 
+    --    persist = true,
+    --    update_on_save = true,
+    --  }
+    --})
+
     --NeoTree
     -- Also provides keyboard shortcut tab for expanding nodes
     require("neo-tree").setup({
@@ -25,6 +55,22 @@
           ["<CR>"] = "open", -- Keep Enter for opening files 
         }
       }
+    })
+
+    --Blink config 
+    require('blink.cmp').setup({
+      sources = {
+        per_filetype = {
+          org = {'orgmode'}
+        },
+        providers = {
+          orgmode = {
+            name = 'Orgmode',
+            module = 'orgmode.org.autocompletion.blink',
+            fallbacks = { 'buffer' },
+          },
+        },
+      },
     })
 
 

@@ -24,6 +24,15 @@
     }];
   };
 
+  # Org Roam
+  #  vim.lazy.plugins."org-roam.nvim" = {
+  #    package = pkgs.vimPlugins.org-roam-nvim;
+  #    event = [{
+  #      event = "VimEnter";
+  #      pattern = "*";
+  #    }];
+  #  };
+
   # Doom one theme
   vim.lazy.plugins."doom-one.nvim" = {
     package = pkgs.vimPlugins.doom-one-nvim;
@@ -186,6 +195,14 @@
     }];
   };
 
+  # Powershell treesitter 
+  vim.lazy.plugins."blink.cmp" = {
+    package = pkgs.vimPlugins.blink-cmp;
+    event = [{
+      event = "BufReadPre";
+      pattern = "*";
+    }];
+  };
   ## References raw lua for these plugins not nixified yet
   vim.startPlugins = [
     (pkgs.vimUtils.buildVimPlugin {

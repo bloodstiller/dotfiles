@@ -9,6 +9,7 @@
     ./theme.nix
     ./lua-markdown-config.nix
     ./lua-markdown-theme.nix
+    # ./lua-orgmode-theme.nix
     ./lua-keymaps.nix
     ./lua-plugin-configs.nix
     ./lua-theme-config.nix
@@ -23,7 +24,7 @@
 
     options = {
       # Have set conceal in markdown theme file
-      # conceallevel = 1; # or 1
+      conceallevel = 3; # or 1
     };
 
     binds = { whichKey.enable = true; };
