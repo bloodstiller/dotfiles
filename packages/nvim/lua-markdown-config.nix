@@ -70,12 +70,12 @@
     vim.keymap.set('n', '<leader>me', ':MarkdownToPDF<CR>', { desc = 'Export to PDF' })
 
     -- Quick note creation
-    vim.keymap.set('n', '<leader>nn', function()
-      local filename = vim.fn.input('Note name: ')
-      if filename ~= "" then
-        vim.cmd('edit ' .. filename .. '.md')
-      end
-    end, { desc = 'New note' })
+    --vim.keymap.set('n', '<leader>nm', function()
+    --  local filename = vim.fn.input('Note name: ')
+    --  if filename ~= "" then
+    --    vim.cmd('edit ' .. filename .. '.md')
+    --  end
+    --end, { desc = 'New md note' })
 
     -- Table creation helper
     vim.keymap.set('n', '<leader>mt', function()
