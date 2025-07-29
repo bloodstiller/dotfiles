@@ -9,6 +9,8 @@
          org_startup_indented = true,
          org_edit_src_content_indentation = 2,
      })
+
+
      
      -- Set conceallevel for org files
      vim.api.nvim_create_autocmd('FileType', {
@@ -113,7 +115,9 @@
           },
         },
       })
-      require("telescope").load_extension("file_browser")
+
+    require("telescope").load_extension("file_browser")
+
 
      --Img clip settings 
      require("img-clip").setup({

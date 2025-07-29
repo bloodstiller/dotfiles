@@ -4,9 +4,11 @@
      local map = vim.keymap.set
      local opts = { noremap = true, silent = true }
 
-
-
-
+     -- Open nvim config
+     vim.keymap.set('n', '<leader>=dc', function()
+       vim.cmd('edit ' .. vim.fn.expand('~/.dotfiles/packages/nvim/nvf-configuration.nix'))
+     end, { desc = "Open nvf-configuration" })
+     
      -- Basic navigation and telescope
         map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
         map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
