@@ -10,9 +10,9 @@
         vim.opt_local.spelllang = "en_us"
 
         -- Quick formatting shortcuts
-        vim.keymap.set('v', '<leader>mb', 'c**<C-r>"**<Esc>', { buffer = true, desc = 'Bold selection' })
-        vim.keymap.set('v', '<leader>mi', 'c*<C-r>"*<Esc>', { buffer = true, desc = 'Italic selection' })
-        vim.keymap.set('v', '<leader>mc', 'c`<C-r>"`<Esc>', { buffer = true, desc = 'Code selection' })
+        --vim.keymap.set('v', '<leader>mb', 'c**<C-r>"**<Esc>', { buffer = true, desc = 'Bold selection' })
+        --vim.keymap.set('v', '<leader>mi', 'c*<C-r>"*<Esc>', { buffer = true, desc = 'Italic selection' })
+        --vim.keymap.set('v', '<leader>mc', 'c`<C-r>"`<Esc>', { buffer = true, desc = 'Code selection' })
 
         -- Quick link creation
         vim.keymap.set('v', '<leader>ml', function()
@@ -25,12 +25,12 @@
     })
 
     -- Date/time insertion
-    vim.keymap.set('n', '<leader>md', function()
+    vim.keymap.set('n', '<leader>Md', function()
       local date = os.date('%Y-%m-%d')
       vim.api.nvim_put({date}, 'c', true, true)
     end, { desc = 'Insert date' })
 
-    vim.keymap.set('n', '<leader>mdt', function()
+    vim.keymap.set('n', '<leader>Mdt', function()
       local datetime = os.date('%Y-%m-%d %H:%M:%S')
       vim.api.nvim_put({datetime}, 'c', true, true)
     end, { desc = 'Insert datetime' })
@@ -66,11 +66,11 @@
       print('Exported to ' .. output)
     end, { desc = 'Export to PDF' })
 
-    vim.keymap.set('n', '<leader>mp', ':MarkdownPreview<CR>', { desc = 'Preview markdown' })
-    vim.keymap.set('n', '<leader>me', ':MarkdownToPDF<CR>', { desc = 'Export to PDF' })
+    vim.keymap.set('n', '<leader>Mp', ':MarkdownPreview<CR>', { desc = 'Preview markdown' })
+    vim.keymap.set('n', '<leader>Me', ':MarkdownToPDF<CR>', { desc = 'Export to PDF' })
 
     -- Quick note creation
-    --vim.keymap.set('n', '<leader>nm', function()
+    --vim.keymap.set('n', '<leader>Mn', function()
     --  local filename = vim.fn.input('Note name: ')
     --  if filename ~= "" then
     --    vim.cmd('edit ' .. filename .. '.md')
@@ -78,7 +78,7 @@
     --end, { desc = 'New md note' })
 
     -- Table creation helper
-    vim.keymap.set('n', '<leader>mt', function()
+    vim.keymap.set('n', '<leader>Mt', function()
       local cols = tonumber(vim.fn.input('Number of columns: ')) or 2
       local rows = tonumber(vim.fn.input('Number of rows: ')) or 2
 
@@ -118,14 +118,14 @@
     })
 
     -- Markdown-specific telescope searches
-    vim.keymap.set('n', '<leader>mf', function()
+    vim.keymap.set('n', '<leader>Mf', function()
       require('telescope.builtin').find_files({
         prompt_title = "Markdown Files",
         find_command = { 'find', '.', '-type', 'f', '-name', '*.md' },
       })
     end, { desc = 'Find markdown files' })
 
-    vim.keymap.set('n', '<leader>mg', function()
+    vim.keymap.set('n', '<leader>Mg', function()
       require('telescope.builtin').live_grep({
         prompt_title = "Search in Markdown",
         type_filter = "md",
