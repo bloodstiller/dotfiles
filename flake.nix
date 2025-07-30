@@ -84,7 +84,6 @@
                 # Add if you want to use nix-colors
                 # inherit (nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
               };
-
               users.martin = import ./packages/home-manager/home.nix;
               sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
             };

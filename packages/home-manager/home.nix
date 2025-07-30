@@ -1,7 +1,6 @@
 { config, pkgs, inputs, ... }:
 
 let cursor = pkgs.callPackage ../cursor/cursor.nix { };
-
 in {
   imports = [
     ./modules/base.nix # Basic home-manager configuration
@@ -13,7 +12,7 @@ in {
     (import ../packages/packages.nix { inherit pkgs cursor inputs; })
     ../alacritty/alacritty.nix
     ../atuin/atuin.nix
-    ../claude/claude.nix
+    #../claude/claude.nix
     ../doom/doom.nix
     ../dunst/dunst.nix
     ../foot/foot.nix

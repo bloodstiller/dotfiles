@@ -70,6 +70,15 @@
                         end,
                       })
 
+
+                     ----Fix Hugo Files After Converting From Org----
+                     ----Syntax for tilde is correct has to be escaped for the conversion and in this lua
+                     vim.keymap.set('n', '<leader>Msc', function()
+                       vim.cmd('%s/\\~\\~/+/g')
+                       vim.cmd('%s/{.verbatim}//g')
+                       vim.cmd('%s/{.underline}//g')
+                     end, { desc = 'Run predefined find and replace' })
+
     ----------------------------Function to export to markdown hugo---------------------------------- 
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "org",
