@@ -195,7 +195,7 @@
     }];
   };
 
-  # Powershell treesitter 
+  # cmp 
   vim.lazy.plugins."blink.cmp" = {
     package = pkgs.vimPlugins.blink-cmp;
     event = [{

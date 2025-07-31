@@ -2,6 +2,8 @@
 
 {
   services.tailscale.enable = true;
+  #Required for resolution.
+  services.tailscale.useRoutingFeatures = "client";
 
   # Add tailscale service and use routes by other nodes in cluster
   systemd.services.tailscale-autoconnect = {
@@ -30,7 +32,8 @@
       fi
 
       # otherwise authenticate with tailscale using the key from secrets
-      ${tailscale}/bin/tailscale up -authkey "$TAILSCALE_AUTH_KEY" --accept-routes=true --reset
+      ${tailscale}/bin/tailscale up -authkey "$TAILSCALE_AUTH_KEY" --exit-node-allow-lan-access --exit-node=gb-mnc-wg-201.mullvad.ts.net --accept-routes=true --reset --acccept-dns=true
+
     '';
   };
   environment.systemPackages = with pkgs; [ tailscale jq ];

@@ -26,21 +26,23 @@
                         end,
                       })
 
-                      -- Map <leader>nd to toggle TODO state in org files
+                      -- Map <leader>mds to toggle TODO schedule 
+                      --This is jus a remap of the actual keybind
                       vim.api.nvim_create_autocmd("FileType", {
                         pattern = "org",
                         callback = function()
-                          vim.keymap.set('n', '<leader>nd', 'cit', { buffer = true, remap = true, desc = "Toggle TODO state" })
+                          vim.keymap.set('n', '<leader>mds', '<leader>ois', { buffer = true, remap = true, desc = "Set Scheduled Date" })
                         end,
                       })
 
-                      -- Map <leader>mds to toggle TODO schedule 
-                      --This is jus a remap of the actual keybind
-                      vim.keymap.set('n', '<leader>mds', '<leader>ois', { buffer = true, remap = true, desc = "Set Scheduled Date" })
-
                       -- Map <leader>msa to archive 
                       --This is jus a remap of the actual keybind
-                      vim.keymap.set('n', '<leader>msa', '<leader>o$', { buffer = true, remap = true, desc = "Archive" })
+                      vim.api.nvim_create_autocmd("FileType", {
+                        pattern = "org",
+                        callback = function()
+                          vim.keymap.set('n', '<leader>msa', '<leader>o$', { buffer = true, remap = true, desc = "Archive" })
+                        end,
+                      })
 
                       ----Clock in and out easily 
                       vim.api.nvim_create_autocmd("FileType", {
@@ -50,7 +52,7 @@
                           vim.keymap.set('n', '<leader>mci', function()
                             require('orgmode').action('clock.clock_in')
                           end, { buffer = true, desc = "Clock In" })
-                          
+                          ---Clock out  
                           vim.keymap.set('n', '<leader>mco', function()
                             require('orgmode').action('clock.clock_out')
                           end, { buffer = true, desc = "Clock Out" })
@@ -58,7 +60,12 @@
                       })
 
                       ---- Meta + RETURN to add list items + Checkboxes
-                      vim.keymap.set('n', '<M-CR>', '<Leader><CR>', { buffer = true, remap = true, desc = "Insert list/checkbox below" })
+                      vim.api.nvim_create_autocmd("FileType", {
+                        pattern = "org",
+                        callback = function()
+                          vim.keymap.set('n', '<M-CR>', '<Leader><CR>', { buffer = true, remap = true, desc = "Insert list/checkbox below" })
+                        end,
+                      })
 
                       ---- SHIFT + RETURN to add list items + Checkboxes
                       vim.api.nvim_create_autocmd("FileType", {

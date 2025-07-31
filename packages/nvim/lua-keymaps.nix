@@ -52,6 +52,9 @@
         map_api('n', '<leader>wc', ':close<CR>', {desc = "Close selected pane"})
 
     -- Create new blank buffer with <leader> and new dashboard
+        map_api('n', '<leader><tab>n', ':tabnew | Alpha<CR>', {desc = "Create New Tab with Alpha"})
+
+    -- Create new blank buffer with <leader> and new dashboard
         map_api('n', '<leader>wn', ':tabnew | Alpha<CR>', {desc = "Create New Tab with Alpha"})
 
     -- Split pane horizontally with <leader>ws
