@@ -1,6 +1,7 @@
 # Main NeoVim configuration file
 { lib, pkgs, ... }: {
   imports = [
+    ./autocomplete.nix
     ./languages.nix
     ./plugins.nix
     ./keymaps.nix
@@ -23,9 +24,19 @@
     autocomplete.nvim-cmp.enable = true;
     lsp.enable = true;
 
+    # For spelling to work here we need to also add it to spellang below
+    spellcheck = {
+      enable = true;
+      languages = [ "en_us" ];
+      #programmingWordlist.enable = true;
+    };
+
     options = {
       # Have set conceal in markdown theme file
       conceallevel = 3; # or 1
+      spell = true;
+      spelllang = "en_us";
+
     };
 
     binds = { whichKey.enable = true; };

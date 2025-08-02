@@ -2,7 +2,8 @@
 
 {
   services.tailscale.enable = true;
-  #Required for resolution.
+
+  #Required for resolution when using mullvad.
   services.tailscale.useRoutingFeatures = "client";
 
   # Add tailscale service and use routes by other nodes in cluster

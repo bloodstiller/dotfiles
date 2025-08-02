@@ -136,6 +136,42 @@
 
         -- Image paste
         vim.keymap.set('n', '<leader>ip', ':PasteImage<CR>', { desc = 'Paste image' })
+
+        ---Oil Keymaps Open oil
+        vim.keymap.set("n", "<leader>Of", function()
+          local oil = require("oil")
+          
+          -- Get all windows in current tab
+          local windows = vim.api.nvim_tabpage_list_wins(0)
+          local oil_win = nil
+          
+          -- Check if any window has oil filetype
+          for _, win in ipairs(windows) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if vim.api.nvim_buf_get_option(buf, "filetype") == "oil" then
+              oil_win = win
+              break
+            end
+          end
+          
+          if oil_win then
+            -- Close the oil window if found
+            vim.api.nvim_win_close(oil_win, false)
+          else
+            -- Open oil if not found
+            oil.open_float()
+          end
+        end, { desc = "Toggle floating oil explorer" })
+
+
+        --- Spell check: 
+        -- Show spelling suggestions
+        vim.keymap.set('n', '<leader>z', 'z=', { desc = 'Show spelling suggestions' })
+        
+        -- Add word to dictionary
+        vim.keymap.set('n', '<leader>zg', 'zg', { desc = 'Add word to dictionary' })
+
+
   '';
 }
 

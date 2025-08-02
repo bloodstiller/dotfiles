@@ -11,11 +11,11 @@
     package =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
 
+    ## Keybindings are pulled in from hyprland.conf so we can edit on the fly
     extraConfig = ''
       ${builtins.readFile ./config/hyprland.conf}
       source = ${./config/Monitors.conf}   
       source = ${./config/Autostart.conf}
-      source = ${./config/Keybindings.conf}
       source = ${./config/Envs.conf}
       source = ${./config/laptopVariables.conf}
 

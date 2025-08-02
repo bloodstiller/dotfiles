@@ -203,6 +203,16 @@
       pattern = "*";
     }];
   };
+
+  # Oil
+  vim.lazy.plugins."oil.nvim" = {
+    package = pkgs.vimPlugins.oil-nvim;
+    event = [{
+      event = "BufReadPre";
+      pattern = "*";
+    }];
+  };
+
   ## References raw lua for these plugins not nixified yet
   vim.startPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
