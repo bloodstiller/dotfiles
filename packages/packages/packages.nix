@@ -12,8 +12,12 @@
 
     # Applications
     discord
-    bitwarden
     firefox
+
+    # Security 
+    bitwarden
+    keepassxc
+    ente-auth
 
     # Shell & Terminal
     tmux
@@ -55,10 +59,12 @@
     # Blogging
     hugo
 
+    # Backup Client
     # Nextcloud using unstable as better
-    #
     #nextcloud-client
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
+    filen-desktop
+    pcloud
 
     # video
     vlc
@@ -70,7 +76,6 @@
 
     # office
     libreoffice-fresh
-    teams-for-linux
 
     # Markdown
     marksman

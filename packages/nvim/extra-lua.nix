@@ -2,29 +2,29 @@
 { lib, pkgs, ... }: {
   vim.luaConfigRC.extraPlugins = ''
                 --Org
+
                 require("orgmode").setup({})
 
                 require("org-bullets").setup()
 
-                --require("headlines").setup()
 
-                -require("org-roam").setup({
+                --require("org-roam").setup({
                   --database = {
                      --update_on_save = true,
                      --persist = true,
                   --},
                  -- })
 
-                local Menu = require("org-modern.menu")
-                 require("orgmode").setup({
-                   ui = {
-                     menu = {
-                       handler = function(data)
-                         Menu:new():open(data)
-                       end,
-                     },
-                   },
-                 })
+                --local Menu = require("org-modern.menu")
+                -- require("orgmode").setup({
+                --   ui = {
+                --     menu = {
+                --       handler = function(data)
+                --         Menu:new():open(data)
+                --       end,
+                --     },
+                --   },
+                -- })
 
                 --Outline
                 require("outline").setup()

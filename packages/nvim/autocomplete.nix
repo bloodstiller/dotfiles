@@ -1,5 +1,4 @@
 # Autocomplete
-# Autocomplete
 { lib, pkgs, ... }: {
   vim.autocomplete.blink-cmp.sourcePlugins = {
     spell.enable = true;

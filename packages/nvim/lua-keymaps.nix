@@ -12,7 +12,7 @@
      -- Open nix config
      vim.keymap.set('n', '<leader>=dn', function()
        vim.cmd('edit ' .. vim.fn.expand('~/.dotfiles'))
-     end, { desc = "Open nvf-configuration" })
+     end, { desc = "Open nix config" })
      
      -- Basic navigation and telescope
         map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
