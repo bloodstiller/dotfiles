@@ -6,20 +6,18 @@
 :PROPERTIES:
 :ID:       6b99c255-3eb5-43c5-9d3d-7e432d1e9000
 :END:
-This repository contains my personal NixOS system configuration using the Nix flakes feature. It's built on NixOS unstable and focuses on a Wayland-first experience with Hyprland.
+This repository contains my personal NixOS system configuration using Nix flakes. It's built on NixOS unstable and provides a Wayland-first experience with Hyprland.
 
 * Key Features
-- Full Wayland desktop with Hyprland (XFCE fallback)
+- Full Wayland desktop with Hyprland
 - UK English locale and keyboard settings
 - LUKS encryption on drives
+- Advanced power management with auto-cpufreq and TLP
+- Tailscale VPN with Mullvad exit nodes
+- Automated secrets management with Sops
 - Comprehensive development environment
-- Advanced power management
-- Remote desktop support via XRD
-- Automated secrets management
-- Literate configuration with Org-mode
 
 * Structure
-The configuration is organized into three main components:
 
 ** System Modules (./modules/)
 #+begin_src bash
@@ -33,7 +31,7 @@ modules/
 ├── kernel.nix              # Zen kernel configuration
 ├── keyboard.nix            # UK layout + Caps:Escape
 ├── locale.nix              # UK English locale settings
-├── network.nix             # NetworkManager + DNS + SSH
+├── network.nix             # NetworkManager + SSH
 ├── nfs.nix                 # Network storage + mount points
 ├── nix.nix                 # Package manager + GC settings
 ├── nvidia.nix              # NVIDIA drivers + Prime
@@ -49,41 +47,84 @@ modules/
 ** Custom Packages (./packages/)
 #+begin_src bash
 packages/
-├── alacritty/            # Terminal emulator
-├── atuin/                # Shell history manager
-├── cursor/               # AI-powered editor
-├── doom/                 # Emacs configuration
-│   └── config/          
-│       ├── snippets/    
-│       └── init.el      
-├── dropbox/              # Dropbox sync client
-├── dunst/                # Notifications
-├── firefox/              # Browser configuration
-├── git/                  # Git configuration
-├── home-manager/         # User environment
-├── hypr/                 # Window manager
-│   └── config/         
-│       ├── hypridle    
-│       ├── hyprlock    
-│       └── hyprland.conf
-├── kitty/               # Terminal emulator
-├── pia/                 # VPN client
-├── scripts/             # Custom utilities
-├── sops/                # Secrets management
-├── starship/            # Shell prompt
-├── tmux/                # Terminal multiplexer
-├── waybar/              # Status bar
-├── wofi/                # Application launcher
-└── zsh/                 # Shell configuration
+├── alacritty/             # Terminal emulator
+├── atuin/                 # Shell history manager
+├── claude/                # Claude AI integration
+├── cursor/                # AI-powered editor
+├── doom/                  # Emacs configuration
+├── dropbox/               # Dropbox sync client
+├── dunst/                 # Notifications
+├── foot/                  # Terminal emulator
+├── home-manager/          # User environment
+│   └── modules/          
+│       ├── base.nix       # Base user config
+│       ├── cli-tools.nix  # CLI utilities
+│       ├── git.nix        # Git configuration
+│       └── theme.nix      # Theme settings
+├── hypr/                # Window manager
+│   ├── config/          # Hyprland config
+│   ├── scripts/         # WM scripts
+│   └── hyprland.nix     # WM package
+├── kitty/                # Terminal emulator
+├── nvim/                 # Neovim configuration
+│   ├── plugins/          # Plugin definitions
+│   └── neovim-plugins/   # Custom plugins
+├── packages/             # Custom Nix packages
+├── Pia/                  # VPN client
+├── scripts/              # Custom utilities
+│   └── scripts/         # Shell scripts
+├── secrets/              # Secrets management
+├── sops/                 # Secrets configuration
+├── starship/             # Shell prompt
+├── temp/                 # Temporary files
+├── tmux/                 # Terminal multiplexer
+├── waybar/               # Status bar
+├── wezterm/              # Terminal emulator
+├── work/                 # Work-specific config
+├── wofi/                 # Application launcher
+├── yazi/                 # File manager
+└── zsh/                  # Shell configuration
 #+end_src
+
 ** Home Manager (./packages/home-manager/)
 User environment configuration managing:
-- Shell: ZSH with custom plugins
-- Development: Emacs 29, Git, VSCode
+- Shell: ZSH with custom plugins and Starship prompt
+- Development: Neovim, Emacs, Git, Cursor
 - Desktop: Wayland tools suite
 - CLI tools: eza, bat, fd, ripgrep
 - Services: Dropbox, GPG agent
 - Dotfiles: Automated management
+
+* Flake Configuration
+
+This repository uses a Nix flake-based setup for reproducible and modular system configuration. The main flake.nix file defines all system inputs and outputs.
+
+** Key Inputs
+- **nixpkgs**: Main NixOS package set, tracking the 25.05 release.
+- **nixpkgs-unstable**: Provides access to the latest unstable packages for select use cases.
+- **home-manager**: Manages user environments and dotfiles, following the 25.05 release.
+- **agenix**: For managing secrets with age encryption.
+- **sops-nix**: For secrets management using Sops and age.
+- **hyprland**: Wayland compositor and related tools (hyprland, hypridle, hyprlock, pyprland) from upstream git.
+- **nixos-hardware**: Hardware-specific optimizations (optional, can be enabled for your device).
+- **nvf**: Neovim configuration framework.
+- **nix-colors**: Optional, for theming and color schemes.
+
+** Unstable Parts
+- The flake includes both stable (25.05) and unstable (nixos-unstable) nixpkgs channels. This allows you to use the latest packages where needed, while keeping the system base stable.
+- Some packages or modules may explicitly use nixpkgs-unstable for newer features or bugfixes.
+- Hyprland and related compositors are tracked from their upstream git repositories, ensuring you get the latest features and fixes for Wayland.
+
+** Example: Adding/Using Unstable Packages
+You can reference unstable packages in your modules or home-manager configs by importing from the `nixpkgs-unstable` input, e.g.:
+#+begin_src nix
+  inputs.nixpkgs-unstable.legacyPackages.x86_64-linux.yourPackage
+#+end_src
+
+** System Outputs
+- The flake defines a `nixosConfigurations.zeus` output for your main system, and a `packages.default` output for your Neovim configuration.
+
+See the flake.nix file for full details and customization options.
 
 * Installation
 
@@ -110,7 +151,7 @@ sudo nixos-rebuild switch --flake .
 1. Set up GPG keys
 2. Configure SSH keys
 3. Import secrets
-4. Set up Doom Emacs
+4. Set up Neovim/Emacs
 
 * Updating
 #+begin_src shell
@@ -127,6 +168,7 @@ sudo nixos-rebuild switch --recreate-lock-file --flake .
 * Development Setup
 
 ** Editor Configuration
+- Neovim with extensive plugin configuration
 - Doom Emacs (managed outside home-manager)
 - Cursor (AI-powered VSCode)
 - Custom snippets and templates
@@ -140,8 +182,8 @@ sudo nixos-rebuild switch --recreate-lock-file --flake .
 - System state version: 25.05
 - Wayland-first with X11 fallback
 - Encrypted storage by default
-- Automated power management
-- Remote desktop ready
+- Advanced power management with auto-cpufreq, TLP, and undervolting
+- Tailscale VPN with Mullvad exit nodes
 - Comprehensive font setup with Nerd Fonts
 
 * Troubleshooting

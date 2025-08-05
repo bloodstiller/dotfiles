@@ -6,7 +6,7 @@
     homeDirectory = "/home/martin";
 
     sessionVariables = {
-      EDITOR = "${lib.getExe pkgs.emacs}";
+      EDITOR = "${lib.getExe pkgs.neovim}";
       BROWSER = "${lib.getExe pkgs.firefox}";
       TERMINAL = "${lib.getExe pkgs.alacritty}";
     };
@@ -28,9 +28,9 @@
       "inode/directory" = "thunar.desktop";
 
       # Text files
-      "text/plain" = "emacs.desktop";
-      "text/x-readme" = "emacs.desktop";
-      "text/x-changelog" = "emacs.desktop";
+      "text/plain" = "neovim.desktop";
+      "text/x-readme" = "neovim.desktop";
+      "text/x-changelog" = "neovim.desktop";
 
       # Images
       "image/jpeg" = "firefox.desktop";
@@ -53,7 +53,7 @@
     associations.added = {
       # Add additional associations without overriding defaults
       "application/pdf" = [ "firefox.desktop" ];
-      "text/plain" = [ "emacs.desktop" ];
+      "text/plain" = [ "neovim.desktop" ];
     };
   };
 

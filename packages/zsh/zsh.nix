@@ -94,11 +94,14 @@
         output=~/"$1".$(date +%s).enc
         gpg --encrypt --armor --output $output -r 0x79ea004594bd7e09 -r admin@mdbdev.io "$1" && echo "$1 -> $output"
       }
-
       function reveal () {
         output=$(echo "$1" | rev | cut -c16- | rev)
         gpg --decrypt --output $output "$1" && echo "$1 -> $output"
       }
+
+
+      # Export API key for use in nvim 
+      export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.anthropic-api-key.path})
 
       # Atuin Configuration for syncing shell history accross machines
       eval "$(atuin init zsh)"
@@ -118,15 +121,6 @@
           sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
         };
       }
-      #{
-      #name = "zsh-syntax-highlighting";
-      #src = pkgs.fetchFromGitHub {
-      #owner = "zsh-users";
-      #repo = "zsh-syntax-highlighting";
-      #rev = "0.7.1";
-      #sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-      #};
-      #}
       {
         name = "fast-syntax-highlighting";
         src = pkgs.fetchFromGitHub {

@@ -1,5 +1,69 @@
 # Plugin configuration
 { lib, pkgs, ... }: {
+
+  vim.assistant.avante-nvim = {
+    enable = true;
+    setupOpts = {
+      # Set Claude as the default provider
+      provider = "claude";
+
+      # Claude is already the default for auto-suggestions, but making it explicit
+      auto_suggestions_provider = "claude";
+
+      # Configure Claude provider settings
+      providers = {
+        claude = {
+          endpoint = "https://api.anthropic.com/v1/messages";
+          model =
+            "claude-3-5-sonnet-20241022"; # or claude-3-5-haiku-20241022 for faster responses
+          api_key_name = "ANTHROPIC_API_KEY";
+          timeout = 30000; # 30 seconds timeout
+          extra_request_body = {
+            max_tokens = 8192;
+            temperature = 0.7;
+          };
+        };
+      };
+
+      # Behavior settings
+      behaviour = {
+        enable_token_counting = true;
+        auto_suggestions = true; # Enable auto-suggestions with Claude
+        auto_apply_diff_after_generation =
+          false; # Set to true if you want automatic application
+        minimize_diff = true;
+        support_paste_from_clipboard = true;
+      };
+
+      # Window configuration
+      windows = {
+        position = "right";
+        width = 30;
+        wrap = true;
+        ask = {
+          floating = false;
+          start_insert = true;
+          border = "rounded";
+        };
+        edit = {
+          start_insert = true;
+          border = "rounded";
+        };
+        sidebar_header = {
+          enabled = true;
+          align = "center";
+          rounded = true;
+        };
+      };
+
+      # Suggestion timing settings
+      suggestion = {
+        debounce = 600; # Wait 600ms before making suggestion request
+        throttle = 600; # Limit suggestion frequency
+      };
+    };
+  };
+
   # Telescope file browser for emacs like counsel
   vim.lazy.plugins."telescope-file-browser.nvim" = {
     package = pkgs.vimPlugins.telescope-file-browser-nvim;
