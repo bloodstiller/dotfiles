@@ -24,15 +24,6 @@
     }];
   };
 
-  # Org Roam
-  #  vim.lazy.plugins."org-roam.nvim" = {
-  #    package = pkgs.vimPlugins.org-roam-nvim;
-  #    event = [{
-  #      event = "VimEnter";
-  #      pattern = "*";
-  #    }];
-  #  };
-
   # Doom one theme
   vim.lazy.plugins."doom-one.nvim" = {
     package = pkgs.vimPlugins.doom-one-nvim;

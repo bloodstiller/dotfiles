@@ -9,13 +9,8 @@
         vim.opt_local.spell = true
         vim.opt_local.spelllang = "en_us"
 
-        -- Quick formatting shortcuts
-        --vim.keymap.set('v', '<leader>mb', 'c**<C-r>"**<Esc>', { buffer = true, desc = 'Bold selection' })
-        --vim.keymap.set('v', '<leader>mi', 'c*<C-r>"*<Esc>', { buffer = true, desc = 'Italic selection' })
-        --vim.keymap.set('v', '<leader>mc', 'c`<C-r>"`<Esc>', { buffer = true, desc = 'Code selection' })
-
         -- Quick link creation
-        vim.keymap.set('v', '<leader>ml', function()
+        vim.keymap.set('v', '<leader>Ml', function()
           local url = vim.fn.input('URL: ')
           if url ~= "" then
             vim.cmd('normal! c[<C-r>"](' .. url .. ')')
@@ -42,7 +37,7 @@
     end, { desc = 'Insert TODO' })
 
     -- Toggle TODO completion
-    vim.keymap.set('n', '<leader>x', function()
+    vim.keymap.set('n', '<leader>Mx', function()
       local line = vim.api.nvim_get_current_line()
       if line:match('%- %[ %]') then
         local new_line = line:gsub('%- %[ %]', '- [x]')

@@ -1,155 +1,94 @@
 # Plugin setup and configuration
 { lib, pkgs, ... }: {
   vim.luaConfigRC.pluginConfigs = ''
-        --Org
-        require("orgmode").setup({
-            org_agenda_files = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/*.org",
-            org_default_notes_file = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org",
-            org_hide_emphasis_markers = true,
-            org_startup_indented = true,
-            org_edit_src_content_indentation = 2,
-         })
+    --NeoTree
+    -- Also provides keyboard shortcut tab for expanding nodes
+    require("neo-tree").setup({
+      window = {
+        mappings = {
+          ["<Tab>"] = "toggle_node",
+          ["<CR>"] = "open", -- Keep Enter for opening files 
+        }
+      }
+    })
 
-             -- Set conceallevel for org files
-             vim.api.nvim_create_autocmd('FileType', {
-                 pattern = 'org',
-                 callback = function()
-                     vim.opt_local.conceallevel = 2
-                 end,
-             })
+     --Outline
+     require("outline").setup()
 
-             require("org-bullets").setup()
+     -- Alpha (dashboard)
+     local alpha = require("alpha")
+     local dashboard = require("alpha.themes.dashboard")
+     alpha.setup(dashboard.config)
 
-             --Org-Modern
-             local Menu = require("org-modern.menu")
-             require("orgmode").setup({
-               ui = {
-                 menu = {
-                   handler = function(data)
-                     Menu:new():open(data)
-                   end,
-                 },
-               },
-             })
+     -- Harpoon
+     require("harpoon"):setup()
 
-            --Org-Roam 
-            --Works but seeing if I can replace with normal relative links to 
-            --require("org-roam").setup({
-            --  directory = "/home/martin/Dropbox/40-49_Career/40-Career-ZK",
-            --  org_files = {
-            --    "/home/martin/Dropbox/40-49_Career/40-Career-ZK/*.org",
-            --    },
-            --  database = { 
-            --    path = "/home/martin/Nextcloud/Dropbox/40-49_Career/40-Career-ZK/db", 
-            --    persist = true,
-            --    update_on_save = true,
-            --  }
-            --})
+     -- Barbar
+     vim.g.barbar_auto_setup = false
+     require("barbar").setup({
+       animation = true,
+       insert_at_start = true,
+       icons = {
+         buffer_index = true,
+         filetype = {
+           enabled = true,
+         },
+       },
+     })
 
-            --NeoTree
-            -- Also provides keyboard shortcut tab for expanding nodes
-            require("neo-tree").setup({
-              window = {
-                mappings = {
-                  ["<Tab>"] = "toggle_node",
-                  ["<CR>"] = "open", -- Keep Enter for opening files 
-                }
-              }
-            })
+     --FT Term
+     local fterm = require("FTerm")
 
-            --Blink config 
-            require('blink.cmp').setup({
-              sources = {
-                per_filetype = {
-                  org = {'orgmode'}
-                },
-                providers = {
-                  orgmode = {
-                    name = 'Orgmode',
-                    module = 'orgmode.org.autocompletion.blink',
-                    fallbacks = { 'buffer' },
-                  },
-                },
-              },
-            })
+     -- telescope
+     require("telescope").setup({
+        extensions = {
+          file_browser = {
+            hijack_netrw = true,
+            grouped = true,
+            hidden = true,
+            respect_gitignore = false,
+            initial_mode = "insert",
+          },
+        },
+      })
+
+    --Telescope
+    require("telescope").load_extension("file_browser")
 
 
-             --Outline
-             require("outline").setup()
+     --Img clip settings 
+     require("img-clip").setup({
+       default = {
+         embed_image_as_base64 = false,
+         prompt_for_file_name = true,
+         drag_and_drop = {
+           insert_mode = true,
+         },
+         use_absolute_path = false,
+         relative_to_current_file = true,
+       },
+       filetypes = {
+         markdown = {
+           url_encode_path = true,
+           template = "![$CURSOR]($FILE_PATH)",
+           dir_path = "~/Nextcloud/Dropbox/screenshots/",
+         },
+       },
+     })
 
-             -- Alpha (dashboard)
-             local alpha = require("alpha")
-             local dashboard = require("alpha.themes.dashboard")
-             alpha.setup(dashboard.config)
-
-             -- Harpoon
-             require("harpoon"):setup()
-
-             -- Barbar
-             vim.g.barbar_auto_setup = false
-             require("barbar").setup({
-               animation = true,
-               insert_at_start = true,
-               icons = {
-                 buffer_index = true,
-                 filetype = {
-                   enabled = true,
-                 },
-               },
-             })
-
-             --FT Term
-             local fterm = require("FTerm")
-
-             -- telescope
-             require("telescope").setup({
-                extensions = {
-                  file_browser = {
-                    hijack_netrw = true,
-                    grouped = true,
-                    hidden = true,
-                    respect_gitignore = false,
-                    initial_mode = "insert",
-                  },
-                },
-              })
-
-            require("telescope").load_extension("file_browser")
-
-
-             --Img clip settings 
-             require("img-clip").setup({
-               default = {
-                 embed_image_as_base64 = false,
-                 prompt_for_file_name = true,
-                 drag_and_drop = {
-                   insert_mode = true,
-                 },
-                 use_absolute_path = false,
-                 relative_to_current_file = true,
-               },
-               filetypes = {
-                 markdown = {
-                   url_encode_path = true,
-                   template = "![$CURSOR]($FILE_PATH)",
-                   dir_path = "~/assets",
-                 },
-               },
-             })
-
-             -- FTerm for floating terminal only
-             local fterm = require('FTerm')
-             local floating_term = fterm:new({
-                 ft = 'fterm',
-                 cmd = os.getenv('SHELL'),
-                 dimensions = {
-                     height = 0.8,
-                     width = 0.8,
-                     x = 0.1,
-                     y = 0.1,
-                 },
-                 border = 'double'
-             })
+     -- FTerm for floating terminal only
+     local fterm = require('FTerm')
+     local floating_term = fterm:new({
+         ft = 'fterm',
+         cmd = os.getenv('SHELL'),
+         dimensions = {
+             height = 0.8,
+             width = 0.8,
+             x = 0.1,
+             y = 0.1,
+         },
+         border = 'double'
+     })
 
     -- Oil nvim settings
     require("oil").setup({
@@ -205,29 +144,6 @@
       
       -- Set to true to watch the filesystem for changes and reload oil
       experimental_watch_for_changes = false,
-      
-      -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-      --keymaps = {
-      --  ["g?"] = "actions.show_help",
-      --  ["<CR>"] = "actions.select",
-      --  ["<C-s>"] = "actions.select_vsplit",
-      --  ["<C-h>"] = "actions.select_split",
-      --  ["<C-t>"] = "actions.select_tab",
-      --  ["<C-p>"] = "actions.preview",
-      --  ["<C-c>"] = "actions.close",
-      --  ["<C-l>"] = "actions.refresh",
-      --  ["-"] = "actions.parent",
-      --  ["_"] = "actions.open_cwd",
-      --  ["`"] = "actions.cd",
-      --  ["~"] = "actions.tcd",
-      --  ["gs"] = "actions.change_sort",
-      --  ["gx"] = "actions.open_external",
-      --  ["g."] = "actions.toggle_hidden", -- This toggles hidden files
-      --  ["g\\"] = "actions.toggle_trash",
-      --},
-      
-      -- Set to false to disable all of the above keymaps
-      use_default_keymaps = false,
       
       view_options = {
         -- Show files and directories that start with "."

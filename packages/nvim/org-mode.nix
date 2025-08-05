@@ -3,7 +3,56 @@
   vim.luaConfigRC.extraPlugins = ''
 
                       ------------------------------Main Org Mode Configuration-----------
+
+        --Org
+        require("orgmode").setup({
+            org_agenda_files = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/*.org",
+            org_default_notes_file = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org",
+            org_hide_emphasis_markers = true,
+            org_startup_indented = true,
+            org_edit_src_content_indentation = 2,
+         })
+
+             -- Set conceallevel for org files
+             vim.api.nvim_create_autocmd('FileType', {
+                 pattern = 'org',
+                 callback = function()
+                     vim.opt_local.conceallevel = 2
+                 end,
+             })
+
+             require("org-bullets").setup()
+
+             --Org-Modern
+             local Menu = require("org-modern.menu")
+             require("orgmode").setup({
+               ui = {
+                 menu = {
+                   handler = function(data)
+                     Menu:new():open(data)
+                   end,
+                 },
+               },
+             })
+
                       
+            --Blink config 
+            require('blink.cmp').setup({
+              sources = {
+                per_filetype = {
+                  org = {'orgmode'}
+                },
+                providers = {
+                  orgmode = {
+                    name = 'Orgmode',
+                    module = 'orgmode.org.autocompletion.blink',
+                    fallbacks = { 'buffer' },
+                  },
+                },
+              },
+            })
+
+
                       ------------------------------Keymaps------------------------------
                       --Notes: Keymaps for specific custom functions are located within them.
 

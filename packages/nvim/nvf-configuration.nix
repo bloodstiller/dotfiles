@@ -10,11 +10,10 @@
     ./theme.nix
     ./lua-markdown-config.nix
     ./lua-markdown-theme.nix
-    # ./lua-orgmode-theme.nix
     ./lua-keymaps.nix
     ./lua-plugin-configs.nix
     ./lua-theme-config.nix
-    ./roam-replace.nix
+    ./org-mode.nix
 
   ];
 
@@ -28,12 +27,10 @@
     spellcheck = {
       enable = true;
       languages = [ "en_us" ];
-      #programmingWordlist.enable = true;
     };
 
     options = {
-      # Have set conceal in markdown theme file
-      conceallevel = 3; # or 1
+      conceallevel = 3;
       spell = true;
       spelllang = "en_us";
 
@@ -42,7 +39,6 @@
     binds = { whichKey.enable = true; };
 
     filetree.neo-tree.enable = true;
-    # Sensible default options
     filetree.neo-tree.setupOpts = {
       enable_git_status = true;
       enable_diagnostics = true;
@@ -63,10 +59,10 @@
       open_files_in_last_window = true;
     };
 
-    # We can install lua packages here
+    # We can install lua packages here if they are depedencies
     luaPackages = [ "magick" ];
 
-    # We can install real packages here, this is needed for image display
+    # We can install real packages here, this is needed for image display.
     extraPackages = with pkgs; [ imagemagick nodePackages.prettier ];
 
   };
