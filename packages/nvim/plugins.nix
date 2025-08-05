@@ -13,14 +13,14 @@
       # Configure Claude provider settings
       providers = {
         claude = {
-          endpoint = "https://api.anthropic.com/v1/messages";
+          endpoint = "https://api.anthropic.com";
           model =
-            "claude-3-5-sonnet-20241022"; # or claude-3-5-haiku-20241022 for faster responses
+            "claude-sonnet-4-20250514"; # or claude-3-5-haiku-20241022 for faster responses
           api_key_name = "ANTHROPIC_API_KEY";
           timeout = 30000; # 30 seconds timeout
           extra_request_body = {
             max_tokens = 8192;
-            temperature = 0.7;
+            temperature = 0.75;
           };
         };
       };
