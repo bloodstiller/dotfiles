@@ -25,6 +25,13 @@
     vim.g.doom_one_plugin_lspsaga = false
 
     vim.cmd.colorscheme("doom-one")
+
+     -- Custom org-mode code block styling
+     vim.api.nvim_set_hl(0, "@org.block", {
+       bg = "#1b2229",  -- Darker background (adjust hex color as needed)
+     })
+     
+
   '';
 }
 

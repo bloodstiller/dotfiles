@@ -268,6 +268,15 @@
     }];
   };
 
+  # Aerial 
+  vim.lazy.plugins."aerial.nvim" = {
+    package = pkgs.vimPlugins.aerial-nvim;
+    event = [{
+      event = "BufReadPre";
+      pattern = "*";
+    }];
+  };
+
   ## References raw lua for these plugins not nixified yet
   vim.startPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
