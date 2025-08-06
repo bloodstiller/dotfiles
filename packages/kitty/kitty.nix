@@ -7,8 +7,8 @@
 
     # Font configuration using the dedicated font option
     font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 13.5;
+      name = "source-code-pro";
+      size = 16;
     };
 
     # Main configuration
@@ -17,16 +17,16 @@
       scrollback_lines = 100000;
 
       # Window settings
-      window_padding_width = 10;
+      window_padding_width = 12;
       dynamic_background_opacity = false;
       background_opacity = "1.0";
 
       # Font adjustments (the family is handled by the font option above)
-      bold_font = "JetBrainsMono Nerd Font Bold";
-      italic_font = "JetBrainsMono Nerd Font Italic";
-      bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
-      adjust_line_height = 1;
-      adjust_column_width = 0;
+      bold_font = "source-code-pro Bold";
+      italic_font = "source-code-pro Italic";
+      bold_italic_font = "source-code-pro Bold Italic";
+      adjust_line_height = 6;
+      adjust_column_width = 1;
 
       # Terminal identification
       term = "xterm-256color";
