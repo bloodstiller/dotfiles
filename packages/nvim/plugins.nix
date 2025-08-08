@@ -277,6 +277,13 @@
     }];
   };
 
+  vim.extraPlugins = {
+    vim-pencil = {
+      package = pkgs.vimPlugins.vim-pencil;
+      setup = "";
+    };
+  };
+
   ## References raw lua for these plugins not nixified yet
   vim.startPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
