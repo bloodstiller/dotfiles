@@ -277,9 +277,17 @@
     }];
   };
 
+  #  vim.extraPlugins = {
+  #    vim-pencil = {
+  #      package = pkgs.vimPlugins.vim-pencil;
+  #      setup = "";
+  #    };
+  #  };
+
+  # Saving and restoring sessions
   vim.extraPlugins = {
-    vim-pencil = {
-      package = pkgs.vimPlugins.vim-pencil;
+    auto-session = {
+      package = pkgs.vimPlugins.auto-session;
       setup = "";
     };
   };
