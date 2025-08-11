@@ -187,7 +187,8 @@
        keymap("n", "<leader>sp", "<cmd>SessionPurgeOrphaned<CR>", 
               vim.tbl_extend("force", opts, { desc = "Purge orphaned sessions" }))
 
-
+        --Nuke Null characters when pasting from terminal
+        vim.keymap.set("n", "<leader>nc", [[:%s/\%x00//ge<CR>]], { desc = "Remove NUL (^@) chars" })
 
   '';
 }

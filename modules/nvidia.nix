@@ -8,7 +8,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     # Modesetting is required for most Wayland compositors
@@ -21,7 +21,7 @@
     };
 
     # Use the NVidia closed source driver
-    open = false;
+    open = true;
 
     # Enable the Nvidia settings menu
     nvidiaSettings = true;
@@ -45,8 +45,5 @@
   };
 
   # Nvidia-specific packages
-  environment.systemPackages = with pkgs; [
-    glxinfo
-    vulkan-tools
-  ];
+  environment.systemPackages = with pkgs; [ glxinfo vulkan-tools ];
 }
