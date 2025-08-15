@@ -54,8 +54,9 @@
     nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, sops-nix, hyprland, hypridle
-    , hyprlock, pyprland, nixos-hardware, nix-colors, nvf, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, agenix, sops-nix
+    , hyprland, hypridle, hyprlock, pyprland, nixos-hardware, nix-colors, nvf
+    , ... }@inputs: {
 
       packages."x86_64-linux".default = (nvf.lib.neovimConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";

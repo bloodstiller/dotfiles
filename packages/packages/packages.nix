@@ -1,6 +1,14 @@
 { pkgs, cursor, inputs, ... }:
 
-{
+# Allow unfree packages at the top level
+let
+  pkgsUnstable = import inputs.nixpkgs-unstable {
+    system = pkgs.system;
+    config.allowUnfreePredicate = pkg:
+      builtins.elem (pkgs.lib.getName pkg) [ "pcloud" "pcloud-drive" ];
+  };
+
+in {
   home.packages = with pkgs; [
     # Development Tools
     ripgrep
@@ -64,7 +72,7 @@
     #nextcloud-client
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
     filen-desktop
-    pcloud
+    pkgsUnstable.pcloud
 
     # video
     vlc

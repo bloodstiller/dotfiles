@@ -66,6 +66,7 @@
     hyprshade
     pyprland
     nwg-displays
+    indicator-application-gtk3
 
     # Desktop integration packages
     xdg-utils
