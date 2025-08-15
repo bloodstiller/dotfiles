@@ -6,8 +6,8 @@
 
                                                  --Org
                                                  require("orgmode").setup({
-                                                     org_agenda_files = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/*.org",
-                                                     org_default_notes_file = "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org",
+                                                     org_agenda_files = "/home/martin/Org/01-Emacs/01.02-OrgGtd/*.org",
+                                                     org_default_notes_file = "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org",
                                                      org_hide_emphasis_markers = true,
                                                      org_startup_indented = true,
                                                      org_edit_src_content_indentation = 2,
@@ -82,12 +82,12 @@
 
                                                    -- Open Inbox 
                                                    vim.keymap.set('n', '<leader>=i', function()
-                                                     vim.cmd('edit ' .. vim.fn.expand('~/Nextcloud/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org'))
+                                                     vim.cmd('edit ' .. vim.fn.expand('~/Org/01-Emacs/01.02-OrgGtd/inbox.org'))
                                                    end, { desc = "Open Inbox" })
 
                                                    -- Open Todo Files 
                                                    vim.keymap.set('n', '<leader>=t', function()
-                                                     vim.cmd('edit ' .. vim.fn.expand('~/Nextcloud/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org'))
+                                                     vim.cmd('edit ' .. vim.fn.expand('~/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org'))
                                                    end, { desc = "Open Todo" })
 
 
@@ -915,7 +915,7 @@
                                                          -- Function to refile current heading to a location in your main todo file
                                                          local function refile_to_main_todo()
                                                            -- Path to your main todo file
-                                                           local main_todo_file = vim.fn.expand("~/Nextcloud/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org") -- Update this path
+                                                           local main_todo_file = vim.fn.expand("~/Org/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org") -- Update this path
                                                            
                                                            -- Get the current heading and its content
                                                            local current_line_num = vim.fn.line('.')

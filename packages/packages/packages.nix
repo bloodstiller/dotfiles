@@ -73,6 +73,8 @@ in {
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
     filen-desktop
     pkgsUnstable.pcloud
+    syncthing
+    syncthingtray
 
     # video
     vlc

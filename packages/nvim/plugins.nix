@@ -78,9 +78,9 @@
     package = pkgs.vimPlugins.orgmode;
     setupModule = "orgmode";
     setupOpts = {
-      org_agenda_files = [ "~/Dropbox/01-09_System/01-Emacs/**/*" ];
+      org_agenda_files = [ "~/Org/01-09_System/01-Emacs/**/*" ];
       org_default_notes_file =
-        "~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org";
+        "~/Org/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org";
     };
     event = [{
       event = "User";
