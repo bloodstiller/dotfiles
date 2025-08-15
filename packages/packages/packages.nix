@@ -70,7 +70,7 @@ in {
     # Backup Client
     # Nextcloud using unstable as better
     #nextcloud-client
-    (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
+    #(inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.nextcloud-client)
     filen-desktop
     pkgsUnstable.pcloud
     syncthing
