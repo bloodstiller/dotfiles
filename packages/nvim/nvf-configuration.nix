@@ -13,8 +13,7 @@
     ./lua-keymaps.nix
     ./lua-plugin-configs.nix
     ./lua-theme-config.nix
-    ./org-mode.nix
-
+    ./org-mode-import.nix
   ];
 
   vim = {
