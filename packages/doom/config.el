@@ -518,83 +518,6 @@
 
 (message "ox-hugo configuration loaded")
 
-;; Markdown & line settings
-
-;;(setq display-line-numbers-type t)
-;;(map! :leader
-      ;;:desc "Comment or uncomment lines" "TAB TAB" #'comment-line
-      ;;(:prefix ("t" . "toggle")
-       ;;:desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
-       ;;:desc "Toggle line highlight in frame" "h" #'hl-line-mode
-       ;;:desc "Toggle line highlight globally" "H" #'global-hl-line-mode
-       ;;:desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
-
-;Markdown: Set Custom Headers:
-;;(custom-set-faces!
- ;; Headers
-
-;;'(markdown-header-delimiter-face :foreground "#616161" :height 0.9)
-;;'(markdown-header-face-1 :height 1.8 :foreground "#FF79C6" :weight extra-bold :inherit markdown-header-face)
-;;'(markdown-header-face-2 :height 1.4 :foreground "#BD93F9" :weight extra-bold :inherit markdown-header-face)
-;;'(markdown-header-face-3 :height 1.2 :foreground "#D4B8FB" :weight extra-bold :inherit markdown-header-face)
-;;'(markdown-header-face-4 :height 1.15 :foreground "#FFA7D9" :weight bold :inherit markdown-header-face)
-;;'(markdown-header-face-5 :height 1.1 :foreground "#E4D3FC" :weight bold :inherit markdown-header-face)
-;;'(markdown-header-face-6 :height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face)
-
-;;; Custom bold etc
-
-;;'(markdown-code-face :background "#6BB86B" :foreground "#575a71")
-;;'(markdown-line-break-face :weight extra-black :foreground "#79c6ff")
-;;'(markdown-italic-face :weight black :foreground "#79c6ff")
-;;'(markdown-list-face :weight black :foreground "#BD93F9")
-;;'(markdown-bold-face :weight black :foreground "#A061F9"))
-
-;; Enables markdown preview whilst creating doc.
-
-;; (defvar nb/current-line '(0 . 0)
-;;   "(start . end) of current line in current buffer")
-;; (make-variable-buffer-local 'nb/current-line)
-;;
-;; (defun nb/unhide-current-line (limit)
-;;   "Font-lock function"
-;;   (let ((start (max (point) (car nb/current-line)))
-;;         (end (min limit (cdr nb/current-line))))
-;;     (when (< start end)
-;;       (remove-text-properties start end
-;;                       '(invisible t display "" composition ""))
-;;       (goto-char limit)
-;;       t)))
-;;
-;; (defun nb/refontify-on-linemove ()
-;;   "Post-command-hook"
-;;   (let* ((start (line-beginning-position))
-;;          (end (line-beginning-position 2))
-;;          (needs-update (not (equal start (car nb/current-line)))))
-;;     (setq nb/current-line (cons start end))
-;;     (when needs-update
-;;       (font-lock-fontify-block 3))))
-;;
-;; (defun nb/markdown-unhighlight ()
-;;   "Enable markdown concealling"
-;;   (interactive)
-;;   (markdown-toggle-markup-hiding 'toggle)
-;;   (font-lock-add-keywords nil '((nb/unhide-current-line)) t)
-;;   (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
-
-;; Toggles on for all MD docs. Remove to turn off.
-
-;; (add-hook 'markdown-mode-hook #'nb/markdown-unhighlight)
-
-;; Enable code block syntax highlight
-
-;; (setq markdown-enable-highlighting-syntax t)
-
-;; Enable wiki links in all md files by default:
-
-;; (setq markdown-enable-wiki-links t)
-
-; Make emacs auto indent when we create a new list item.
-;;(setq markdown-indent-on-enter 'indent-and-new-item)
 
 (require 'json)
 
@@ -717,134 +640,30 @@
               ;;(rename-file generated-file output-file t)))
           ;;(kill-buffer))))))
 (require 'ox-gfm)
+(defun org-export-folder-to-gfm (input-folder output-folder)
+  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER."
+  (interactive "DInput folder: \nDOutput folder: ")
 
-(defun org-export-folder-to-gfm-improved (input-folder output-folder &optional recursive)
-  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER.
-If RECURSIVE is non-nil, also process subdirectories."
-  (interactive "DInput folder: \nDOutput folder: \nP")
-  
   ;; Create output folder if it doesn't exist
   (unless (file-exists-p output-folder)
     (make-directory output-folder t))
-  
-  ;; Get all .org files
-  (let* ((org-files (if recursive
-                       (directory-files-recursively input-folder "\\.org$")
-                     (directory-files input-folder t "\\.org$")))
-         (total-files (length org-files))
-         (processed 0)
-         (failed 0)
-         (failed-files '()))
-    
-    (message "Found %d .org files to process..." total-files)
-    
-    (dolist (org-file org-files)
-      (condition-case err
-          (let* ((base-name (file-name-base org-file))
-                 (output-file (expand-file-name
-                              (concat base-name ".md")
-                              output-folder)))
-            
-            (message "Processing: %s (%d/%d)" base-name (1+ processed) total-files)
-            
-            ;; Check if file is readable
-            (unless (file-readable-p org-file)
-              (error "File not readable: %s" org-file))
-            
-            ;; Open the org file, export to GFM, then close
-            (with-current-buffer (find-file-noselect org-file)
-              (condition-case export-err
-                  (progn
-                    ;; Try to export
-                    (org-gfm-export-to-markdown)
-                    
-                    ;; Move the generated .md file to the output folder
-                    (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
-                      (when (file-exists-p generated-file)
-                        (rename-file generated-file output-file t)
-                        (setq processed (1+ processed)))
-                      (unless (file-exists-p generated-file)
-                        (error "Export didn't generate expected file: %s" generated-file))))
-                
-                (error
-                 (setq failed (1+ failed))
-                 (push (cons org-file (error-message-string export-err)) failed-files)
-                 (message "Export failed for %s: %s" base-name (error-message-string export-err))))
-              
-              (kill-buffer)))
-        
-        (error
-         (setq failed (1+ failed))
-         (push (cons org-file (error-message-string err)) failed-files)
-         (message "Failed to process %s: %s" org-file (error-message-string err)))))
-    
-    ;; Summary
-    (message "\nExport complete!")
-    (message "Successfully processed: %d files" processed)
-    (message "Failed: %d files" failed)
-    
-    ;; Report failed files
-    (when failed-files
-      (message "\nFailed files:")
-      (dolist (failed-file failed-files)
-        (message "  %s: %s" (car failed-file) (cdr failed-file))))
-    
-    ;; Return summary
-    (list :processed processed :failed failed :failed-files failed-files)))
 
-;; Helper function to diagnose issues
-(defun org-export-diagnose-folder (input-folder)
-  "Diagnose potential issues with org files in INPUT-FOLDER."
-  (interactive "DInput folder: ")
-  
-  (let* ((all-files (directory-files input-folder t "\\.org$"))
-         (readable-files '())
-         (unreadable-files '())
-         (empty-files '())
-         (large-files '()))
-    
-    (dolist (file all-files)
-      (cond
-       ((not (file-readable-p file))
-        (push file unreadable-files))
-       ((= (nth 7 (file-attributes file)) 0)
-        (push file empty-files))
-       ((> (nth 7 (file-attributes file)) 1000000) ; > 1MB
-        (push file large-files))
-       (t
-        (push file readable-files))))
-    
-    (message "Diagnosis for %s:" input-folder)
-    (message "Total .org files: %d" (length all-files))
-    (message "Readable files: %d" (length readable-files))
-    (message "Unreadable files: %d" (length unreadable-files))
-    (message "Empty files: %d" (length empty-files))
-    (message "Large files (>1MB): %d" (length large-files))
-    
-    (when unreadable-files
-      (message "\nUnreadable files:")
-      (dolist (file unreadable-files)
-        (message "  %s" file)))
-    
-    (when empty-files
-      (message "\nEmpty files:")
-      (dolist (file empty-files)
-        (message "  %s" file)))
-    
-    (when large-files
-      (message "\nLarge files:")
-      (dolist (file large-files)
-        (message "  %s (%d bytes)" file (nth 7 (file-attributes file)))))))
-
-;; Quick function to check what files are being found
-(defun org-list-files-in-folder (input-folder)
-  "List all .org files found in INPUT-FOLDER."
-  (interactive "DInput folder: ")
+  ;; Get all .org files in the input folder
   (let ((org-files (directory-files input-folder t "\\.org$")))
-    (message "Found %d .org files:" (length org-files))
-    (dolist (file org-files)
-      (message "  %s" (file-name-nondirectory file)))
-    org-files))
+    (dolist (org-file org-files)
+      (let* ((base-name (file-name-base org-file))
+             (output-file (expand-file-name
+                          (concat base-name ".md")
+                          output-folder)))
+
+        ;; Open the org file, export to GFM, then close
+        (with-current-buffer (find-file-noselect org-file)
+          (org-gfm-export-to-markdown)  ; Changed this line
+          ;; Move the generated .md file to the output folder
+          (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
+            (when (file-exists-p generated-file)
+              (rename-file generated-file output-file t)))
+          (kill-buffer))))))
 
 ;Back to a simpler time…
 (map! :g "C-s" #'save-buffer)

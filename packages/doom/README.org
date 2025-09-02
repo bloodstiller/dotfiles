@@ -1,7 +1,7 @@
 #+TITLE: Bloodstiller Dev Doom Config
 #+AUTHOR: blooodstiller
 #+DESCRIPTION: Bloodstiller Personal Doom Emacs Config.
-#+PROPERTY: header-args :tangle /home/martin/.dotfiles/nix/packages/doom/config.el
+#+PROPERTY: header-args :tangle ~/.dotfiles/packages/doom/config.el
 #+auto_tangle: t
 #+STARTUP: showeverything
 
@@ -34,7 +34,7 @@
 * Doom Main Config:
 :PROPERTIES:
 :ID:       20a5b90c-8c46-4037-bb1e-ee9fefda1e30
-:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/config.el
+:header-args: :tangle ~/.dotfiles/packages/doom/config.el
 :END:
 ** General Settings:
 :PROPERTIES:
@@ -1381,7 +1381,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 * packages.el:
 :PROPERTIES:
 :ID:       e8e9c48f-7898-45fd-b2eb-9a1d542991b6
-:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/packages.el
+:header-args: :tangle ~/.dotfiles/packages/doom/packages.el
 :END:
 - Dooms package manager. Specify here waht packages to install.
 #+begin_src emacs-lisp
@@ -1430,7 +1430,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 * init.el
 :PROPERTIES:
 :ID:       b2e9f677-b4e4-4d95-b5e7-e548686441cd
-:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/init.el
+:header-args: :tangle ~/.dotfiles/packages/doom/init.el
 :END:
 - This file controls what Doom modules are enabled and what order they load in. Remember to run '~doom sync~' after modifying it!
 #+begin_src emacs-lisp
@@ -1627,7 +1627,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 * custom.el
 :PROPERTIES:
 :ID:       c05d64f2-1583-44e0-9d61-bbe4dc6de1e3
-:header-args: :tangle //home/martin/.dotfiles/nix/packages/doom/custom.el
+:header-args: :tangle ~/.dotfiles/packages/doom/custom.el
 :END:
 #+begin_src emacs-lisp
 

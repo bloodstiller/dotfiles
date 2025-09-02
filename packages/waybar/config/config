@@ -1,198 +1,261 @@
 {
-  "layer": "top", "position": "top",
-  "modules-left": ["custom/logo", "clock",  "custom/weather", "disk", "memory", "cpu", "temperature", "custom/powerDraw", "hyprland/window" ],
-  "modules-center": [  "hyprland/workspaces" , "idle_inhibitor" ],
-  "modules-right": ["tray",  "custom/clipboard", "backlight", "bluetooth", "wireplumber", "network",  "battery" ],
-  "reload_style_on_change":true,
-
-  "custom/logo": {
-    "format": "󱄅",
-    "tooltip": false
-  },
-
-  "hyprland/workspaces": {
-	"format": "{icon}",
-	"format-icons": {
-		"1": "",
-		"2": "",
-		"3": "",
-		"4": "",
-		"5": "",
-		"6": "",
-		"active": "",
-		"default": ""
-	},
-       "persistent-workspaces": {
-         "*": [ 2, 3, 4, 5, 6 ]
-       }
-},
-
-"idle_inhibitor":{
-  "format": "<span font='12'>{icon} </span>",
-  "format-icons": {
-    "activated":"󰈈",
-    "deactivated":"󰈉"
-  }
-},
-
-"custom/weather": {
-  "format": "{}",
-  "return-type": "json",
-  "exec": "~/.config/waybar/scripts/weather.sh",
-  "interval": 10,
-  "on-click": "brave https://wttr.in"
-},
-
-
-"clock": {
-      "format": "{:%I:%M:%S %p}",
-      "interval":1,
-      "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-      "calendar-weeks-pos": "right",
-      "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
-      "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
-      "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
-      "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
-      },
-
-  "bluetooth": {
-  "format-on": "",
-  "format-off": "",
-  "format-disabled": "󰂲",
-  "format-connected": "󰂴",
-  "format-connected-battery": "{device_battery_percentage}% 󰂴",
-  "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-  "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-  "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-  "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-  "on-click": "blueman-manager"
- },
-
-"network": {
-      "format-wifi": " ",
-      "format-ethernet":" ",
-      "format-disconnected": "",
-      "tooltip-format": "{ipaddr}",
-      "tooltip-format-wifi": "{essid} ({signalStrength}%)  | {ipaddr}",
-      "tooltip-format-ethernet": "{ifname} 🖧 | {ipaddr}",
-      "on-click": "nm-connection-editor"
+    "layer": "top",
+    "position": "top",
+    "spacing": 0,
+    "height": 34,
+    "reload_style_on_change": true,
+    
+    "modules-left": [
+        "custom/logo",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    
+    "modules-center": [
+        "clock",
+        "idle_inhibitor",
+        "custom/bluelight",
+        "custom/weather"
+    ],
+    
+    "modules-right": [
+        "tray",
+        "custom/clipboard",
+        "disk",
+        "memory",
+        "cpu",
+        "temperature",
+        "custom/powerDraw",
+        "backlight",
+        "bluetooth",
+        "network",
+        "wireplumber",
+        "battery"
+    ],
+    
+    "custom/logo": {
+        "format": "  ",
+        "tooltip": false,
+        "on-click": "rofi -show drun"
     },
-
-"battery": {
-    "interval":1,
+    
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰲠",
+            "2": "󰲢",
+            "3": "󰲤",
+            "4": "󰲦",
+            "5": "󰲨",
+            "6": "󰲪",
+            "active": "󱓻",
+            "urgent": "󱓻",
+            "default": "󰊠"
+        },
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5, 6]
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+    
+    "hyprland/window": {
+        "format": "  {class}",
+        "max-length": 30,
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "󰈹 $1",
+            "(.*) - zsh": " $1",
+            "(.*) - Visual Studio Code": "󰨞 $1"
+        }
+    },
+    
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " 󰅶",
+            "deactivated": " 󰾪"
+        },
+        "tooltip": true,
+        "tooltip-format-activated": "Presentation Mode: ON\nSystem will not sleep",
+        "tooltip-format-deactivated": "Presentation Mode: OFF\nSystem sleep enabled"
+    },
+    
+    "custom/bluelight": {
+        "format": "{icon}",
+        "format-icons": {
+            "on": " 󰖔",
+            "off": " 󰖕"
+        },
+        "exec": "if pgrep -x 'hyprshade' > /dev/null 2>&1; then echo '{\"text\":\"on\",\"class\":\"on\",\"alt\":\"on\"}'; else echo '{\"text\":\"off\",\"class\":\"off\",\"alt\":\"off\"}'; fi",
+        "return-type": "json",
+        "interval": 3,
+        "on-click": "~/.config/waybar/scripts/bluelight-toggle.sh",
+        "tooltip": true,
+        "tooltip-format": "Blue Light Filter: {}"
+    },
+    
+    "clock": {
+        "interval": 1,
+        "format": "  {:%I:%M %p}",
+        "format-alt": "  {:%a, %d %b %Y}",
+        "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    
+    "custom/weather": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/weather.sh",
+        "interval": 600,
+        "on-click": "brave https://wttr.in"
+    },
+    
+    "custom/clipboard": {
+        "format": "󰅍",
+        "tooltip": true,
+        "tooltip-format": "Clipboard Manager",
+        "on-click": "cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+    },
+    
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8,
+        "show-passive-items": true
+    },
+    
+    "disk": {
+        "interval": 30,
+        "format": "󰋊 {percentage_used}%",
+        "path": "/",
+        "tooltip-format": "Used: {used} / {total}"
+    },
+    
+    "memory": {
+        "interval": 5,
+        "format": "󰍛 {percentage}%",
+        "max-length": 10,
+        "tooltip-format": "RAM: {used:0.1f}G/{total:0.1f}G",
+        "on-click": "alacritty -e btop"
+    },
+    
+    "cpu": {
+        "interval": 1,
+        "format": "󰻠 {usage}%",
+        "min-length": 6,
+        "max-length": 6,
+        "states": {
+            "warning": 70,
+            "critical": 90
+        },
+        "tooltip-format": "Load: {load}",
+        "on-click": "alacritty -e btop"
+    },
+    
+    "temperature": {
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", "", "", ""],
+        "format-critical": "󰸁 {temperatureC}°C",
+        "interval": 1,
+        "critical-threshold": 80,
+        "tooltip-format": "Temperature: {temperatureC}°C",
+        "on-click": "alacritty -e btop"
+    },
+    
+    "custom/powerDraw": {
+        "format": "{}",
+        "interval": 1,
+        "exec": "~/.config/waybar/scripts/powerdraw.sh",
+        "return-type": "json",
+        "tooltip": true
+    },
+    
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon}",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "tooltip-format": "Brightness: {percent}%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "on-scroll-up": "brightnessctl set +5%",
+        "smooth-scrolling-threshold": 1
+    },
+    
+    "bluetooth": {
+        "format-on": "󰂯",
+        "format-off": "󰂲",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱 {num_connections}",
+        "format-connected-battery": "󰂱 {device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    },
+    
+    "network": {
+        "format-wifi": "{icon}",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "format-ethernet": "󰀂",
+        "format-alt": "󱛇",
+        "format-disconnected": "󰖪",
+        "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-ethernet": "󰀂  {ifname}\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+        "on-click-right": "nm-connection-editor",
+        "interval": 5,
+        "nospacing": 1
+    },
+    
+    "wireplumber": {
+        "format": "{icon}",
+        "format-bluetooth": "󰂰",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "headphone": "󰋋",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰏲",
+            "car": "󰄋",
+            "default": ["󰖀", "󰕾", ""]
+        },
+        "nospacing": 1,
+        "tooltip-format": "{icon} Volume: {volume}%",
+        "scroll-step": 5,
+        "on-click": "jamesdsp",
+        "on-click-right": "pavucontrol"
+    },
+    
+    "battery": {
+        "interval": 5,
         "states": {
             "good": 95,
             "warning": 30,
-            "critical": 20
+            "critical": 15
         },
-        "format": "{capacity}%  {icon} ",
-        "format-charging": "{capacity}% 󰂄 ",
-        "format-plugged": "{capacity}% 󰂄 ",
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% {icon}",
+        "format-plugged": "{capacity}% ",
+        "format-full": "Charged ",
         "format-alt": "{time} {icon}",
-            "format-icons": [
-          "󰁻",
-          "󰁼",
-          "󰁾",
-          "󰂀",
-          "󰂂",
-          "󰁹"
-        ]
-    },
-"backlight": {
-  "device": "intel_backlight",
-  "format": "<span font='12'>{icon}</span>",
-  "format-icons": [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
-  ],
-  "on-scroll-down": "brightnessctl set +5%",
-  "on-scroll-up": "brightnessctl set 5%-",
-  "smooth-scrolling-threshold": 1
-},
-
- "disk": {
-    "interval": 30,
-    "format": "  {percentage_used}%",
-    "path": "/"
-  },
-
-
-  "cpu": {
-      "interval": 1,
-      "format": " {usage}%",
-      "min-length": 6,
-      "max-length": 6,
-      "on-click": "alacritty -e 'btop'",
-      "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
- },
-
-"memory": {
-  "format": " {percentage}%",
-  "on-click": "alacritty -e 'btop'"
-},
-
- "hyprland/window": {
-    "format": "( {class} )",
-    "rewrite": {
-         "(.*) - Mozilla Firefox": "🌎 $1",
-         "(.*) - zsh": "> [$1]"
+        "format-icons": {
+            "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+            "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        },
+        "format-time": "{H}h {M}min",
+        "tooltip-format": "{timeTo}\nPower draw: {power}W"
     }
-},
-
-"temperature": {
-  "format": " {temperatureC}°C",
-  "format-critical": " {temperatureC}°C",
-  "interval": 1,
-  "critical-threshold": 80,
-  "on-click": "btop"
- },
-
-"wireplumber": {
-  "format": "{volume}% {icon}",
-  "format-bluetooth": "󰂰",
-  "format-muted": "<span font='12'></span>",
-  "format-icons": {
-    "headphones": "",
-    "bluetooth": "󰥰",
-    "handsfree": "",
-    "headset": "󱡬",
-    "phone": "",
-    "portable": "",
-    "car": "",
-    "default": ["󰕿", "󰖀", "󰕾"]
-  },
-  "scroll-step": 5,
-  "on-click": "jamesdsp",
-  "on-click-right": "pavucontrol",
-  "tooltip-format": "{icon} {volume}%"
-},
-
-
-"tray": {
-    "icon-size": 14,
-    "spacing": 10
-},
-
-"upower": {
-    "show-icon": false,
-    "hide-if-empty": true,
-    "tooltip": true,
-    "tooltip-spacing": 20
-},
-
-  "custom/powerDraw": {
-    "format": "{}",
-    "interval": 1,
-    "exec": "~/.config/waybar/scripts/powerdraw.sh",
-    "return-type": "json"
-  }
-
 }

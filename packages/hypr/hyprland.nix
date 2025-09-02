@@ -15,7 +15,6 @@
     extraConfig = ''
       ${builtins.readFile ./config/hyprland.conf}
       source = ${./config/Monitors.conf}   
-      source = ${./config/Autostart.conf}
       source = ${./config/Envs.conf}
       source = ${./config/laptopVariables.conf}
 

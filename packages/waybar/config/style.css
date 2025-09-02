@@ -1,239 +1,414 @@
-/* =============================================================================
- *
- * Waybar configuration - Doom One Theme
- *
- * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
- *
- * =========================================================================== */
+/* Doom One Color Palette */
+/* Background: #282c34
+   Foreground: #bbc2cf
+   Selection: #3f444a
+   Comments: #5b6268
+   Red: #ff6c6b
+   Orange: #da8548
+   Yellow: #ecbe7b
+   Green: #98be65
+   Cyan: #46d9ff
+   Blue: #51afef
+   Purple: #c678dd
+   Violet: #a9a1e1 */
 
-/* -----------------------------------------------------------------------------
- * Keyframes
- * -------------------------------------------------------------------------- */
-@keyframes blink-warning {
-    70% {
-        color: #dfdfdf;
-    }
-    to {
-        color: #dfdfdf;
-        background-color: #da8548;
-    }
-}
-
-@keyframes blink-critical {
-    70% {
-      color: #dfdfdf;
-    }
-    to {
-        color: #dfdfdf;
-        background-color: #ff6c6b;
-    }
-}
-
-/* -----------------------------------------------------------------------------
- * Base styles
- * -------------------------------------------------------------------------- */
-/* Reset all styles */
 * {
-    border: none;
-    border-radius: 0;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 14pt;
+        font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+        font-size: 15px;
+        min-height: 0;
 }
 
-/* The whole bar */
-#waybar {
-    font-family: "JetBrains Mono";
-    font-size: 20px;
-    opacity: 0.95;
-    background: #282c34;
-    color: #bbc2cf;
-    border-bottom: 2px solid #1c1f24;
+window#waybar {
+        background: rgba(40, 44, 52, 0.9);
+        /* Doom One background */
+        border-radius: 0;
+        color: #bbc2cf;
+        /* Doom One foreground */
+        transition: background-color 0.5s;
 }
 
-/* Each module */
-#battery,
-#clock,
-#cpu,
-#custom-keyboard-layout,
-#memory,
-#mode,
-#network,
-#pulseaudio,
-#temperature,
-#disk,
-#tray {
-    padding-left: 12px;
-    padding-right: 12px;
-    margin: 0.3em;
+window#waybar.hidden {
+        opacity: 0.2;
 }
 
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
-#battery {
-    color: #98be65;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#battery.warning {
-    color: #da8548;
-}
-
-#battery.critical {
-    color: #ff6c6b;
-}
-
-#battery.warning.discharging {
-    animation-name: blink-warning;
-    animation-duration: 3s;
-}
-
-#battery.critical.discharging {
-    animation-name: blink-critical;
-    animation-duration: 2s;
-}
-
-#clock {
-    color: #bbc2cf;
-    font-weight: bold;
-    padding: 0 6px;
-}
-
-#cpu {
-    color: #51afef;
-}
-
-#cpu.warning {
-    color: #da8548;
-}
-
-#cpu.critical {
-    color: #ff6c6b;
-}
-
-#memory {
-    color: #c678dd;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#memory.warning {
-    color: #da8548;
-}
-
-#memory.critical {
-    color: #ff6c6b;
-    animation-name: blink-critical;
-    animation-duration: 2s;
-}
-
-#mode {
-    background: #46d9ff;
-    color: #282c34;
-    border-top: 2px solid #bbc2cf;
-    padding-bottom: 2px;
-    font-weight: bold;
-}
-
-#network {
-    color: #98be65;
-}
-
-#network.disconnected {
-    color: #da8548;
-}
-
-#pulseaudio {
-    color: #46d9ff;
-}
-
-#pulseaudio.muted {
-    color: #5B6268;
-}
-
-#disk {
-    color: #ecbe7b;
-}
-
-#disk.critical {
-    color: #ff6c6b;
-}
-
-#custom-spotify {
-    color: #98be65;
-}
-
-#temperature {
-    color: #ecbe7b;
-}
-
-#temperature.critical {
-    color: #ff6c6b;
-}
-
-
-#tray {
-    background: #282c34;
-    padding: 0 14px;
-}
-
-/* Make tray icons larger */
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-}
-
-#tray > * {
-    padding: 0 6px;
-    margin: 0 2px;
-}
-
-#tray menu {
-    background-color: #282c34;
-    color: #bbc2cf;
-    border: 1px solid #1c1f24;
-}
-
-/* Set the tray icon size */
-#tray icon {
-    min-height: 22px;
-    min-width: 22px;
-    padding: 2px;
-}
-
-#window {
-    font-weight: bold;
-    color: #bbc2cf;
+/* Workspaces */
+#workspaces {
+        margin: 0 8px;
 }
 
 #workspaces button {
-    padding: 0 12px;
-    background: #282c34;
-    color: #bbc2cf;
-    margin: 0.3em;
-    font-size: 15pt;
+        padding: 0 8px;
+        margin: 0 2px;
+        color: #5b6268;
+        /* Doom One comments */
+        background: transparent;
+        border-radius: 6px;
+        transition: all 0.3s ease;
 }
 
 #workspaces button.active {
-    background: #282c34;
-    color: #51afef;
-    border-bottom: 2px solid #51afef;
-}
-
-#workspaces button.visible {
-    color: #98be65;
+        color: #51afef;
+        /* Doom One blue */
+        background: rgba(81, 175, 239, 0.2);
+        box-shadow: 0 0 5px rgba(81, 175, 239, 0.3);
 }
 
 #workspaces button.urgent {
-    background: #1c1f24;
-    color: #ff6c6b;
-    border-bottom: 2px solid #ff6c6b;
+        color: #ff6c6b;
+        /* Doom One red */
+        background: rgba(255, 108, 107, 0.2);
+        animation: urgent-blink 1s linear infinite alternate;
+}
+
+#workspaces button:hover {
+        background: rgba(63, 68, 74, 0.6);
+        /* Doom One selection */
+        color: #bbc2cf;
+        box-shadow: 0 0 3px rgba(187, 194, 207, 0.2);
+}
+
+/* Logo */
+#custom-logo {
+        padding: 0 12px;
+        margin: 0 8px 0 6px;
+        color: #c678dd;
+        /* Doom One purple */
+        font-size: 16px;
+}
+
+#custom-logo:hover {
+        color: #a9a1e1;
+        /* Doom One violet */
+        background: rgba(198, 120, 221, 0.1);
+        border-radius: 6px;
+}
+
+/* Hyprland Window */
+#window {
+        color: #5b6268;
+        padding: 0 10px;
+        margin-left: 8px;
+}
+
+/* Center modules container */
+.modules-center {
+        background: rgba(63, 68, 74, 0.3);
+        border-radius: 10px;
+        padding: 0 10px;
+        margin: 4px 0;
+}
+
+/* Clock */
+#clock {
+        padding: 0 12px;
+        color: #46d9ff;
+        /* Doom One cyan */
+        font-weight: 600;
+}
+
+/* Idle Inhibitor */
+#idle_inhibitor {
+        padding: 0 12px;
+        margin: 0 8px;
+        background: rgba(63, 68, 74, 0.4);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+}
+
+#idle_inhibitor.activated {
+        color: #ecbe7b;
+        /* Doom One yellow */
+        background: rgba(236, 190, 123, 0.25);
+        box-shadow: 0 0 8px rgba(236, 190, 123, 0.4);
+        animation: pulse-yellow 2s ease-in-out infinite;
+}
+
+#idle_inhibitor.deactivated {
+        color: #5b6268;
+        /* Doom One comments */
+}
+
+/* Blue Light Filter */
+#custom-bluelight {
+        padding: 0 12px;
+        margin: 0 8px;
+        background: rgba(63, 68, 74, 0.4);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+}
+
+#custom-bluelight.on {
+        color: #da8548;
+        /* Doom One orange - warm color for blue light filter */
+        background: rgba(218, 133, 72, 0.25);
+        box-shadow: 0 0 8px rgba(218, 133, 72, 0.4);
+}
+
+#custom-bluelight.off {
+        color: #5b6268;
+        /* Doom One comments */
+}
+
+/* Weather */
+#custom-weather {
+        padding: 0 10px;
+        color: #98be65;
+        /* Doom One green */
+}
+
+/* Right modules base styling */
+#tray,
+#custom-clipboard,
+#disk,
+#memory,
+#cpu,
+#temperature,
+#custom-powerDraw,
+#backlight,
+#bluetooth,
+#network,
+#wireplumber,
+#battery {
+        padding: 0 10px;
+        margin: 0 3px;
+        background: rgba(63, 68, 74, 0.4);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+}
+
+/* Tray */
+#tray {
+        background: rgba(63, 68, 74, 0.3);
+}
+
+#tray>.passive {
+        -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+        -gtk-icon-effect: highlight;
+        background-color: rgba(255, 108, 107, 0.2);
+}
+
+/* Clipboard */
+#custom-clipboard {
+        color: #a9a1e1;
+        /* Doom One violet */
+        font-size: 14px;
+}
+
+#custom-clipboard:hover {
+        background: rgba(169, 161, 225, 0.2);
+}
+
+/* System monitors */
+#disk {
+        color: #c678dd;
+        /* Doom One purple */
+}
+
+#memory {
+        color: #51afef;
+        /* Doom One blue */
+}
+
+#memory.warning {
+        color: #da8548;
+        /* Doom One orange */
+}
+
+#memory.critical {
+        color: #ff6c6b;
+        /* Doom One red */
+        animation: urgent-blink 0.5s linear infinite alternate;
+}
+
+#cpu {
+        color: #46d9ff;
+        /* Doom One cyan */
+}
+
+#cpu.warning {
+        color: #ecbe7b;
+        /* Doom One yellow */
+}
+
+#cpu.critical {
+        color: #ff6c6b;
+        /* Doom One red */
+        animation: urgent-blink 0.5s linear infinite alternate;
+}
+
+/* Temperature */
+#temperature {
+        color: #98be65;
+        /* Doom One green */
+}
+
+#temperature.critical {
+        color: #ff6c6b;
+        /* Doom One red */
+        animation: urgent-blink 0.5s linear infinite alternate;
+}
+
+/* Power Draw */
+#custom-powerDraw {
+        color: #ecbe7b;
+        /* Doom One yellow */
+}
+
+/* Backlight */
+#backlight {
+        color: #da8548;
+        /* Doom One orange */
+}
+
+/* Bluetooth */
+#bluetooth {
+        color: #51afef;
+        /* Doom One blue */
+}
+
+#bluetooth.connected {
+        color: #46d9ff;
+        /* Doom One cyan */
+        background: rgba(70, 217, 255, 0.2);
+}
+
+#bluetooth.off {
+        color: #5b6268;
+        background: rgba(91, 98, 104, 0.3);
+}
+
+/* Network */
+#network {
+        color: #98be65;
+        /* Doom One green */
+}
+
+#network.disconnected {
+        color: #ff6c6b;
+        /* Doom One red */
+        background: rgba(255, 108, 107, 0.2);
+}
+
+#network.ethernet {
+        color: #c678dd;
+        /* Doom One purple */
+}
+
+#network.wifi {
+        color: #98be65;
+        /* Doom One green */
+}
+
+/* Audio */
+#wireplumber {
+        color: #a9a1e1;
+        /* Doom One violet */
+}
+
+#wireplumber.muted {
+        color: #5b6268;
+        background: rgba(91, 98, 104, 0.4);
+}
+
+/* Battery */
+#battery {
+        color: #98be65;
+        /* Doom One green */
+}
+
+#battery.charging {
+        color: #46d9ff;
+        /* Doom One cyan */
+        background: rgba(70, 217, 255, 0.2);
+}
+
+#battery.plugged {
+        color: #98be65;
+        background: rgba(152, 190, 101, 0.2);
+}
+
+#battery.warning:not(.charging) {
+        color: #ecbe7b;
+        /* Doom One yellow */
+        background: rgba(236, 190, 123, 0.2);
+}
+
+#battery.critical:not(.charging) {
+        color: #ff6c6b;
+        /* Doom One red */
+        background: rgba(255, 108, 107, 0.2);
+        animation: urgent-blink 0.5s linear infinite alternate;
+}
+
+/* Animations */
+@keyframes urgent-blink {
+        to {
+                background-color: rgba(255, 108, 107, 0.4);
+                box-shadow: 0 0 10px rgba(255, 108, 107, 0.6);
+        }
+}
+
+@keyframes pulse-yellow {
+        0% {
+                background: rgba(236, 190, 123, 0.25);
+                box-shadow: 0 0 5px rgba(236, 190, 123, 0.3);
+        }
+
+        50% {
+                background: rgba(236, 190, 123, 0.35);
+                box-shadow: 0 0 12px rgba(236, 190, 123, 0.5);
+        }
+
+        100% {
+                background: rgba(236, 190, 123, 0.25);
+                box-shadow: 0 0 5px rgba(236, 190, 123, 0.3);
+        }
+}
+
+/* Hover effects for interactive modules */
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#temperature:hover,
+#network:hover,
+#bluetooth:hover,
+#battery:hover {
+        background: rgba(81, 175, 239, 0.2);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Tooltip styling */
+tooltip {
+        background: #282c34;
+        /* Doom One background */
+        border: 1px solid #51afef;
+        /* Doom One blue */
+        border-radius: 8px;
+        padding: 8px;
+        margin: 8px;
+}
+
+tooltip label {
+        color: #bbc2cf;
+        /* Doom One foreground */
+        padding: 4px;
+}
+
+/* Custom module backgrounds for better visibility */
+.modules-left,
+.modules-center,
+.modules-right {
+        margin: 2px 4px;
+}
+
+/* Smooth all transitions */
+* {
+        transition-property: background-color, color, box-shadow;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
 }

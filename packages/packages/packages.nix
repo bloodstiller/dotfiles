@@ -21,6 +21,7 @@ in {
     # Applications
     discord
     firefox
+    brave
 
     # Security 
     bitwarden
