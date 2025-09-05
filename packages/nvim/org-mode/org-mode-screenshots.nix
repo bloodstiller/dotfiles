@@ -11,8 +11,8 @@
     local previewers = require('telescope.previewers')
 
     local function insert_screenshot_link()
-      local screenshots_dir = "/home/martin/Nextcloud/Dropbox/screenshots/"
-      
+      local screenshots_dir = vim.fn.expand(os.getenv("SCREENSHOTS") or "~/screenshots")
+
       -- Get all image files with their modification times
       local files = {}
       local handle = io.popen('ls -1t "' .. screenshots_dir .. '" | grep -E "\\.(png|jpg|jpeg|gif|bmp|PNG|JPG|JPEG|GIF|BMP)$"')

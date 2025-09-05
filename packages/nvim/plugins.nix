@@ -74,14 +74,9 @@
   };
 
   # Org Mode (cant move to notes section as won't work)
+  # Main config for this in org-mode-core.nix
   vim.lazy.plugins."orgmode" = {
     package = pkgs.vimPlugins.orgmode;
-    setupModule = "orgmode";
-    setupOpts = {
-      org_agenda_files = [ "~/Org/01-09_System/01-Emacs/**/*" ];
-      org_default_notes_file =
-        "~/Org/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org";
-    };
     event = [{
       event = "User";
       pattern = "LazyFile";

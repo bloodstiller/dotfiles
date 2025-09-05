@@ -1,17 +1,22 @@
 # Lua-based keymap configurations
 { lib, pkgs, ... }: {
   vim.luaConfigRC.keymaps = ''
+
+        -- Read environment variables FOR DOTFILES and expand tilde
+        local dotfiles_folder = vim.fn.expand(os.getenv("DOTFILES") or "~/.dotfiles")
+
+
         local map = vim.keymap.set
         local opts = { noremap = true, silent = true }
 
         -- Open nvim config
         vim.keymap.set('n', '<leader>=dc', function()
-          vim.cmd('edit ' .. vim.fn.expand('~/.dotfiles/packages/nvim/nvf-configuration.nix'))
+          vim.cmd('edit ' .. dotfiles_folder .. ('/packages/nvim/nvf-configuration.nix'))
         end, { desc = "Open nvf-configuration" })
 
         -- Open nix config
         vim.keymap.set('n', '<leader>=dn', function()
-          vim.cmd('edit ' .. vim.fn.expand('~/.dotfiles'))
+          vim.cmd('edit ' .. dotfiles_folder)
         end, { desc = "Open nix config" })
         
         -- Basic navigation and telescope

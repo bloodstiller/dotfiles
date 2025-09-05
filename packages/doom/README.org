@@ -1224,15 +1224,6 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 ;Back to a simpler time…
 (map! :g "C-s" #'save-buffer)
 #+end_src
-*** Search Easier:
-:PROPERTIES:
-:ID:       4d3c1652-3dd3-42ae-b5d6-b0c80f14cf9e
-:END:
-- Stolen from https://github.com/elken/doom
-#+begin_src emacs-lisp
-; Search easily
-(map! :after evil :gnvi "C-f" #'consult-line)
-#+end_src
 *** Remove line numbers to speed up scrolling:
 :PROPERTIES:
 :ID:       3ce5efb1-e81d-46bf-a121-deeb239ccf9d
@@ -1403,28 +1394,19 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 (package! org-auto-tangle)
 (package! org-web-tools)
 (package! ox-hugo)
-(package! ox-gfm) ;github flavoured markdown
-;; So I can export org to md well
-;;(package! ox-gemini)
 (package! peep-dired)
-;;(package! password-store)
 (package! rainbow-mode)
 (package! resize-window)
-;;(package! tldr)
 (package! wc-mode)
 (package! beacon)
-;;(package! clippy)
-;;(package! minimap)
 (package! olivetti)
 (package! powershell)
-(package! multi-vterm)
 (package! org-download)
 (package! org-ros)
 (package! mini-frame)
-(package! vlf :recipe (:host github :repo "emacs-straight/vlf" :files ("*.el"))
-  :pin "9b7bc521e54af2c7a5c882e4758b66ee4af1a152")
+(package! git-commit
+  :recipe (:host github :repo "magit/magit" :files ("lisp/git-commit.el")))
 ;; For emacs-everywhere browser integration
-(package! vertico-posframe)
 
 #+end_src
 * init.el
@@ -1648,4 +1630,3 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 
 #+end_src
 
-rg

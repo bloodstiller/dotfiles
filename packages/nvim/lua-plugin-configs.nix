@@ -57,6 +57,8 @@
 
 
             --Img clip settings 
+            local screenshots_dir = vim.fn.expand(os.getenv("SCREENSHOTS") or "~/screenshots")
+
             require("img-clip").setup({
               default = {
                 embed_image_as_base64 = false,
@@ -71,7 +73,8 @@
                 markdown = {
                   url_encode_path = true,
                   template = "![$CURSOR]($FILE_PATH)",
-                  dir_path = "~/Nextcloud/Dropbox/screenshots/",
+
+                  dir_path = screenshots_dir,
                 },
               },
             })

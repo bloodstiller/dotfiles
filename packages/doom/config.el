@@ -10,20 +10,64 @@
   (pixel-scroll-precision-mode))
 
 ;;Select my preffered theme:
+;;(setq doom-theme 'doom-dracula)
+;;(setq doom-theme 'modus-vivendi)
+;;(load-theme 'tron-legacy t)
+;;(setq doom-theme 'doom-nord)
 (setq doom-theme 'doom-one)
 
 
 (setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
       doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
-      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
-(after! doom-themes
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t))
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
+      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
+
+;;(custom-theme-set-faces! 'tron-legacy
+  ;;`(tree-sitter-hl-face:constructor :foreground ,(doom-color 'blue))
+  ;;`(tree-sitter-hl-face:number :foreground ,(doom-color 'orange))
+  ;;`(tree-sitter-hl-face:attribute :foreground ,(doom-color 'magenta) :weight bold)
+  ;;`(tree-sitter-hl-face:variable :foreground ,(doom-color 'base7) :weight bold)
+  ;;`(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'red))
+  ;;`(tree-sitter-hl-face:constant.builtin :foreground ,(doom-color 'magenta) :weight bold)
+  ;;`(tree-sitter-hl-face:constant :foreground ,(doom-color 'blue) :weight bold)
+  ;;`(tree-sitter-hl-face:function.macro :foreground ,(doom-color 'teal))
+  ;;`(tree-sitter-hl-face:label :foreground ,(doom-color 'magenta))
+  ;;`(tree-sitter-hl-face:operator :foreground ,(doom-color 'blue))
+  ;;`(tree-sitter-hl-face:variable.parameter :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:punctuation.delimiter :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:punctuation.bracket :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:punctuation.special :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:type :foreground ,(doom-color 'yellow))
+  ;;`(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'blue))
+  ;;`(tree-sitter-hl-face:tag :foreground ,(doom-color 'base7))
+  ;;`(tree-sitter-hl-face:string :foreground ,(doom-color 'green))
+  ;;`(tree-sitter-hl-face:comment :foreground ,(doom-color 'base6))
+  ;;`(tree-sitter-hl-face:function :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:method :foreground ,(doom-color 'blue))
+  ;;`(tree-sitter-hl-face:function.builtin :foreground ,(doom-color 'cyan))
+  ;;`(tree-sitter-hl-face:property :foreground ,(doom-color 'blue))
+  ;;`(tree-sitter-hl-face:keyword :foreground ,(doom-color 'magenta))
+  ;;`(corfu-default :font "Iosevka Nerd Font Mono" :background ,(doom-color 'bg-alt) :foreground ,(doom-color 'fg))
+  ;;`(adoc-title-0-face :foreground ,(doom-color 'blue) :height 1.2)
+  ;;`(adoc-title-1-face :foreground ,(doom-color 'magenta) :height 1.1)
+  ;;`(adoc-title-2-face :foreground ,(doom-color 'violet) :height 1.05)
+  ;;`(adoc-title-3-face :foreground ,(doom-lighten (doom-color 'blue) 0.25) :height 1.0)
+  ;;`(adoc-title-4-face :foreground ,(doom-lighten (doom-color 'magenta) 0.25) :height 1.1)
+  ;;`(adoc-verbatim-face :background nil)
+  ;;`(adoc-list-face :background nil)
+  ;;`(adoc-internal-reference-face :foreground ,(face-attribute 'font-lock-comment-face :foreground)))
+
+
+; Set preffered fonts:
+;;(setq doom-font (font-spec :family "JetBrains Mono" :size 20)
+      ;;doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 15)
+      ;;doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+;;(after! doom-themes
+  ;;(setq doom-themes-enable-bold t
+        ;;doom-themes-enable-italic t))
+;;(custom-set-faces!
+  ;;'(font-lock-comment-face :slant italic)
+  ;;'(font-lock-keyword-face :slant italic))
 
 ;;Setup Bookmarks
 (setq bookmark-default-file "~/.config/doom/bookmarks/")
@@ -35,15 +79,16 @@
        :desc "Delete bookmark"                         "M" #'bookmark-set
        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-(evil-define-key 'normal ibuffer-mode-map
-  (kbd "f c") 'ibuffer-filter-by-content
-  (kbd "f d") 'ibuffer-filter-by-directory
-  (kbd "f f") 'ibuffer-filter-by-filename
-  (kbd "f m") 'ibuffer-filter-by-mode
-  (kbd "f n") 'ibuffer-filter-by-name
-  (kbd "f x") 'ibuffer-filter-disable
-  (kbd "g h") 'ibuffer-do-kill-lines
-  (kbd "g H") 'ibuffer-update)
+(after! evil
+  (evil-define-key 'normal ibuffer-mode-map
+    (kbd "f c") 'ibuffer-filter-by-content
+    (kbd "f d") 'ibuffer-filter-by-directory
+    (kbd "f f") 'ibuffer-filter-by-filename
+    (kbd "f m") 'ibuffer-filter-by-mode
+    (kbd "f n") 'ibuffer-filter-by-name
+    (kbd "f x") 'ibuffer-filter-disable
+    (kbd "g h") 'ibuffer-do-kill-lines
+    (kbd "g H") 'ibuffer-update))
 
 ;;Global Auto Revert
 (global-auto-revert-mode 1)
@@ -329,22 +374,32 @@
 ;;Customize ORG higlighting
 ;; this controls the color of bold, italic, underline, verbatim, strikethrough
 
+    ;; Purple Bold & Underline Brighter purple Dracula purple "#A061F9"
+    ;; Red text highligted in yellow (important)
+    ;; Dracula setup ("/" (:weight black :background "#FF5555" :foreground "#F1FA8C" ))
+    ;; Blue
+    ;;Higlighter  brighter yellow "#F1FA8C"
+    ;; Code block
+    ;; Green Background Option Dracula:
+    ;;("~" (:background "#6BB86B" :foreground "#575a71" ))
+    ;; Red = Important red
+    ;; Red for dracula theme "#FF5555"
+    ;;("+" (bold :strike-through nil :foreground "#ffb86c" #cd5c5c )))))
+
 (after! org
 (setq org-emphasis-alist
-  ;'(("*" (underline :weight black :foreground "#ee9955"))
-  '(("*" (:foreground "#c5cdd8" :height 1.1 :weight bold ))
+  '(("*" (underline :weight black :foreground "#EB00E4" ))
    ;; ("/" (:weight black :background "#745B00" :foreground "#FF3D2B" ))
     ("_" (:weight black :foreground "#79c6ff" ))
     ("=" (underline :weight black :foreground "#b18c00" ))
-    ;;("~" (:foreground "#6BB86B" ))
-    ("~" (:foreground "#c678dd" :background "#2d333b"))
-    ("+" (underline bold :weight italic :foreground "#FF6c6b" )))))
+    ("~" (:foreground "#6BB86B" ))
+    ("+" (underline bold :weight italic :foreground "#FF3D2B" )))))
 
-;(setq org-superstar-headline-bullets-list '("› "))
+(setq org-superstar-headline-bullets-list '("› "))
 
-;;(setq org-superstar-item-bullet-alist '((?* . ?⋆)
-                                        ;;(?+ . ?‣)
-                                        ;;(?- . ?•)))
+(setq org-superstar-item-bullet-alist '((?* . ?⋆)
+                                        (?+ . ?‣)
+                                        (?- . ?•)))
 
 (setq org-ellipsis " ⯯")
 
@@ -367,7 +422,6 @@
 
 (require 'org-roam)
 (setq org-roam-directory "~/Dropbox")
-(setq org-roam-db-location "~/.config/emacs/org-roam/org-roam.db")
 
 (after! org-roam
   (setq org-roam-list-files-commands '(find fd fdfind rg)))
@@ -380,53 +434,53 @@
       :unnarrowed t)
 
  ("A" "Application" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Application.org")
+  (file "~/.config/orgTemplates/Application.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("a" "Attack Type" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/AttackTemplate.org")
+  (file "~/.config/orgTemplates/AttackTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("b" "Box" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/BoxTemplate.org")
+  (file "~/.config/orgTemplates/BoxTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("c" "CPTS Module" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/CPTSSection.org")
+  (file "~/.config/orgTemplates/CPTSSection.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("d" "Daily Review" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/DailyReview.org")
+  (file "~/.config/orgTemplates/DailyReview.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("p" "Pentest" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Pentest.org")
+  (file "~/.config/orgTemplates/Pentest.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
 
  ("n" "Start Project" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectStartTemplate.org")
+  (file "~/.config/orgTemplates/ProjectStartTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("N" "End Project" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectEndTemplate.org")
+  (file "~/.config/orgTemplates/ProjectEndTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("s" "Service" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ServiceTemplate.org")
+  (file "~/.config/orgTemplates/ServiceTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("t" "Tool" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ToolTemplate.org")
+  (file "~/.config/orgTemplates/ToolTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)))
 
@@ -438,7 +492,7 @@
 (use-package ox-hugo
   :after org
   :config
-  (setq org-hugo-base-dir "/home/martin/Dropbox/40-49_Career/44-Blog/bloodstiller")
+  (setq org-hugo-base-dir "/home/martin/.config/hugo/bloodstiller")
 
   (defun my/ensure-hugo-title (file)
     "Ensure the file has a #+title: keyword, adding one based on the filename if missing."
@@ -464,10 +518,9 @@
     (let* ((id (org-element-property :path link))
            (node (org-roam-node-from-id id))
            (file (when node (org-roam-node-file node)))
-           (title (or desc (when node (org-roam-node-title node)) "Unknown")))
       (if (and file (file-exists-p file))
           (format "{{< ref \"%s\" >}}" (file-name-sans-extension (file-name-nondirectory file)))
-        (format "*%s*" title))))  ; Use italic text for missing links
+        (format "*%s*" (or desc (when node (org-roam-node-title node)) "Unknown")))))
 
   (defun my/export-org-to-hugo (file)
     "Export a single org file to Hugo markdown."
@@ -518,152 +571,83 @@
 
 (message "ox-hugo configuration loaded")
 
+;; Markdown & line settings
 
-(require 'json)
+;;(setq display-line-numbers-type t)
+;;(map! :leader
+      ;;:desc "Comment or uncomment lines" "TAB TAB" #'comment-line
+      ;;(:prefix ("t" . "toggle")
+       ;;:desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
+       ;;:desc "Toggle line highlight in frame" "h" #'hl-line-mode
+       ;;:desc "Toggle line highlight globally" "H" #'global-hl-line-mode
+       ;;:desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 
-;; Quick and dirty - just dump what's already in the database
-(defun org-roam-quick-export-for-migration ()
-  "Quick export of ID->title mapping for migration (no sync)."
-  (interactive)
-  (let* ((query "SELECT id, title, file FROM nodes")
-         (results (org-roam-db-query query))
-         (output-lines (mapcar (lambda (row)
-                                 (let ((id (nth 0 row))
-                                       (title (nth 1 row))
-                                       (filepath (nth 2 row)))
-                                   (format "%s\t%s\t%s\t%s"
-                                           id
-                                           title
-                                           filepath
-                                           (file-name-base filepath))))
-                               results)))
-    (with-temp-file "~/org-roam-migration.tsv"
-      (insert "ID\tTitle\tFilePath\tFileName\n")
-      (insert (string-join output-lines "\n")))
-    (message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+;Markdown: Set Custom Headers:
+;;(custom-set-faces!
+ ;; Headers
 
-;; If you want JSON format instead
-(defun org-roam-quick-json-export ()
-  "Quick JSON export for migration."
-  (interactive)
-  (let* ((query "SELECT id, title, file FROM nodes")
-         (results (org-roam-db-query query))
-         (map (mapcar (lambda (row)
-                        (let ((filepath (nth 2 row)))
-                          `((id . ,(nth 0 row))
-                            (title . ,(nth 1 row))
-                            (filepath . ,filepath)
-                            (filename . ,(file-name-base filepath))
-                            (md_file . ,(concat (file-name-base filepath) ".md")))))
-                      results))
-         (json-output (json-encode map)))
-    (with-temp-file "~/org-roam-migration.json"
-      (insert json-output))
-    (message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+;;'(markdown-header-delimiter-face :foreground "#616161" :height 0.9)
+;;'(markdown-header-face-1 :height 1.8 :foreground "#FF79C6" :weight extra-bold :inherit markdown-header-face)
+;;'(markdown-header-face-2 :height 1.4 :foreground "#BD93F9" :weight extra-bold :inherit markdown-header-face)
+;;'(markdown-header-face-3 :height 1.2 :foreground "#D4B8FB" :weight extra-bold :inherit markdown-header-face)
+;;'(markdown-header-face-4 :height 1.15 :foreground "#FFA7D9" :weight bold :inherit markdown-header-face)
+;;'(markdown-header-face-5 :height 1.1 :foreground "#E4D3FC" :weight bold :inherit markdown-header-face)
+;;'(markdown-header-face-6 :height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face)
 
-;; Super simple - just get the raw data for inspection
-(defun org-roam-dump-ids ()
-  "Just dump all IDs and titles to messages buffer."
-  (interactive)
-  (let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
-    (dolist (row results)
-      (message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
-    (message "Found %d org-roam nodes" (length results))))
+;;; Custom bold etc
 
+;;'(markdown-code-face :background "#6BB86B" :foreground "#575a71")
+;;'(markdown-line-break-face :weight extra-black :foreground "#79c6ff")
+;;'(markdown-italic-face :weight black :foreground "#79c6ff")
+;;'(markdown-list-face :weight black :foreground "#BD93F9")
+;;'(markdown-bold-face :weight black :foreground "#A061F9"))
 
+;; Enables markdown preview whilst creating doc.
 
-;;(require 'json)
+;; (defvar nb/current-line '(0 . 0)
+;;   "(start . end) of current line in current buffer")
+;; (make-variable-buffer-local 'nb/current-line)
 ;;
-;;;; Quick and dirty - just dump what's already in the database
-;;(defun org-roam-quick-export-for-migration ()
-  ;;"Quick export of ID->title mapping for migration (no sync)."
-  ;;(interactive)
-  ;;(let* ((query "SELECT id, title FROM nodes")
-         ;;(results (org-roam-db-query query))
-         ;;(output-lines (mapcar (lambda (row)
-                                 ;;(format "%s\t%s" (nth 0 row) (nth 1 row)))
-                               ;;results)))
-    ;;(with-temp-file "~/org-roam-migration.tsv"
-      ;;(insert "ID\tTitle\n")
-      ;;(insert (string-join output-lines "\n")))
-    ;;(message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
+;; (defun nb/unhide-current-line (limit)
+;;   "Font-lock function"
+;;   (let ((start (max (point) (car nb/current-line)))
+;;         (end (min limit (cdr nb/current-line))))
+;;     (when (< start end)
+;;       (remove-text-properties start end
+;;                       '(invisible t display "" composition ""))
+;;       (goto-char limit)
+;;       t)))
 ;;
-;;;; If you want JSON format instead
-;;(defun org-roam-quick-json-export ()
-  ;;"Quick JSON export for migration."
-  ;;(interactive)
-  ;;(let* ((query "SELECT id, title FROM nodes")
-         ;;(results (org-roam-db-query query))
-         ;;(map (mapcar (lambda (row)
-                        ;;`((id . ,(nth 0 row))
-                          ;;(title . ,(nth 1 row))
-                          ;;(md_file . ,(concat (replace-regexp-in-string "[^a-zA-Z0-9-_]" "_" (nth 1 row)) ".md"))))
-                      ;;results))
-         ;;(json-output (json-encode map)))
-    ;;(with-temp-file "~/org-roam-migration.json"
-      ;;(insert json-output))
-    ;;(message "Exported %d entries to ~/org-roam-migration.json" (length results))))
+;; (defun nb/refontify-on-linemove ()
+;;   "Post-command-hook"
+;;   (let* ((start (line-beginning-position))
+;;          (end (line-beginning-position 2))
+;;          (needs-update (not (equal start (car nb/current-line)))))
+;;     (setq nb/current-line (cons start end))
+;;     (when needs-update
+;;       (font-lock-fontify-block 3))))
 ;;
-;;;; Super simple - just get the raw data for inspection
-;;(defun org-roam-dump-ids ()
-  ;;"Just dump all IDs and titles to messages buffer."
-  ;;(interactive)
-  ;;(let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
-    ;;(dolist (row results)
-      ;;(message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
-    ;;(message "Found %d org-roam nodes" (length results))))
+;; (defun nb/markdown-unhighlight ()
+;;   "Enable markdown concealling"
+;;   (interactive)
+;;   (markdown-toggle-markup-hiding 'toggle)
+;;   (font-lock-add-keywords nil '((nb/unhide-current-line)) t)
+;;   (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
 
-(setq org-export-with-broken-links 'mark)  ; Export and mark broken links
+;; Toggles on for all MD docs. Remove to turn off.
 
-;;(defun org-export-folder-to-markdown (input-folder output-folder)
-  ;;"Export all .org files in INPUT-FOLDER to markdown in OUTPUT-FOLDER."
-  ;;(interactive "DInput folder: \nDOutput folder: ")
-;;
-  ;;;; Create output folder if it doesn't exist
-  ;;(unless (file-exists-p output-folder)
-    ;;(make-directory output-folder t))
-;;
-  ;;;; Get all .org files in the input folder
-  ;;(let ((org-files (directory-files input-folder t "\\.org$")))
-    ;;(dolist (org-file org-files)
-      ;;(let* ((base-name (file-name-base org-file))
-             ;;(output-file (expand-file-name
-                          ;;(concat base-name ".md")
-                          ;;output-folder)))
-;;
-        ;;;; Open the org file, export to markdown, then close
-        ;;(with-current-buffer (find-file-noselect org-file)
-          ;;(org-md-export-to-markdown)
-          ;;;; Move the generated .md file to the output folder
-          ;;(let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
-            ;;(when (file-exists-p generated-file)
-              ;;(rename-file generated-file output-file t)))
-          ;;(kill-buffer))))))
-(require 'ox-gfm)
-(defun org-export-folder-to-gfm (input-folder output-folder)
-  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER."
-  (interactive "DInput folder: \nDOutput folder: ")
+;; (add-hook 'markdown-mode-hook #'nb/markdown-unhighlight)
 
-  ;; Create output folder if it doesn't exist
-  (unless (file-exists-p output-folder)
-    (make-directory output-folder t))
+;; Enable code block syntax highlight
 
-  ;; Get all .org files in the input folder
-  (let ((org-files (directory-files input-folder t "\\.org$")))
-    (dolist (org-file org-files)
-      (let* ((base-name (file-name-base org-file))
-             (output-file (expand-file-name
-                          (concat base-name ".md")
-                          output-folder)))
+;; (setq markdown-enable-highlighting-syntax t)
 
-        ;; Open the org file, export to GFM, then close
-        (with-current-buffer (find-file-noselect org-file)
-          (org-gfm-export-to-markdown)  ; Changed this line
-          ;; Move the generated .md file to the output folder
-          (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
-            (when (file-exists-p generated-file)
-              (rename-file generated-file output-file t)))
-          (kill-buffer))))))
+;; Enable wiki links in all md files by default:
+
+;; (setq markdown-enable-wiki-links t)
+
+; Make emacs auto indent when we create a new list item.
+;;(setq markdown-indent-on-enter 'indent-and-new-item)
 
 ;Back to a simpler time…
 (map! :g "C-s" #'save-buffer)
@@ -720,38 +704,3 @@
         :desc "Insert any date"    "a" #'dt/insert-any-date
         :desc "Insert today's date" "t" #'dt/insert-todays-date
         :desc "Insert current time" "c" #'dt/insert-current-time))
-
-;; 📚 Customize Org Roam buffer window behavior
-
-;(after! org-roam
-  ;(setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
-  ;(add-to-list 'display-buffer-alist
-               ;'("\\*org-roam\\*"
-                 ;(display-buffer-in-side-window)
-                 ;(side . right)
-                 ;(window-width . 0.4)
-                 ;(window-parameters . ((no-other-window . t)
-                                       ;(no-delete-other-windows . t))))))
-
-;; Floating minibuffer popup with Vertico
-
-;(use-package! vertico-posframe
-  ;:after vertico
-  ;:config
-  ;(vertico-posframe-mode 1)
-  ;(setq vertico-posframe-poshandler 'posframe-poshandler-frame-center
-        ;vertico-posframe-border-width 8
-        ;vertico-posframe-parameters
-        ;'((left-fringe . 10)
-          ;(right-fringe . 10)
-          ;(internal-border-width . 10)
-          ;(undecorated . t)
-          ;(no-accept-focus . t)
-          ;(no-focus-on-map . t)
-          ;(min-width . t)
-          ;(min-height . t)
-          ;(border-width . 10)
-          ;(child-frame-border-width . 10)
-          ;(background-color . "#1e1e2e") ; or any dark theme color
-          ;(internal-border-color . "#585b70") ; slight contrast
-          ;(alpha . (95 . 95))))) ; slight transparency for soft edge

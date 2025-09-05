@@ -1,14 +1,18 @@
 # Basic keymaps and shortcuts
 { lib, pkgs, ... }: {
   vim.luaConfigRC.orgModeKeymaps = ''
+
+    -- Read environment variables FOR ORG and expand tilde
+    local org_folder = vim.fn.expand(os.getenv("ORGFOLDER") or "~/Org")
+
     -- Open Inbox 
     vim.keymap.set('n', '<leader>=i', function()
-      vim.cmd('edit ' .. vim.fn.expand('~/Org/01-Emacs/01.02-OrgGtd/inbox.org'))
+      vim.cmd('edit ' .. org_folder .. '/01-Emacs/01.02-OrgGtd/inbox.org')
     end, { desc = "Open Inbox" })
 
     -- Open Todo Files 
     vim.keymap.set('n', '<leader>=t', function()
-      vim.cmd('edit ' .. vim.fn.expand('~/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org'))
+      vim.cmd('edit ' .. org_folder .. '/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org')
     end, { desc = "Open Todo" })
 
     -- Map <leader>nd to toggle TODO state in org files

@@ -1,6 +1,9 @@
 # ORG ROAM Replacement functionality in raw lua
 { lib, pkgs, ... }: {
   vim.luaConfigRC.orgModeRoam = ''
+    --Set ZK Var
+    local org_directory = vim.fn.expand(os.getenv("NOTES") or "~/Notes")
+
     -- Required telescope modules
     local telescope = require('telescope')
     local pickers = require('telescope.pickers')
@@ -10,14 +13,12 @@
     local action_state = require('telescope.actions.state')
     local previewers = require('telescope.previewers')
 
-    -- Configuration
-    local org_directory = vim.fn.expand("~/Nextcloud/Dropbox/40-49_Career/40-Career-ZK/")
 
     -- Function to create new .org file with timestamp
     local function create_timestamped_org_file(note_name)
       local timestamp = os.date("%Y%m%d%H%M%S")
       local filename = timestamp .. "-" .. note_name .. ".org"
-      local full_path = org_directory .. filename
+      local full_path = vim.fs.joinpath(org_directory, filename)
       
       -- Ensure the directory exists
       vim.fn.mkdir(org_directory, "p")
@@ -83,7 +84,7 @@
       local results = {}
       
       -- Get all .org files in the directory
-      local org_files = vim.fn.glob(org_directory .. "*.org", false, true)
+      local org_files = vim.fn.glob(org_directory .. "/*.org", false, true)
       
       for _, file_path in ipairs(org_files) do
         local file = io.open(file_path, "r")
@@ -140,7 +141,7 @@
       local results = {}
       
       -- Get all .org files in the directory
-      local org_files = vim.fn.glob(org_directory .. "*.org", false, true)
+      local org_files = vim.fn.glob(org_directory .. "/*.org", false, true)
       
       for _, file_path in ipairs(org_files) do
         local file = io.open(file_path, "r")
@@ -462,7 +463,7 @@
         -- Relative path - check if org_directory is defined
         if vim.g.org_directory or _G.org_directory then
           local org_dir = vim.g.org_directory or _G.org_directory
-          file_path = org_dir .. file_part
+          file_path = org_dir .. "/" .. file_part
         else
           -- Use current file's directory as fallback
           local current_dir = vim.fn.expand("%:p:h") .. "/"
@@ -630,5 +631,4 @@
     })
   '';
 }
-
 

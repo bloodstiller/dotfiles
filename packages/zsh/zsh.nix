@@ -103,12 +103,20 @@
       # Export API key for use in nvim 
       export ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.anthropic-api-key.path})
 
+      #Nvim Variables 
+      export ORGFOLDER="~/Org"
+      export NOTES="~/Nextcloud/Dropbox/40-49_Career/40-Career-ZK"
+      export SCREENSHOTS="~/Nextcloud/Dropbox/screenshots"
+      export DOTFILES="~/.dotfiles"
+
+
       # Atuin Configuration for syncing shell history accross machines
       eval "$(atuin init zsh)"
 
-      export WORK_EMAIL=$(cat ${config.sops.secrets.work_email.path})
+      # Hyprland 
       export XDG_CURRENT_DESKTOP=Hyprland
       export XDG_SESSION_DESKTOP=Hyprland
+
     '';
 
     plugins = [

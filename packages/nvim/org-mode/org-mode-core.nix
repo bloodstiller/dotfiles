@@ -1,10 +1,13 @@
 # Core org-mode configuration and setup
 { lib, pkgs, ... }: {
   vim.luaConfigRC.orgModeCore = ''
+    -- Read environment variables FOR ORG and expand tilde
+    local org_folder = vim.fn.expand(os.getenv("ORGFOLDER") or "~/Org")
+
     -- Main Org Mode Configuration
     require("orgmode").setup({
-      org_agenda_files = "/home/martin/Org/01-Emacs/01.02-OrgGtd/*.org",
-      org_default_notes_file = "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org",
+      org_agenda_files = org_folder .. "/01-Emacs/01.02-OrgGtd/*.org",
+      org_default_notes_file = org_folder .. "/01-Emacs/01.02-OrgGtd/inbox.org",
       org_hide_emphasis_markers = true,
       org_startup_indented = true,
       org_edit_src_content_indentation = 2,

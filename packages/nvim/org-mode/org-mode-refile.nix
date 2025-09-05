@@ -1,6 +1,10 @@
 # Easy refile functionality
 { lib, pkgs, ... }: {
   vim.luaConfigRC.orgModeRefile = ''
+    -- Read environment variables FOR ORG and expand tilde
+    local org_folder = vim.fn.expand(os.getenv("ORGFOLDER") or "~/Org")
+
+
     -- Required telescope modules for refile
     local telescope = require('telescope')
     local pickers = require('telescope.pickers')
@@ -11,8 +15,8 @@
 
     -- Function to refile current heading to a location in your main todo file
     local function refile_to_main_todo()
-      -- Path to your main todo file
-      local main_todo_file = vim.fn.expand("~/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org") -- Update this path
+      -- Path to your main todo file (references var above)
+      local main_todo_file = org_folder .. "/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
       
       -- Get the current heading and its content
       local current_line_num = vim.fn.line('.')
