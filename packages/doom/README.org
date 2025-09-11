@@ -1,7 +1,6 @@
 #+TITLE: Bloodstiller Dev Doom Config
 #+AUTHOR: blooodstiller
 #+DESCRIPTION: Bloodstiller Personal Doom Emacs Config.
-#+PROPERTY: header-args :tangle ~/.dotfiles/packages/doom/config.el
 #+auto_tangle: t
 #+STARTUP: showeverything
 
@@ -25,6 +24,7 @@
 :PROPERTIES:
 :ID:       98115602-c008-4e0b-8d95-497de1561a6c
 :END:
+
 - This is my personal Doom Emacs config it is structured as a literate configuration.
 - Inspired by the methodology presented at [[https://leanpub.com/lit-config/read][Literate Configuration]].
 - This approach blends detailed documentation directly with the code, offering clear insights into the purpose and functionality of each configuration snippet, making it both user-friendly and easy to maintain.
@@ -34,7 +34,7 @@
 * Doom Main Config:
 :PROPERTIES:
 :ID:       20a5b90c-8c46-4037-bb1e-ee9fefda1e30
-:header-args: :tangle ~/.dotfiles/packages/doom/config.el
+:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/config/config.el
 :END:
 ** General Settings:
 :PROPERTIES:
@@ -89,14 +89,11 @@ Settings related to fonts within Doom Emacs:
 
 #+begin_src emacs-lisp
 ;;Select my preffered theme:
-(setq doom-theme 'doom-one)
-
-
 (setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
-      doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
-      doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+       doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
+       doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
+       doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16)
+       doom-big-font (font-spec :family "JetBrains Mono" :size 24))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -141,7 +138,7 @@ Bookmarks are somewhat like registers in that they record positions you can jump
 :ID:       db998fe8-01b0-4a9d-95af-b7d05eb9c3f7
 :END:
 Regarding buffers, the text you are editing in Emacs resides in an object called a buffer. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.  Ibuffer is a program that lists all of your Emacs buffers/, allowing you to navigate between them and filter them.
-j
+
 | COMMAND         | DESCRIPTION          | KEYBINDING |
 |-----------------+----------------------+------------|
 | ibuffer         | _Launch ibuffer_       | SPC b i    |
@@ -150,7 +147,7 @@ j
 | previous-buffer | _Goto previous buffer_ | SPC b p    |
 | save-buffer     | _Save current buffer_  | SPC b s    |
 
-*** Keybindings within ibuffer mode:
+**** Keybindings within ibuffer mode:
 :PROPERTIES:
 :ID:       a3d611b3-548c-4c06-bb67-2695b6062e64
 :END:
@@ -204,11 +201,11 @@ A buffer can get out of sync with respect to its visited file on disk if that fi
 - If you use `org' and don't want your org files in the default location below,
   - change `org-directory'. It must be set before org loads!
 #+begin_src emacs-lisp
-(setq org-directory "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/")
+(setq org-directory "/home/martin/Org/01-09_System/01-Emacs/01.02-OrgGtd/")
 
-(setq org-agenda-files '("/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org"
-                         "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
-                         "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
+(setq org-agenda-files '("/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"
+                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
+                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
 #+end_src
 
 *** ORG - Todo States:
@@ -238,7 +235,6 @@ Custom TODO states & Tags
          "COMPLETE(C!)"
          "HOLD(h)"
          "SOMEDAY(s)"
-         "RABBITHOLE!(R)")
         )))
 
 ;; CUSTOM TODO colors
@@ -288,44 +284,44 @@ These keybindings use find-file non-interactively since we specify exactly what 
 
 _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the keybinding 'SPC f p'.  This allows you to open any file in your HOME/.config/doom directory, so the following keybindings that I created are not really necessary, but I created this section as an example of how to to create bindings that open specific files on your system.
 
-| **PATH TO FILE**                                                 | **DESCRIPTION**                    | **KEYBINDING** |
-|----------------------------------------------------------------+----------------------------------+--------------|
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org | Opens TODO file                  | SPC = t      |
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/Goals.org         | Edit Goals file                  | SPC = g      |
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org         | Edit inbox file                  | SPC = i      |
-|----------------------------------------------------------------+----------------------------------+--------------|
-| ~/.config/doom/README.org                                      | Edit Doom config.el              | SPC = d c    |
-|----------------------------------------------------------------+----------------------------------+--------------|
-| ~/Dropbox/40-49_Career/44-Blog/                                | Open Blog Root Folder            | SPC = b r    |
-| ~/Dropbox/40-49_Career/44-Blog/index.org                       | Edit Index.org file              | SPC = b i    |
-| ~/Dropbox/40-49_Career/44-Blog/Articles/Blog.org               | Edit Blog.org file               | SPC = b b    |
-| ~/Dropbox/40-49_Career/44-Blog/Emacs.org                       | Edit Emacs.org file              | SPC = b e    |
-| ~/Dropbox/40-49_Career/44-Blog/Infosec.org                     | Edit Infosec.org file            | SPC = b I    |
-|----------------------------------------------------------------+----------------------------------+--------------|
-| ~/Dropbox/00Projects/                                          | Open Projects Folder             | SPC = p p    |
-| ~/Dropbox/01-09_System/                                        | Open Systems Folder              | SPC = p 0    |
-| ~/Dropbox/10-19_Health/                                        | Open Health Folder               | SPC = p 1    |
-| ~/Dropbox/20-29_Home/                                          | Open Home Folder                 | SPC = p 2    |
-| ~/Dropbox/30-39_Relationships/                                 | Open Relationships Folder        | SPC = p 3    |
-| ~/Dropbox/40-49_Career/                                        | Open Career Folder               | SPC = p 4    |
-| ~/Dropbox/50-59_PersonalDevelopment/                           | Open Personal Development Folder | SPC = p 5    |
-| ~/Dropbox/60-69_Work/                                          | Open Work Folder                 | SPC = p 6    |
-| ~/Dropbox/70-79_Finances/                                      | Open Finances Folder             | SPC = p 7    |
-| ~/Dropbox/80-89_Hobbies/                                       | Open Hobbies Folder              | SPC = p 8    |
-| ~/Dropbox/90-99_Repos/                                         | Open Repos Folder                | SPC = p 9    |
-|----------------------------------------------------------------+----------------------------------+--------------|
+| **PATH TO FILE**                                        | **DESCRIPTION**                    | **KEYBINDING** |
+|-------------------------------------------------------+----------------------------------+--------------|
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org | Opens TODO file                  | SPC = t      |
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/Goals.org         | Edit Goals file                  | SPC = g      |
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/inbox.org         | Edit inbox file                  | SPC = i      |
+|-------------------------------------------------------+----------------------------------+--------------|
+| ~/.config/doom/README.org                             | Edit Doom config.el              | SPC = d c    |
+|-------------------------------------------------------+----------------------------------+--------------|
+| ~/Dropbox/40-49_Career/44-Blog/                       | Open Blog Root Folder            | SPC = b r    |
+| ~/Dropbox/40-49_Career/44-Blog/index.org              | Edit Index.org file              | SPC = b i    |
+| ~/Dropbox/40-49_Career/44-Blog/Articles/Blog.org      | Edit Blog.org file               | SPC = b b    |
+| ~/Dropbox/40-49_Career/44-Blog/Emacs.org              | Edit Emacs.org file              | SPC = b e    |
+| ~/Dropbox/40-49_Career/44-Blog/Infosec.org            | Edit Infosec.org file            | SPC = b I    |
+|-------------------------------------------------------+----------------------------------+--------------|
+| ~/Dropbox/00Projects/                                 | Open Projects Folder             | SPC = p p    |
+| ~/Dropbox/01-09_System/                               | Open Systems Folder              | SPC = p 0    |
+| ~/Dropbox/10-19_Health/                               | Open Health Folder               | SPC = p 1    |
+| ~/Dropbox/20-29_Home/                                 | Open Home Folder                 | SPC = p 2    |
+| ~/Dropbox/30-39_Relationships/                        | Open Relationships Folder        | SPC = p 3    |
+| ~/Dropbox/40-49_Career/                               | Open Career Folder               | SPC = p 4    |
+| ~/Dropbox/50-59_PersonalDevelopment/                  | Open Personal Development Folder | SPC = p 5    |
+| ~/Dropbox/60-69_Work/                                 | Open Work Folder                 | SPC = p 6    |
+| ~/Dropbox/70-79_Finances/                             | Open Finances Folder             | SPC = p 7    |
+| ~/Dropbox/80-89_Hobbies/                              | Open Hobbies Folder              | SPC = p 8    |
+| ~/Dropbox/90-99_Repos/                                | Open Repos Folder                | SPC = p 9    |
+|-------------------------------------------------------+----------------------------------+--------------|
 
 
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("=" . "open file")
-       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
-       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/Goals.org"))
-       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org"))))
+       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
+       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/Goals.org"))
+       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"))))
 
 (map! :leader
       (:prefix ("= d" . "Open Doom Config")
-       :desc "Edit Doom config.el"   "c" #'(lambda () (interactive) (find-file "/home/martin/.config/doom/README.org"))))
+       :desc "Edit Doom config.el"   "c" #'(lambda () (interactive) (find-file "/home/martin/.dotfiles/packages/doom/README.org"))))
 
 (map! :leader
       (:prefix ("= b" . "Open Blog Files")
@@ -354,10 +350,10 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 :END:
 | **PATH TO FILE**                                                                         | **DESCRIPTION**              | **KEYBINDING** |
 |----------------------------------------------------------------------------------------+----------------------------+--------------|
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org                                 | Add to inbox               | i            |
-| ~/Dropbox/01-09_System/01-Emacs/01.01-OrgMode/ScratchPad.org                           | Personal Notes/Scratch Pad | n            |
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org                                 | Work-Todo                  | w            |
-| ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org                                 | Work-Note                  | W            |
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/inbox.org                              | Add to inbox               | i            |
+| ~/Dropbox/Org/01-Emacs/01.01-OrgMode/ScratchPad.org                        | Personal Notes/Scratch Pad | n            |
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/inbox.org                              | Work-Todo                  | w            |
+| ~/Dropbox/Org/01-Emacs/01.02-OrgGtd/inbox.org                              | Work-Note                  | W            |
 | ~/Dropbox/50-59_PersonalDevelopment/51-Diaries/51.04-Achievments_Diary/ACHIEVMENTS.org | Achievements               | a            |
 | ~/Dropbox/50-59_PersonalDevelopment/51-Diaries/51.03-Gratititude_Diary/GRATITUDE.org   | Gratitude Diary            | g            |
 | ~/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org                                 | Links                      | l            |
@@ -372,19 +368,19 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
         '(
 ;; Add to inbox
           ("i" "inbox"
-        entry (file+headline "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
+        entry (file+headline "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
          "* TODO %?"
          :empty-lines 0)
 ;; Add notes to inbox:
         ("n" "Personal Notes/Scatch Pad"
-         entry (file+headline "/home/martin/Dropbox/01-09_System/01-Emacs/01.01-OrgMode/ScrathPad.org" "Personal Notes")
+         entry (file+headline "/home/martin/Org/01-Emacs/01.01-OrgMode/ScrathPad.org" "Personal Notes")
          "** %?"
          :empty-lines 0)
-        ("w" "Work-Todo" entry (file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org")
+        ("w" "Work-Todo" entry (file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org")
          "* WORK %?"
          :empty-lines 1)
 ;; To create work notes
-        ("W" "Work-Note" entry (file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org")
+        ("W" "Work-Note" entry (file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org")
          "* NOTE %?"
          :empty-lines 0)
 ;; To create achievments todos
@@ -398,7 +394,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
           "* %?"
           :empty-lines 0)
 ;; Add to Links Document:
-        ("l" "Links" entry (file "/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org")
+        ("l" "Links" entry (file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org")
           "* LINK %?"
          :empty-lines 0)
  ;; Weekly Reviews
@@ -557,7 +553,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 - This still does not work (unsure why).
 #+begin_src emacs-lisp
 (require 'org-download)
-(setq-default org-download-image-dir "/home/martin/Dropbox/screenshots/")
+(setq-default org-download-image-dir "/home/martin/screenshots/")
 ;;Allows dropping to dir-ed
 (add-hook 'dired-mode-hook 'org-download-enable)
 
@@ -569,7 +565,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 :END:
 - Actually Set ATTACH directory where images are stored
 #+begin_src emacs-lisp
-(setq org-attach-directory "/home/martin/Dropbox/screenshots/")
+(setq org-attach-directory "/home/martin/screenshots/")
 #+end_src
 
 *** ORG - Auto Tangle:
@@ -616,6 +612,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 (add-hook 'org-mode-hook
           (lambda ()
             (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+
 #+end_src
 
 *** ORG - Cosmetics:
@@ -658,15 +655,15 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 ;; this controls the color of bold, italic, underline, verbatim, strikethrough
 
 (after! org
-(setq org-emphasis-alist
-  ;'(("*" (underline :weight black :foreground "#ee9955"))
-  '(("*" (:foreground "#c5cdd8" :height 1.1 :weight bold ))
-   ;; ("/" (:weight black :background "#745B00" :foreground "#FF3D2B" ))
-    ("_" (:weight black :foreground "#79c6ff" ))
-    ("=" (underline :weight black :foreground "#b18c00" ))
-    ;;("~" (:foreground "#6BB86B" ))
-    ("~" (:foreground "#c678dd" :background "#2d333b"))
-    ("+" (underline bold :weight italic :foreground "#FF6c6b" )))))
+  (setq org-emphasis-alist
+                                        ;'(("*" (underline :weight black :foreground "#ee9955"))
+        '(("*" (:foreground "#c5cdd8" :height 1.1 :weight bold ))
+          ;; ("/" (:weight black :background "#745B00" :foreground "#FF3D2B" ))
+          ("_" (:weight black :foreground "#79c6ff" ))
+          ("=" (underline :weight black :foreground "#b18c00" ))
+          ;;("~" (:foreground "#6BB86B" ))
+          ("~" (:foreground "#c678dd" :background "#2d333b"))
+          ("+" (underline bold :weight italic :foreground "#FF6c6b" )))))
 #+end_src
 
 **** Cosmetics - Headline Bullets and Folds:
@@ -674,7 +671,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 :ID:       801b5f53-05e7-4ca6-a193-c3525b8d7f33
 :END:
 #+begin_src emacs-lisp
-;(setq org-superstar-headline-bullets-list '("› "))
+(setq org-superstar-headline-bullets-list '("› "))
 #+end_src
 **** Cosmetics - Item Bullets:
 :PROPERTIES:
@@ -683,9 +680,9 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 - Custom bulleted list
 #+begin_src emacs-lisp
 
-;;(setq org-superstar-item-bullet-alist '((?* . ?⋆)
-                                        ;;(?+ . ?‣)
-                                        ;;(?- . ?•)))
+(setq org-superstar-item-bullet-alist '((?* . ?⋆)
+                                        (?+ . ?‣)
+                                        (?- . ?•)))
 
 #+end_src
 
@@ -743,9 +740,9 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 :END:
 - Set Roam Main Dir
 #+begin_src emacs-lisp
+;; Set these *before* loading org-roam
 (require 'org-roam)
-(setq org-roam-directory "~/Dropbox")
-(setq org-roam-db-location "~/.config/emacs/org-roam/org-roam.db")
+(setq org-roam-directory "~/Nextcloud/")
 #+end_src
 
 **** Roam - (make git ignored files in subdirectories still searchable)
@@ -787,53 +784,53 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
       :unnarrowed t)
 
  ("A" "Application" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Application.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/Application.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("a" "Attack Type" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/AttackTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/AttackTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("b" "Box" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/BoxTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/BoxTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("c" "CPTS Module" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/CPTSSection.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/CPTSSection.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("d" "Daily Review" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/DailyReview.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/DailyReview.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("p" "Pentest" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/Pentest.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/Pentest.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
 
  ("n" "Start Project" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectStartTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/ProjectStartTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("N" "End Project" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ProjectEndTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/ProjectEndTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
   ("s" "Service" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ServiceTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/ServiceTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)
 
  ("t" "Tool" plain
-  (file "/home/martin/.dotfiles/nix/packages/doom/orgTemplates/ToolTemplate.org")
+  (file "/home/martin/.dotfiles/packages/doom/orgTemplates/ToolTemplate.org")
   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
   :unnarrowed t)))
 #+end_src
@@ -860,8 +857,9 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 (use-package ox-hugo
   :after org
   :config
-  (setq org-hugo-base-dir "/home/martin/Dropbox/40-49_Career/44-Blog/bloodstiller")
+  (setq org-hugo-base-dir "/home/martin/Nextcloud/Dropbox/40-49_Career/44-Blog/bloodstiller")
 
+  ;; Helper function to ensure title exists
   (defun my/ensure-hugo-title (file)
     "Ensure the file has a #+title: keyword, adding one based on the filename if missing."
     (with-current-buffer (find-file-noselect file)
@@ -873,14 +871,16 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
         (save-buffer))
       (current-buffer)))
 
+  ;; Helper function to get Hugo section
   (defun my/get-hugo-section (file)
     "Get the Hugo section for the file based on its front matter."
     (with-current-buffer (find-file-noselect file)
       (goto-char (point-min))
       (if (re-search-forward "^#\\+hugo_section:\\s-*\\(.*\\)$" nil t)
           (match-string-no-properties 1)
-        "posts")))  ; default to "posts" if no specific section is found
+        "posts")))
 
+  ;; Link conversion function
   (defun my/org-roam-link-to-hugo-link (link desc)
     "Convert an Org-roam link to a Hugo internal link or plain text if file is missing."
     (let* ((id (org-element-property :path link))
@@ -889,8 +889,9 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
            (title (or desc (when node (org-roam-node-title node)) "Unknown")))
       (if (and file (file-exists-p file))
           (format "{{< ref \"%s\" >}}" (file-name-sans-extension (file-name-nondirectory file)))
-        (format "*%s*" title))))  ; Use italic text for missing links
+        (format "*%s*" title))))
 
+  ;; Single file export function (keep this if you want to use it manually)
   (defun my/export-org-to-hugo (file)
     "Export a single org file to Hugo markdown."
     (with-current-buffer (my/ensure-hugo-title file)
@@ -909,36 +910,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
          (message "Error exporting %s: %s" file (error-message-string err))))
       (kill-buffer)))
 
-  (defun my/export-all-org-files ()
-    "Export all org files in content-org/ to Hugo markdown."
-    (interactive)
-    (let ((org-files (directory-files-recursively
-                      (expand-file-name "content-org" org-hugo-base-dir)
-                      "\\.org$")))
-      (dolist (file org-files)
-        (my/export-org-to-hugo file))))
-
-  (defun my/maybe-export-all-on-save ()
-    (when (and (buffer-file-name)
-               (string-prefix-p
-                (expand-file-name "content-org" org-hugo-base-dir)
-                (buffer-file-name)))
-      (message "File in content-org saved, exporting all files...")
-      (my/export-all-org-files)
-      (message "All files exported")))
-
-  (add-hook 'after-save-hook #'my/maybe-export-all-on-save))
-
-;; Directory local variables for content-org/
-(dir-locals-set-class-variables
- 'hugo-content-org
- '((org-mode . ((eval . (org-hugo-auto-export-mode))))))
-
-(dir-locals-set-directory-class
- (expand-file-name "content-org" org-hugo-base-dir)
- 'hugo-content-org)
-
-(message "ox-hugo configuration loaded")
+  (message "ox-hugo configuration loaded"))
 #+end_src
 ** Markdown:
 :PROPERTIES:
@@ -1049,168 +1021,6 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 ;;(setq markdown-indent-on-enter 'indent-and-new-item)
 #+end_src
 
-*** Export json map of org-roam id's to markdown.
-:PROPERTIES:
-:ID:       8aaaa29b-7db1-4ae1-a2ab-65c740ce009a
-:END:
-#+begin_src emacs-lisp
-(require 'json)
-
-;; Quick and dirty - just dump what's already in the database
-(defun org-roam-quick-export-for-migration ()
-  "Quick export of ID->title mapping for migration (no sync)."
-  (interactive)
-  (let* ((query "SELECT id, title, file FROM nodes")
-         (results (org-roam-db-query query))
-         (output-lines (mapcar (lambda (row)
-                                 (let ((id (nth 0 row))
-                                       (title (nth 1 row))
-                                       (filepath (nth 2 row)))
-                                   (format "%s\t%s\t%s\t%s"
-                                           id
-                                           title
-                                           filepath
-                                           (file-name-base filepath))))
-                               results)))
-    (with-temp-file "~/org-roam-migration.tsv"
-      (insert "ID\tTitle\tFilePath\tFileName\n")
-      (insert (string-join output-lines "\n")))
-    (message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
-
-;; If you want JSON format instead
-(defun org-roam-quick-json-export ()
-  "Quick JSON export for migration."
-  (interactive)
-  (let* ((query "SELECT id, title, file FROM nodes")
-         (results (org-roam-db-query query))
-         (map (mapcar (lambda (row)
-                        (let ((filepath (nth 2 row)))
-                          `((id . ,(nth 0 row))
-                            (title . ,(nth 1 row))
-                            (filepath . ,filepath)
-                            (filename . ,(file-name-base filepath))
-                            (md_file . ,(concat (file-name-base filepath) ".md")))))
-                      results))
-         (json-output (json-encode map)))
-    (with-temp-file "~/org-roam-migration.json"
-      (insert json-output))
-    (message "Exported %d entries to ~/org-roam-migration.json" (length results))))
-
-;; Super simple - just get the raw data for inspection
-(defun org-roam-dump-ids ()
-  "Just dump all IDs and titles to messages buffer."
-  (interactive)
-  (let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
-    (dolist (row results)
-      (message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
-    (message "Found %d org-roam nodes" (length results))))
-
-
-
-;;(require 'json)
-;;
-;;;; Quick and dirty - just dump what's already in the database
-;;(defun org-roam-quick-export-for-migration ()
-  ;;"Quick export of ID->title mapping for migration (no sync)."
-  ;;(interactive)
-  ;;(let* ((query "SELECT id, title FROM nodes")
-         ;;(results (org-roam-db-query query))
-         ;;(output-lines (mapcar (lambda (row)
-                                 ;;(format "%s\t%s" (nth 0 row) (nth 1 row)))
-                               ;;results)))
-    ;;(with-temp-file "~/org-roam-migration.tsv"
-      ;;(insert "ID\tTitle\n")
-      ;;(insert (string-join output-lines "\n")))
-    ;;(message "Exported %d entries to ~/org-roam-migration.tsv" (length results))))
-;;
-;;;; If you want JSON format instead
-;;(defun org-roam-quick-json-export ()
-  ;;"Quick JSON export for migration."
-  ;;(interactive)
-  ;;(let* ((query "SELECT id, title FROM nodes")
-         ;;(results (org-roam-db-query query))
-         ;;(map (mapcar (lambda (row)
-                        ;;`((id . ,(nth 0 row))
-                          ;;(title . ,(nth 1 row))
-                          ;;(md_file . ,(concat (replace-regexp-in-string "[^a-zA-Z0-9-_]" "_" (nth 1 row)) ".md"))))
-                      ;;results))
-         ;;(json-output (json-encode map)))
-    ;;(with-temp-file "~/org-roam-migration.json"
-      ;;(insert json-output))
-    ;;(message "Exported %d entries to ~/org-roam-migration.json" (length results))))
-;;
-;;;; Super simple - just get the raw data for inspection
-;;(defun org-roam-dump-ids ()
-  ;;"Just dump all IDs and titles to messages buffer."
-  ;;(interactive)
-  ;;(let ((results (org-roam-db-query "SELECT id, title FROM nodes")))
-    ;;(dolist (row results)
-      ;;(message "ID: %s | Title: %s" (nth 0 row) (nth 1 row)))
-    ;;(message "Found %d org-roam nodes" (length results))))
-#+end_src
-*** Export with broken links
-:PROPERTIES:
-:ID:       f5ddc666-8ecb-4c97-b711-1703b30fed19
-:END:
-#+begin_src emacs-lisp
-(setq org-export-with-broken-links 'mark)  ; Export and mark broken links
-#+end_src
-*** Export to markdown:
-    :PROPERTIES:
-    :ID:       ea613c31-3d80-4a16-8f79-15960305f3a9
-    :END:
-    #+begin_src emacs-lisp
-;;(defun org-export-folder-to-markdown (input-folder output-folder)
-  ;;"Export all .org files in INPUT-FOLDER to markdown in OUTPUT-FOLDER."
-  ;;(interactive "DInput folder: \nDOutput folder: ")
-;;
-  ;;;; Create output folder if it doesn't exist
-  ;;(unless (file-exists-p output-folder)
-    ;;(make-directory output-folder t))
-;;
-  ;;;; Get all .org files in the input folder
-  ;;(let ((org-files (directory-files input-folder t "\\.org$")))
-    ;;(dolist (org-file org-files)
-      ;;(let* ((base-name (file-name-base org-file))
-             ;;(output-file (expand-file-name
-                          ;;(concat base-name ".md")
-                          ;;output-folder)))
-;;
-        ;;;; Open the org file, export to markdown, then close
-        ;;(with-current-buffer (find-file-noselect org-file)
-          ;;(org-md-export-to-markdown)
-          ;;;; Move the generated .md file to the output folder
-          ;;(let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
-            ;;(when (file-exists-p generated-file)
-              ;;(rename-file generated-file output-file t)))
-          ;;(kill-buffer))))))
-(require 'ox-gfm)
-(defun org-export-folder-to-gfm (input-folder output-folder)
-  "Export all .org files in INPUT-FOLDER to GitHub Flavored Markdown in OUTPUT-FOLDER."
-  (interactive "DInput folder: \nDOutput folder: ")
-
-  ;; Create output folder if it doesn't exist
-  (unless (file-exists-p output-folder)
-    (make-directory output-folder t))
-
-  ;; Get all .org files in the input folder
-  (let ((org-files (directory-files input-folder t "\\.org$")))
-    (dolist (org-file org-files)
-      (let* ((base-name (file-name-base org-file))
-             (output-file (expand-file-name
-                          (concat base-name ".md")
-                          output-folder)))
-
-        ;; Open the org file, export to GFM, then close
-        (with-current-buffer (find-file-noselect org-file)
-          (org-gfm-export-to-markdown)  ; Changed this line
-          ;; Move the generated .md file to the output folder
-          (let ((generated-file (concat (file-name-sans-extension org-file) ".md")))
-            (when (file-exists-p generated-file)
-              (rename-file generated-file output-file t)))
-          (kill-buffer))))))
-
-    #+end_src
 ** Quality Of Life:
 :PROPERTIES:
 :ID:       9738f0a2-351e-4da6-a97b-cc4951baa6be
@@ -1223,13 +1033,6 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 #+begin_src emacs-lisp
 ;Back to a simpler time…
 (map! :g "C-s" #'save-buffer)
-#+end_src
-*** Remove line numbers to speed up scrolling:
-:PROPERTIES:
-:ID:       3ce5efb1-e81d-46bf-a121-deeb239ccf9d
-:END:
-#+begin_src shell
-;;(setq display-line-numbers-type nil)
 #+end_src
 *** Use VIM Keybindings to move between windows around:
 :PROPERTIES:
@@ -1329,53 +1132,16 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
         :desc "Insert today's date" "t" #'dt/insert-todays-date
         :desc "Insert current time" "c" #'dt/insert-current-time))
 #+end_src
-*** Dynamically Resize Minibuffer:
-:PROPERTIES:
-:ID:       0fb10dbc-58dc-445a-9af2-1fe7fad903aa
-:END:
-#+begin_src emacs-lisp
-;; 📚 Customize Org Roam buffer window behavior
-
-;(after! org-roam
-  ;(setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
-  ;(add-to-list 'display-buffer-alist
-               ;'("\\*org-roam\\*"
-                 ;(display-buffer-in-side-window)
-                 ;(side . right)
-                 ;(window-width . 0.4)
-                 ;(window-parameters . ((no-other-window . t)
-                                       ;(no-delete-other-windows . t))))))
-
-;; Floating minibuffer popup with Vertico
-
-;(use-package! vertico-posframe
-  ;:after vertico
-  ;:config
-  ;(vertico-posframe-mode 1)
-  ;(setq vertico-posframe-poshandler 'posframe-poshandler-frame-center
-        ;vertico-posframe-border-width 8
-        ;vertico-posframe-parameters
-        ;'((left-fringe . 10)
-          ;(right-fringe . 10)
-          ;(internal-border-width . 10)
-          ;(undecorated . t)
-          ;(no-accept-focus . t)
-          ;(no-focus-on-map . t)
-          ;(min-width . t)
-          ;(min-height . t)
-          ;(border-width . 10)
-          ;(child-frame-border-width . 10)
-          ;(background-color . "#1e1e2e") ; or any dark theme color
-          ;(internal-border-color . "#585b70") ; slight contrast
-          ;(alpha . (95 . 95))))) ; slight transparency for soft edge
-#+end_src
 * packages.el:
 :PROPERTIES:
 :ID:       e8e9c48f-7898-45fd-b2eb-9a1d542991b6
-:header-args: :tangle ~/.dotfiles/packages/doom/packages.el
+:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/config/packages.el
 :END:
-- Dooms package manager. Specify here waht packages to install.
+
+- Dooms package manager. Specify here what packages to install.
+
 #+begin_src emacs-lisp
+
 (package! emojify)
 (package! org-super-agenda)
 (package! flycheck-aspell)
@@ -1407,21 +1173,20 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 (package! git-commit
   :recipe (:host github :repo "magit/magit" :files ("lisp/git-commit.el")))
 ;; For emacs-everywhere browser integration
-
+(package! vlf :recipe (:host github :repo "emacs-straight/vlf" :files ("*.el"))
+  :pin "9b7bc521e54af2c7a5c882e4758b66ee4af1a152")
 #+end_src
 * init.el
 :PROPERTIES:
 :ID:       b2e9f677-b4e4-4d95-b5e7-e548686441cd
-:header-args: :tangle ~/.dotfiles/packages/doom/init.el
+:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/config/init.el
 :END:
 - This file controls what Doom modules are enabled and what order they load in. Remember to run '~doom sync~' after modifying it!
 #+begin_src emacs-lisp
 ;;; init.el -*- lexical-binding: t; -*-
-
 ;; This file controls what Doom modules are enabled and what order they load
+;;test
 ;; in. Remember to run 'doom sync' after modifying it!
-
-
 (doom! :input
        ;;chinese
        ;;japanese
@@ -1495,7 +1260,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
        ;;ansible
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
-       docker
+       ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
@@ -1521,7 +1286,7 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        ;;cc                ; C > C++ == 1
-       clojure           ; java with a lisp
+       ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
@@ -1544,8 +1309,8 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        json              ; At least it ain't XML
-       (java +meghanada) ; the poster child for carpal tunnel syndrome
-       javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
@@ -1562,15 +1327,13 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
             +hugo
             +pandoc
             +present
-            +dragndrop
-            +pomodoro
             +habit               ; organize your plain life in plain text
             +roam2)
-       php               ; perl's insecure younger brother
+       ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
-       powershell         ; will it work?
+       ;;python            ; beautiful is better than ugly
+       ;;powershell         ; will it work?
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -1608,11 +1371,11 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
 #+end_src
 * custom.el
 :PROPERTIES:
-:ID:       c05d64f2-1583-44e0-9d61-bbe4dc6de1e3
-:header-args: :tangle ~/.dotfiles/packages/doom/custom.el
+:ID:       87202800-addd-41ec-88f7-b948ea892f24
+:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/config/custom.el
 :END:
-#+begin_src emacs-lisp
 
+#+begin_src emacs-lisp
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

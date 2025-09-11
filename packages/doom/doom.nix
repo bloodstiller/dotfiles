@@ -5,6 +5,6 @@
   programs.emacs = {
     enable = true;
     package = pkgs.emacs30;
-    extraPackages = epkgs: [ epkgs.vterm epkgs.pdf-tools ];
+    extraPackages = epkgs: with epkgs; [ vterm pdf-tools emacsql ];
   };
 }

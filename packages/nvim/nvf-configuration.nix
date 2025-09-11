@@ -2,18 +2,19 @@
 { lib, pkgs, ... }: {
   imports = [
     ./autocomplete.nix
-    ./languages.nix
-    ./plugins.nix
-    ./keymaps.nix
     ./formatter.nix
-    ./notes.nix
-    ./theme.nix
+    ./image.nix
+    ./keymaps.nix
+    ./languages.nix
     ./lua-markdown-config.nix
     ./lua-markdown-theme.nix
     ./lua-keymaps.nix
     ./lua-plugin-configs.nix
     ./lua-theme-config.nix
+    ./notes.nix
     ./org-mode-import.nix
+    ./plugins.nix
+    ./theme.nix
   ];
 
   vim = {
@@ -62,8 +63,12 @@
     luaPackages = [ "magick" ];
 
     # We can install real packages here, this is needed for image display.
-    extraPackages = with pkgs; [ imagemagick nodePackages.prettier ];
-
+    extraPackages = with pkgs; [
+      imagemagick
+      nodePackages.prettier
+      ueberzugpp
+      luajitPackages.magick
+    ];
   };
 }
 

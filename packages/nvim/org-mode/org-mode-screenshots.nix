@@ -21,7 +21,7 @@
           table.insert(files, {
             filename = filename,
             display = filename,
-            path = screenshots_dir .. filename
+            path = screenshots_dir .. "/" .. filename  
           })
         end
         handle:close()
