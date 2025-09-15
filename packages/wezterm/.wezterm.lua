@@ -38,7 +38,7 @@ return {
                 style = "Normal",
         }),
         font_size = 16.0,
-        line_height = 1.4,
+        line_height = 1.6,
         cell_width = 1.0,
 
         -- Font rules for different text styles
