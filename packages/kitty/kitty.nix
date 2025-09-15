@@ -7,7 +7,7 @@
 
     # Font configuration using the dedicated font option
     font = {
-      name = "source-code-pro";
+      name = "nerd-fonts.commit-mono";
       size = 16;
     };
 

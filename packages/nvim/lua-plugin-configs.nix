@@ -46,6 +46,7 @@
                    hijack_netrw = true,
                    grouped = true,
                    hidden = true,
+                   follow_symlinks = true,
                    respect_gitignore = false,
                    initial_mode = "insert",
                  },

@@ -313,6 +313,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 
 
 #+begin_src emacs-lisp
+
 (map! :leader
       (:prefix ("=" . "open file")
        :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
@@ -1390,6 +1391,4 @@ Some custom functions to insert the date.  The function 'insert-todays-date' can
  ;; Test
  )
 (setq org-gtd-update-ack "3.0.0")
-
 #+end_src
-

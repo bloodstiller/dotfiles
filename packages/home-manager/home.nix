@@ -22,6 +22,7 @@ in {
     ../sops/sops.nix
     ../tmux/tmux.nix
     ../waybar/waybar.nix
+    ../wezterm/wezterm.nix
     ../wofi/wofi.nix
     ../zsh/zsh.nix
   ];

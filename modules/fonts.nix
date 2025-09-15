@@ -9,6 +9,7 @@
       nerd-fonts.iosevka
       ibm-plex
       source-code-pro
+      nerd-fonts.commit-mono
     ];
   };
 }
