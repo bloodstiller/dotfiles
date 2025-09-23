@@ -17,8 +17,7 @@
 (setq doom-theme 'doom-one)
 
 
-(setq  doom-font (font-spec :family "Iosevka Nerd Font" :size 16)
-       doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18)
+(setq  doom-font (font-spec :family "CommitMono Nerd Font" :size 20)
        doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
        doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
 
@@ -337,11 +336,11 @@
 (setq org-image-actual-width 600)
 
 (require 'org-download)
-(setq-default org-download-image-dir "/home/martin/Dropbox/screenshots/")
+(setq-default org-download-image-dir "/home/martin/Notes/screenshots/")
 ;;Allows dropping to dir-ed
 (add-hook 'dired-mode-hook 'org-download-enable)
 
-(setq org-attach-directory "/home/martin/Dropbox/screenshots/")
+(setq org-attach-directory "/home/martin/Notes/screenshots/")
 
 ;; Enables auto tangling/exporting of code blocks to a unified code file form org mode.
 (use-package! org-auto-tangle
@@ -388,12 +387,11 @@
 
 (after! org
   (setq org-emphasis-alist
-        '(("*" (underline :weight black :foreground "#EB00E4" ))
-          ;; ("/" (:weight black :background "#745B00" :foreground "#FF3D2B" ))
-          ("_" (:weight black :foreground "#79c6ff" ))
-          ("=" (underline :weight black :foreground "#b18c00" ))
-          ("~" (:foreground "#6BB86B" ))
-          ("+" (underline bold :weight italic :foreground "#FF3D2B" )))))
+        '(("*" (:weight black :foreground "#DFDFDF"))   ;; off-white (subtle)
+          ("_" (:weight black :foreground "#51afef"))   ;; blue
+          ("=" (underline :weight black :foreground "#ECBE7B")) ;; yellow
+          ("~" (:foreground "#c678dd"))                 ;; green
+          ("+" (underline bold :weight italic :foreground "#ff6c6b"))))) ;; red (muted)
 
 (setq org-superstar-headline-bullets-list '("› "))
 
@@ -421,7 +419,7 @@
 (setq org-startup-indented t)
 
 (require 'org-roam)
-(setq org-roam-directory "~/Dropbox")
+(setq org-roam-directory "~/Notes")
 
 (after! org-roam
   (setq org-roam-list-files-commands '(find fd fdfind rg)))

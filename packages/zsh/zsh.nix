@@ -105,8 +105,8 @@
 
       #Nvim Variables 
       export ORGFOLDER="~/Org"
-      export NOTES="~/Nextcloud/Dropbox/40-49_Career/40-Career-ZK"
-      export SCREENSHOTS="~/Nextcloud/Dropbox/screenshots"
+      export NOTES="~/Notes"
+      export SCREENSHOTS="~/Notes/screenshots"
       export DOTFILES="~/.dotfiles"
 
 
