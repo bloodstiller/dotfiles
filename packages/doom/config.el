@@ -21,6 +21,24 @@
        doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font")
        doom-unicode-font (font-spec :family "Symbols Nerd Font Mono" :size 16))
 
+;; --- Global default line spacing (add 25% of line height) ---
+(setq-default line-spacing 0.75)
+
+;; Reassert in common modes (some major modes set it buffer-locally)
+(defun mdb/line-spacing ()
+  (setq-local line-spacing 0.75))
+(dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
+  (add-hook hook #'mdb/line-spacing))
+
+;; Also reapply when fonts/theme reload (Doom sometimes resets things)
+(add-hook 'after-setting-font-hook #'mdb/line-spacing)
+(add-hook 'doom-load-theme-hook    #'mdb/line-spacing)
+;; Add line height (and mirror your families/sizes on faces)
+;;(custom-set-faces!
+;;  '(default        :family "CommitMono Nerd Font" :height 200 :line-height 10.0)
+;;  '(fixed-pitch    :family "CommitMono Nerd Font" :height 200)
+;;  '(variable-pitch :family "Iosevka Nerd Font"    :height 200))
+
 ;;(custom-theme-set-faces! 'tron-legacy
 ;;`(tree-sitter-hl-face:constructor :foreground ,(doom-color 'blue))
 ;;`(tree-sitter-hl-face:number :foreground ,(doom-color 'orange))
