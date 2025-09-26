@@ -1,7 +1,9 @@
 ;;; init.el -*- lexical-binding: t; -*-
+
 ;; This file controls what Doom modules are enabled and what order they load
-;;test
 ;; in. Remember to run 'doom sync' after modifying it!
+
+
 (doom! :input
        ;;chinese
        ;;japanese

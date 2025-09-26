@@ -31,3 +31,8 @@
 ;; For emacs-everywhere browser integration
 (package! vlf :recipe (:host github :repo "emacs-straight/vlf" :files ("*.el"))
   :pin "9b7bc521e54af2c7a5c882e4758b66ee4af1a152")
+;; Nice Scrolling in tables
+(package! phscroll
+  :recipe (:host github :repo "misohena/phscroll" :files ("*.el")))
+;; Nice Scrolling in tables
+(package! org-transclusion)
