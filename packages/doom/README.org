@@ -222,11 +222,11 @@ A buffer can get out of sync with respect to its visited file on disk if that fi
 - If you use `org' and don't want your org files in the default location below,
   - change `org-directory'. It must be set before org loads!
 #+begin_src emacs-lisp
-(setq org-directory "/home/martin/Org/01-Emacs/01.02-OrgGtd/")
+(setq org-directory "/home/martin/org/01-Emacs/01.02-OrgGtd/")
 
-(setq org-agenda-files '("/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"
-                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
-                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
+(setq org-agenda-files '("/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org"
+                         "/home/martin/org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
+                         "/home/martin/org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
 #+end_src
 
 *** ORG - Todo States:
@@ -327,9 +327,9 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("=" . "open file")
-       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
-       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/Goals.org"))
-       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"))))
+       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
+       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/Goals.org"))
+       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org"))))
 
 (map! :leader
       (:prefix ("= d" . "Open Doom Config")
@@ -380,12 +380,12 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
         '(
           ;; Add to inbox
           ("i" "inbox"
-           entry (file+headline "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
+           entry (file+headline "/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
            "* TODO %?"
            :empty-lines 0)
           ;; Add notes to inbox:
           ("n" "Personal Notes/Scatch Pad"
-           entry (file+headline "/home/martin/Org/01-Emacs/01.02-OrgGtd/ScratchPad.org" "Personal Notes")
+           entry (file+headline "/home/martin/org/01-Emacs/01.02-OrgGtd/ScratchPad.org" "Personal Notes")
            "** %?"
            :empty-lines 0)
           ("w" "Work-Todo" entry (file "/home/martin/WorkTodo/WorkTodo.org")
