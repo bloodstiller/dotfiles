@@ -21,7 +21,7 @@
     };
 
     # Use the NVidia closed source driver
-    open = true;
+    open = false;
 
     # Enable the Nvidia settings menu
     nvidiaSettings = true;

@@ -78,14 +78,15 @@
                  only_render_image_at_cursor = false,
                  filetypes = { "norg" },
                },
-               -- Add org mode support for nvim-orgmode
-               --org = {
-               --  enabled = true,
-               --  clear_in_insert_mode = false,
-               --  download_remote_images = false,
-               --  only_render_image_at_cursor = false,
-               --  filetypes = { "org" },
-               --},
+                --Add org mode support for nvim-orgmode
+               org = {
+                 enabled = true,
+                 clear_in_insert_mode = false,
+                 download_remote_images = false,
+                 only_render_image_at_cursor = false,
+                 only_render_image_at_cursor_mode = "inline",
+                 filetypes = { "org" },
+               },
              },
              max_width = 800,
              max_height = 600,
