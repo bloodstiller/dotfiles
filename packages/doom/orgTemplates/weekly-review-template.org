@@ -1,0 +1,112 @@
+Week of %U
+** Accomplishments
+:PROPERTIES:
+:ID:       600631b6-a5b2-4932-a580-5e84545185c6
+:END:
+*** What did I complete this week?
+:PROPERTIES:
+:ID:       a12aceb0-5896-4643-81f9-5014fc0371b5
+:END:
+-
+*** What am I most proud of?
+:PROPERTIES:
+:ID:       450f5eb1-5fc2-4838-951b-7b84a26de1e5
+:END:
+-
+*** What progress did I make on my key goals?
+:PROPERTIES:
+:ID:       1e666222-ab1a-4a07-aa97-474b8417359e
+:END:
+-
+
+** Reflection
+:PROPERTIES:
+:ID:       45a01f01-50c5-4d0f-aaee-94bc9a55fb2d
+:END:
+*** What went well this week?
+:PROPERTIES:
+:ID:       fdc093f7-3cfe-4b7d-b09b-ee8a3ec00d14
+:END:
+-
+*** What challenges did I face?
+:PROPERTIES:
+:ID:       1dcb3ab0-ca7b-4366-bbb7-d085d9ce46b1
+:END:
+-
+*** What did I learn?
+:PROPERTIES:
+:ID:       46ca1335-9dae-4a2e-835c-579a697840e1
+:END:
+-
+
+** Wellbeing
+:PROPERTIES:
+:ID:       3a792577-c325-4049-b794-2d415b1467e4
+:END:
+*** How is my energy level?
+:PROPERTIES:
+:ID:       3c9acadb-b61b-4c57-a7cf-83908c16e21f
+:END:
+-
+*** What did I do for self-care?
+:PROPERTIES:
+:ID:       b1bff71b-a76b-46a3-9fa8-d44718080775
+:END:
+-
+*** How balanced did my week feel?
+:PROPERTIES:
+:ID:       0daa972f-9178-4afe-bd36-a668788b1edc
+:END:
+-
+
+** Relationships
+:PROPERTIES:
+:ID:       e0e69612-4ad1-4c4e-aa93-115f57c560c7
+:END:
+*** Who did I connect with this week?
+:PROPERTIES:
+:ID:       7a3cb36a-28a3-4a48-afdc-a41c690b6f8a
+:END:
+-
+*** How did I support others?
+:PROPERTIES:
+:ID:       fad32f7b-6472-4ec5-97eb-5231933c146a
+:END:
+-
+*** Who should I reach out to next week?
+:PROPERTIES:
+:ID:       9ca25d98-ee56-4322-b175-56abf7e19c43
+:END:
+-
+
+** Planning Ahead
+:PROPERTIES:
+:ID:       62c5b247-21ca-4d4b-ab1f-aa7606683233
+:END:
+*** What are my top priorities for next week?
+:PROPERTIES:
+:ID:       e6732897-7c23-40fd-8249-12e7b22054c9
+:END:
+-
+*** What commitments do I have?
+:PROPERTIES:
+:ID:       eb7d33fe-a56a-4380-a163-4f8bad136979
+:END:
+-
+*** What do I need to do differently?
+:PROPERTIES:
+:ID:       5b2d0e53-4cf4-4c05-af5a-ab6be00f9507
+:END:
+-
+
+** Gratitude
+:PROPERTIES:
+:ID:       2e7c83ec-67e3-4fc5-84c0-0ca04522b88f
+:END:
+*** Three things I'm grateful for:
+:PROPERTIES:
+:ID:       c2a5918d-b47b-4580-a06d-445dd02ed50f
+:END:
+1.
+2.
+3.

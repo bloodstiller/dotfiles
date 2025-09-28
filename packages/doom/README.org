@@ -34,7 +34,7 @@
 * Doom Main Config:
 :PROPERTIES:
 :ID:       20a5b90c-8c46-4037-bb1e-ee9fefda1e30
-:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/config.el
+:header-args: emacs-lisp :tangle ~/.config/doom/config.el
 :END:
 ** General Settings:
 :PROPERTIES:
@@ -355,6 +355,7 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
        :desc "Open Finances Folder" "7" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/70-79_Finances"))
        :desc "Open Hobbies Folder" "8" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/80-89_Hobbies"))
        :desc "Open Repos Folder" "9" #'(lambda () (interactive) (find-file "/home/martin/Dropbox/90-99_Repos"))))
+
 #+end_src
 *** ORG - Capture Templates:
 :PROPERTIES:
@@ -405,12 +406,58 @@ _NOTE_: Doom Emacs already has a function 'doom/open-private-config' set to the 
            entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/51-Diaries/51.03-Gratititude_Diary/GRATITUDE.org" "Gratitude Diary")
            "* %?"
            :empty-lines 0)
-          ;; Weekly Reviews
-          ("R" "Weekly Review"
-           entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
-           "* %?"
-           :empty-lines 0)
-          )))
+
+;; Weekly Reviews
+("R" "Weekly Review"
+ entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
+"* Week of %U
+,** Accomplishments
+,*** What did I complete this week?
+-
+,*** What am I most proud of?
+-
+,*** What progress did I make on my key goals?
+-
+
+,** Reflection
+,*** What went well this week?
+-
+,*** What challenges did I face?
+-
+,*** What did I learn?
+-
+
+,** Wellbeing
+,*** How is my energy level?
+-
+,*** What did I do for self-care?
+-
+,*** How balanced did my week feel?
+-
+
+,** Relationships
+,*** Who did I connect with this week?
+-
+,*** How did I support others?
+-
+,*** Who should I reach out to next week?
+-
+
+,** Planning Ahead
+,*** What are my top priorities for next week?
+-
+,*** What commitments do I have?
+-
+,*** What do I need to do differently?
+-
+
+,** Gratitude
+,*** Three things I'm grateful for:
+1.
+2.
+3."
+ :empty-lines 0)
+       )))
 #+end_src
 
 *** ORG - CRYPT Setup:
@@ -1242,7 +1289,7 @@ Otherwise insert a literal space."
 * packages.el:
 :PROPERTIES:
 :ID:       e8e9c48f-7898-45fd-b2eb-9a1d542991b6
-:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/packages.el
+:header-args: emacs-lisp :tangle ~/.config/doom/packages.el
 :END:
 
 - Dooms package manager. Specify here what packages to install.
@@ -1290,7 +1337,7 @@ Otherwise insert a literal space."
 * init.el
 :PROPERTIES:
 :ID:       b2e9f677-b4e4-4d95-b5e7-e548686441cd
-:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/init.el
+:header-args: emacs-lisp :tangle ~/.config/doom/init.el
 :END:
 - This file controls what Doom modules are enabled and what order they load in. Remember to run '~doom sync~' after modifying it!
 #+begin_src emacs-lisp
@@ -1485,7 +1532,7 @@ Otherwise insert a literal space."
 * custom.el
 :PROPERTIES:
 :ID:       87202800-addd-41ec-88f7-b948ea892f24
-:header-args: emacs-lisp :tangle ~/.dotfiles/packages/doom/custom.el
+:header-args: emacs-lisp :tangle ~/.config/doom/custom.el
 :END:
 
 #+begin_src emacs-lisp
@@ -1503,4 +1550,5 @@ Otherwise insert a literal space."
  ;; Test
  )
 (setq org-gtd-update-ack "3.0.0")
+
 #+end_src

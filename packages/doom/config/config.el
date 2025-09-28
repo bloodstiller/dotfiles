@@ -53,11 +53,11 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 
-(setq org-directory "/home/martin/Org/01-Emacs/01.02-OrgGtd/")
+(setq org-directory "/home/martin/org/01-Emacs/01.02-OrgGtd/")
 
-(setq org-agenda-files '("/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"
-                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
-                         "/home/martin/Org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
+(setq org-agenda-files '("/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org"
+                         "/home/martin/org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
+                         "/home/martin/org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
 
 ;; CUSTOM org TODO states
 (after! org
@@ -109,13 +109,13 @@
 
 (map! :leader
       (:prefix ("=" . "open file")
-       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
-       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/Goals.org"))
-       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org"))))
+       :desc "Edit TODO File" "t" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"))
+       :desc "Edit Goals File"   "g" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/Goals.org"))
+       :desc "Edit inbox File" "i" #'(lambda () (interactive) (find-file "/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org"))))
 
 (map! :leader
       (:prefix ("= d" . "Open Doom Config")
-       :desc "Edit Doom config.el"   "c" #'(lambda () (interactive) (find-file "/home/martin/.dotfiles/Packages/doom/README.org"))))
+       :desc "Edit Doom config.el"   "c" #'(lambda () (interactive) (find-file "/home/martin/.dotfiles/packages/doom/README.org"))))
 
 (map! :leader
       (:prefix ("= b" . "Open Blog Files")
@@ -144,12 +144,12 @@
         '(
           ;; Add to inbox
           ("i" "inbox"
-           entry (file+headline "/home/martin/Org/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
+           entry (file+headline "/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org" "inbox")
            "* TODO %?"
            :empty-lines 0)
           ;; Add notes to inbox:
           ("n" "Personal Notes/Scatch Pad"
-           entry (file+headline "/home/martin/Org/01-Emacs/01.02-OrgGtd/ScratchPad.org" "Personal Notes")
+           entry (file+headline "/home/martin/org/01-Emacs/01.02-OrgGtd/ScratchPad.org" "Personal Notes")
            "** %?"
            :empty-lines 0)
           ("w" "Work-Todo" entry (file "/home/martin/WorkTodo/WorkTodo.org")
@@ -169,12 +169,12 @@
            entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/51-Diaries/51.03-Gratititude_Diary/GRATITUDE.org" "Gratitude Diary")
            "* %?"
            :empty-lines 0)
-          ;; Weekly Reviews
+          ;; Weekly Review
           ("R" "Weekly Review"
-           entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
-           "* %?"
+           entry (file+olp+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
+           (file "/home/martin/.dotfiles/packages/doom/orgTemplates/weekly-review-template.org")
            :empty-lines 0)
-          )))
+                           )))
 
 ;;;;;;;;;;;;;;;;;;;;;ORG CRYPT
 ;; ORG CRYPT TAG Setup for inline encryption

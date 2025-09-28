@@ -169,12 +169,12 @@
            entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/51-Diaries/51.03-Gratititude_Diary/GRATITUDE.org" "Gratitude Diary")
            "* %?"
            :empty-lines 0)
-          ;; Weekly Reviews
+          ;; Weekly Review
           ("R" "Weekly Review"
-           entry (file+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
-           "* %?"
+           entry (file+olp+datetree "/home/martin/Dropbox/50-59_PersonalDevelopment/52-Reviews/52.02 Weekly Reviews/WeeklyReviews.org" "Weekly Reviews")
+           (file "/home/martin/.dotfiles/packages/doom/orgTemplates/weekly-review-template.org")
            :empty-lines 0)
-          )))
+                           )))
 
 ;;;;;;;;;;;;;;;;;;;;;ORG CRYPT
 ;; ORG CRYPT TAG Setup for inline encryption
