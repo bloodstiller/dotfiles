@@ -72,6 +72,7 @@
       sw = "/home/martin/.config/scripts/start_work.sh 2>/dev/null";
       npt = "/home/martin/.config/scripts/newpentest.sh";
       nbx = "/home/martin/.config/scripts/newbox.sh";
+      nps = "/home/martin/.config/scripts/newportswigger.sh";
       nsh = "/home/martin/.config/scripts/newsherlock.sh";
       wbr = "/home/martin/.config/scripts/waybarRestart.sh";
     };

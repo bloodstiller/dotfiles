@@ -144,7 +144,7 @@ Bookmarks are somewhat like registers in that they record positions you can jump
 
 #+BEGIN_SRC emacs-lisp
 ;;Setup Bookmarks
-(setq bookmark-default-file "~/.config/doom/bookmarks/")
+;;(setq bookmark-default-file "~/.config/doom/bookmarks/")
 
 (map! :leader
       (:prefix ("b". "buffer")
@@ -873,11 +873,6 @@ If I place "crypt" tag in any entry it will encrypt it.
 
         ("c" "CPTS Module" plain
          (file "~/.config/orgTemplates/CPTSSection.org")
-         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-         :unnarrowed t)
-
-        ("d" "Daily Review" plain
-         (file "~/.config/orgTemplates/DailyReview.org")
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)
 
