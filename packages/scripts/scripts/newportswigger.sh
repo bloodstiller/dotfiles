@@ -1,6 +1,18 @@
 #!/usr/bin/env sh
 
+# Display naming convention guidance
+echo "===== Lab Naming Convention ====="
+echo "Format: type_section_lab_number"
+echo "Example: dom_xss_lab_2"
+echo "         sql_injection_lab_1"
+echo "         csrf_lab_3"
+echo "================================="
+echo ""
+
 read -p "Enter Lab Name: " lab_name
+
+# Replace spaces with underscores
+lab_name=$(echo "$lab_name" | tr ' ' '_')
 
 # Define paths
 template_file="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Templates/PortSwiggerTemplate.org"

@@ -92,6 +92,8 @@ in {
     marksman
     pandoc
 
+    # Screen record
+    wf-recorder
     # Recovery
     #ddrescue
     #testdisk-qt

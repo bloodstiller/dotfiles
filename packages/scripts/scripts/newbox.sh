@@ -16,7 +16,7 @@ cp $src/Passwords.txt "$box_dir"
 cp $src/Users.txt "$box_dir"
 
 cd $box_dir
-ln -s ~/Dropbox/screenshots .
+ln -s ~/Notes/screenshots .
 mkdir -p loot/ticket scans/nmap scans/bloodhound scans/ldap payloads
 
 # Confirmation message
