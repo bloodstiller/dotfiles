@@ -226,6 +226,7 @@ A buffer can get out of sync with respect to its visited file on disk if that fi
 
 (setq org-agenda-files '("/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org"
                          "/home/martin/org/01-Emacs/01.02-OrgGtd/org-gtd-tasks.org"
+                         "/home/martin/org/01-Emacs/01.02-OrgGtd/Goals.org"
                          "/home/martin/org/01-Emacs/01.02-OrgGtd/gtd_archive_2023"))
 #+end_src
 

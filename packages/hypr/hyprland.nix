@@ -14,7 +14,6 @@
     ## Keybindings are pulled in from hyprland.conf so we can edit on the fly
     extraConfig = ''
       ${builtins.readFile ./config/hyprland.conf}
-      source = ${./config/Monitors.conf}   
       source = ${./config/Envs.conf}
       source = ${./config/laptopVariables.conf}
 
