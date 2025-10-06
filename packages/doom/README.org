@@ -1154,14 +1154,21 @@ This means I can easily embed parts of one note into another without having to r
 :PROPERTIES:
 :ID:       9738f0a2-351e-4da6-a97b-cc4951baa6be
 :END:
-*** Save Easier:
+*** Fuzzy Search My Notes: 
 :PROPERTIES:
-:ID:       a75ea2ec-7719-4c6a-9748-85a7ff4c5305
+:ID:       c29311e5-05d2-47e2-9783-bda87d0baae7
 :END:
-- Stolen from https://github.com/elken/doom
 #+begin_src emacs-lisp
 ;Back to a simpler time…
-(map! :g "C-s" #'save-buffer)
+(map! :g "C-s" (lambda () (interactive) (consult-ripgrep "~/Notes")))
+#+end_src
+*** Search Easier In Current Doc: 
+:PROPERTIES:
+:ID:       ea9116a8-4792-4049-ae69-1489e0a6aecf
+:END:
+#+begin_src emacs-lisp
+;; Search current document
+(map! :after evil :gnvi "C-f" #'consult-line)
 #+end_src
 *** Use VIM Keybindings to move between windows around:
 :PROPERTIES:
