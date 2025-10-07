@@ -6,7 +6,7 @@ NOTE=$(wofi --dmenu -p "Capture TODO:" </dev/null)
 emacsclient -e "
 (let ((org-capture-templates
        '((\"x\" \"Quick Inbox\" entry
-          (file+headline \"/home/martin/Dropbox/01-09_System/01-Emacs/01.02-OrgGtd/inbox.org\" \"inbox\")
+          (file+headline \"/home/martin/org/01-Emacs/01.02-OrgGtd/inbox.org\" \"inbox\")
           \"* TODO ${NOTE}\n  %U\"))))
   (org-capture nil \"x\")
   (org-capture-finalize))"
