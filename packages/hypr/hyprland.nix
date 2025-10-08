@@ -49,6 +49,12 @@
     "hypr/hyprlock.conf".source = ./config/hyprlock.conf;
     "hypr/hypridle.conf".source = ./config/hypridle.conf;
     "hypr/pyprland.toml".source = ./config/pyprland.toml;
+    "hypr/hyprsunset.conf".source = ./config/hyprsunset.conf;
+  };
+
+  services.hyprsunset = {
+    enable = true;
+    package = pkgs.hyprsunset;
   };
 
   # User-specific packages
@@ -61,7 +67,7 @@
     grim
     swappy
     wl-clipboard
-    hyprshade
+    hyprsunset
     pyprland
     nwg-displays
     indicator-application-gtk3

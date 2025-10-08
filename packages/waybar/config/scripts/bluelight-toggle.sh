@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-# Check if hyprshade is running
-if pgrep -x "hyprshade" >/dev/null 2>&1; then
-        hyprshade off
-        echo '{"text":"off","class":"off","alt":"off"}'
+# Simple toggle using a state file
+STATE_FILE="/tmp/hyprsunset_state"
+
+if [ -f "$STATE_FILE" ]; then
+    # Currently on, turn off
+    hyprctl hyprsunset temperature 6500
+    rm "$STATE_FILE"
+    echo '{"text":"off","class":"off","alt":"off"}'
 else
-        hyprshade on blue-light-filter
-        echo '{"text":"on","class":"on","alt":"on"}'
+    # Currently off, turn on
+    hyprctl hyprsunset temperature 2000
+    touch "$STATE_FILE"
+    echo '{"text":"on","class":"on","alt":"on"}'
 fi
