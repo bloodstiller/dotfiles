@@ -4,7 +4,7 @@ read -p "Enter sherlock name: " sherlock_name
 # Define the base directory, default if not provided
 #
 
-src="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Templates/SherlockTemplate/"
+src="$HOME/Notes/Templates/SherlockTemplate/"
 dest="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Sherlocks/"
 base_dir=$sherlock_name
 

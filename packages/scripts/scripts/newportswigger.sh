@@ -15,7 +15,7 @@ read -p "Enter Lab Name: " lab_name
 lab_name=$(echo "$lab_name" | tr ' ' '_')
 
 # Define paths
-template_file="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Templates/PortSwiggerTemplate.org"
+template_file="$HOME/Notes/Templates/PortSwiggerTemplate.org"
 dest_dir="$HOME/Notes/portswiggerLabs"
 dest_file="$dest_dir/$lab_name.org"
 
