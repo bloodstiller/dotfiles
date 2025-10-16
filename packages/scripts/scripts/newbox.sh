@@ -5,8 +5,8 @@ read -p "Enter boxname value: " box_name
 #
 
 src="$HOME/Notes/Templates/BoxTemplate/"
-dest="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Boxes/BlogEntriesMade/"
-box_dir="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Boxes/BlogEntriesMade/$box_name"
+dest="$HOME/Dropbox/40-49_Career/44-Blog/content-org/Walkthroughs/Boxes/BlogEntriesMade/"
+box_dir="$HOME/Dropbox/40-49_Career/44-Blog/content-org/Walkthroughs/Boxes/BlogEntriesMade/$box_name"
 # Create directories using a nested structure
 mkdir -p "$box_dir"
 

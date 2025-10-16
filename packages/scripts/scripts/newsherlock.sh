@@ -5,7 +5,7 @@ read -p "Enter sherlock name: " sherlock_name
 #
 
 src="$HOME/Notes/Templates/SherlockTemplate/"
-dest="$HOME/Dropbox/40-49_Career/44-Blog/bloodstiller/content-org/Walkthroughs/HTB/Sherlocks/"
+dest="$HOME/Dropbox/40-49_Career/44-Blog/content-org/Walkthroughs/Sherlocks/"
 base_dir=$sherlock_name
 
 # Create directories using a nested structure
